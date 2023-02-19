@@ -7,21 +7,21 @@
         <version>0.1.0</version>
         <relativePath />
     </parent>
-    <artifactId>cui-java-module-template</artifactId>
-    <name>cui java module template</name>
+    <artifactId>cui-core-ui-model</artifactId>
+    <name>cui core UI-Model</name>
     <version>1.0.0-SNAPSHOT</version>
-    <description>Template module for cuioss open source projects.
+    <description> Defines types and stuctures symplifying the integration of server-side ui .
     </description>
     <packaging>jar</packaging>
-    <url>https://github.com/cuioss/cui-java-module-template/</url>
+    <url>https://github.com/cuioss/cui-core-ui-model/</url>
     <scm>
-        <url>https://github.com/cuioss/cui-java-module-template/</url>
-        <connection>scm:git:https://github.com/cuioss/cui-java-module-template.git</connection>
-        <developerConnection>scm:git:https://github.com/cuioss/cui-java-module-template/</developerConnection>
+        <url>https://github.com/cuioss/cui-core-ui-model/</url>
+        <connection>scm:git:https://github.com/cuioss/cui-core-ui-model.git</connection>
+        <developerConnection>scm:git:https://github.com/cuioss/cui-core-ui-model/</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
-        <url>https://github.com/cuioss/cui-java-module-template/issues</url>
+        <url>https://github.com/cuioss/cui-core-ui-model/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
     <dependencies>
