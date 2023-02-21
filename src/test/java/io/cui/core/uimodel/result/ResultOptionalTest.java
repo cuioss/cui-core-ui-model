@@ -5,12 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.Serializable;
-
 import org.junit.jupiter.api.Test;
 
 import io.cui.core.uimodel.nameprovider.DisplayName;
-import io.cui.core.uimodel.result.ResultOptional.Builder;
 import io.cui.test.valueobjects.contract.SerializableContractImpl;
 
 class ResultOptionalTest {
