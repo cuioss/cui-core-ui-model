@@ -17,7 +17,7 @@ import lombok.ToString;
  * be stored as nullable object and transformed in an {@link Optional} for
  * {@link ResultObject#getResult()}.
  *
- * @param <T>
+ * @param <T> identifying the type of the result
  */
 @ToString(callSuper = true, of = "result", doNotUseGetters = true)
 @EqualsAndHashCode(callSuper = true, of = "result", doNotUseGetters = true)
@@ -46,6 +46,11 @@ public class ResultOptional<T extends Serializable> extends ResultObject<Optiona
         this.result = result;
     }
 
+    /**
+     * @param <R> identifying the type of the result
+     * @param previousResult to be copied from
+     * @param mapper used for transforming the previous result into the current
+     */
     public <R extends Serializable> ResultOptional(ResultOptional<R> previousResult, Function<R, T> mapper) {
         super(previousResult.getState(), previousResult.getResultDetail().orElse(null),
                 previousResult.getErrorCode().orElse(null));

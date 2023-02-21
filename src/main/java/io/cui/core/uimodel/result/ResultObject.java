@@ -16,7 +16,6 @@ import lombok.ToString;
  * Generic ResultObject<br/>
  * ResultObject provide Builder which supports a handy object creation.<br/>
  *
- * <p>
  * See example implementation for provider:
  *
  * <pre>
@@ -38,9 +37,7 @@ import lombok.ToString;
  *     return builder.build();
  * }
  * </pre>
- * </p>
  *
- * <p>
  * See example implementation for consumer:
  *
  * <pre>
@@ -55,7 +52,6 @@ import lombok.ToString;
  *     }
  * }
  * </pre>
- * </p>
  *
  * @param <T> bounded result type, should implement {@link Serializable}
  *
@@ -244,16 +240,6 @@ public class ResultObject<T> implements Serializable {
     }
 
     /**
-     * @return {@code true} if RequestResultDetail are available
-     */
-    @Deprecated // use getResultDetail().isPresent()
-    public boolean hasResultDetail() {
-        return null != this.resultDetail;
-    }
-
-    /**
-     * Because ResultDetail are in some cases optional, you could be checked by
-     * {@linkplain #hasResultDetail()} if RequestResultDetail are available
      *
      * @return {@linkplain Optional} containing a {@linkplain ResultDetail} if available,
      *         {@linkplain Optional#empty()} otherwise
@@ -486,6 +472,7 @@ public class ResultObject<T> implements Serializable {
 
         }
 
+        @SuppressWarnings("java:S3655") // owolff: False positive: isPresent is called
         private void throwUnsupportedOperationExceptionAndSaveThePreviousError(final String errorMsg) {
             if (null != tempRequestResultDetail && tempRequestResultDetail.getCause().isPresent()) {
                 final var newErrorMsg = errorMsg + "\nThere exits additional error occurs before :";

@@ -9,18 +9,11 @@ import io.cui.test.generator.TypedGenerator;
 @SuppressWarnings("javadoc")
 public class ResultDetailGenerator implements TypedGenerator<ResultDetail> {
 
-    public enum DummyHandlingStrategy {
-        DO_NOTHING,
-        DO_FUSSY,
-        DO_EXPLODE
-    }
-
     @Override
     public ResultDetail next() {
         return ResultDetail.builder()
                 .detail(anyDisplayNameProvider())
                 .cause(Generators.throwables().next())
-                .handlingStrategy(anyHandlingStrategy())
                 .build();
     }
 
@@ -33,11 +26,5 @@ public class ResultDetailGenerator implements TypedGenerator<ResultDetail> {
         return Generators.booleans().next()
                 ? new DisplayName(Generators.letterStrings(5, 50).next())
                 : new LabeledKey(Generators.letterStrings(5, 50).next());
-    }
-
-    private static Enum<?> anyHandlingStrategy() {
-        return Generators.booleans().next()
-                ? Generators.enumValues(DummyHandlingStrategy.class).next()
-                : null;
     }
 }

@@ -22,13 +22,15 @@ import lombok.ToString;
 /**
  * <p>
  * Default implementation of {@link ConceptKeyType}. The actual labelResolving will be done by a
- * given {@link I18nDisplayNameProvider}, see {@link ConceptKeyTypeImplBuilder#labelResolver(LabelResolver)}
+ * given {@link I18nDisplayNameProvider}, see
+ * {@link ConceptKeyTypeImplBuilder#labelResolver(I18nDisplayNameProvider)}
  * </p>
  * <h3>Ordering</h3>
  * <ul>
  * <li>If {@link ConceptCategory} are not equal they will be compared</li>
  * <li>If {@link ConceptCategory} are equal the {@link #getIdentifier()} will be compared</li>
- * <li>The result of {@link I18nDisplayNameProvider} will not be regarded here, because it is {@link Locale}
+ * <li>The result of {@link I18nDisplayNameProvider} will not be regarded here, because it is
+ * {@link Locale}
  * specific</li>
  * </ul>
  *

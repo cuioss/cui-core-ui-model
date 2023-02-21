@@ -32,10 +32,13 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
     private static final long serialVersionUID = 416489243142980911L;
 
     @Getter
-    protected final Map<Locale, String> content;
+    private final Map<Locale, String> content;
 
     protected final String defaultValue;
 
+    /**
+     * @param defaultValue to be set
+     */
     public I18nDisplayNameProvider(String defaultValue) {
         content = new HashMap<>();
         this.defaultValue = defaultValue;
@@ -203,7 +206,11 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
             return this;
         }
 
-        public <T> Builder defaultValue(final String defaultValue) {
+        /**
+         * @param defaultValue to be set
+         * @return {@linkplain Builder} in fluent api style
+         */
+        public Builder defaultValue(final String defaultValue) {
             this.defaultValue = defaultValue;
             return this;
         }

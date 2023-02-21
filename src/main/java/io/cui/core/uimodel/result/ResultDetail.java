@@ -28,8 +28,6 @@ public class ResultDetail implements Serializable {
 
     private final Throwable cause;
 
-    private final Enum<?> handlingStrategy;
-
     /**
      * @param detail any {@linkplain IDisplayNameProvider} must not be {@code null}
      */
@@ -42,22 +40,7 @@ public class ResultDetail implements Serializable {
      * @param cause any Throwable
      */
     public ResultDetail(final IDisplayNameProvider<?> detail, final Throwable cause) {
-        this(detail, cause, null);
-    }
-
-    /**
-     * @param detail any {@linkplain IDisplayNameProvider} must not be {@code null}
-     * @param cause any Throwable
-     * @param handlingStrategy any enumeration which could provide additional info how to handle the
-     *            corresponding result
-     *
-     * @deprecated use {@link ResultObject#containsErrorCode(Enum[])}
-     */
-    @Deprecated
-    public ResultDetail(final IDisplayNameProvider<?> detail, final Throwable cause,
-            final Enum<?> handlingStrategy) {
         this.cause = cause;
-        this.handlingStrategy = handlingStrategy;
         this.detail = requireNonNull(detail, "detail");
     }
 
@@ -68,15 +51,6 @@ public class ResultDetail implements Serializable {
      */
     public Optional<Throwable> getCause() {
         return Optional.ofNullable(cause);
-    }
-
-    /**
-     * @return
-     * @deprecated use {@link ResultObject#containsErrorCode(Enum[])}
-     */
-    @Deprecated
-    public Optional<Enum<?>> getHandlingStrategy() {
-        return Optional.ofNullable(handlingStrategy);
     }
 
 }

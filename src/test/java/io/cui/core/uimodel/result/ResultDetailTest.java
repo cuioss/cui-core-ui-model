@@ -1,6 +1,5 @@
 package io.cui.core.uimodel.result;
 
-import static io.cui.core.uimodel.result.ResultDetailGenerator.DummyHandlingStrategy.DO_NOTHING;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,5 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
         assertDoesNotThrow(() -> new ResultDetail(dnProvider, ex),
                 "Constructor call with Throwable failed");
 
-        assertDoesNotThrow(() -> new ResultDetail(dnProvider, ex, DO_NOTHING),
-                "Constructor call with Enum Strategy failed");
     }
 }
