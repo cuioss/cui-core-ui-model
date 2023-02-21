@@ -25,11 +25,33 @@
         <system>GitHub Issues</system>
     </issueManagement>
     <dependencies>
+        <!-- Provided -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <!-- Compile -->
+        <dependency>
+            <groupId>io.github.cuioss</groupId>
+            <artifactId>cui-java-tools</artifactId>
+        </dependency>
         <!-- Unit testing -->
+        <dependency>
+            <groupId>io.github.cuioss.test</groupId>
+            <artifactId>cui-test-juli-logger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.cuioss.test</groupId>
+            <artifactId>cui-test-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.cuioss.test</groupId>
+            <artifactId>cui-test-value-objects</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
