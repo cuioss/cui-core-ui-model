@@ -14,7 +14,7 @@ class UnlockableTracedDynamicFieldImplTest {
     private static final String SOME_VALUE = "value";
 
     @Test
-    public void shouldReset() {
+    void shouldReset() {
         UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
         underTest.setValue(SOME_VALUE);
         assertEquals(SOME_VALUE, underTest.getValue());
@@ -23,7 +23,7 @@ class UnlockableTracedDynamicFieldImplTest {
     }
 
     @Test
-    public void shouldServeChangedState() {
+    void shouldServeChangedState() {
         UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
         underTest.setValue(SOME_VALUE);
         assertTrue(underTest.isChanged());
@@ -32,7 +32,7 @@ class UnlockableTracedDynamicFieldImplTest {
     }
 
     @Test
-    public void shouldBeAvailableOnValue() {
+    void shouldBeAvailableOnValue() {
         UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(null, true);
         assertFalse(underTest.isAvailable());
         underTest.setValue(SOME_VALUE);

@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
  * @author Oliver Wolff
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@SuppressWarnings("unchecked") // owolff: We need to find a better way for implementing the factory
 public enum DynamicFieldType {
 
     /** Represents a {@link DynamicField} for {@link Boolean}. */

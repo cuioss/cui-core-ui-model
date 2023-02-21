@@ -19,9 +19,8 @@ class DisplayMessageProviderTest {
 
     private DisplayMessageProvider target;
 
-    @SuppressWarnings("unused")
     @Test
-    public final void shouldVerifyMandatoryParameter() {
+    void shouldVerifyMandatoryParameter() {
         assertThrows(NullPointerException.class, () -> {
             new DisplayMessageProvider(null);
         });

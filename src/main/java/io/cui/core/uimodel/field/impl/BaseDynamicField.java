@@ -46,7 +46,7 @@ public abstract class BaseDynamicField<T extends Serializable> implements Dynami
      * @param fieldType
      *            the content type of this field. It must not be null
      */
-    public BaseDynamicField(final boolean editable, final DynamicFieldType fieldType) {
+    protected BaseDynamicField(final boolean editable, final DynamicFieldType fieldType) {
         this(null, editable, fieldType);
     }
 
@@ -60,7 +60,7 @@ public abstract class BaseDynamicField<T extends Serializable> implements Dynami
      * @param fieldType
      *            the content type of this field. It must not be null
      */
-    public BaseDynamicField(final T value, final boolean editable,
+    protected BaseDynamicField(final T value, final boolean editable,
             final DynamicFieldType fieldType) {
         this.value = value;
         this.oldValue = value;

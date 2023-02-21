@@ -24,11 +24,8 @@ public final class ClassAware {
      *         <code>false</code> otherwise
      */
     public static boolean isProperType(final Class<?> expected, final Object obj) {
-        if (null != obj && (expected.isAssignableFrom(obj.getClass())
-                || getClassDerivativeInfo(obj.getClass()).contains(expected))) {
-            return true;
-        }
-        return false;
+        return null != obj && (expected.isAssignableFrom(obj.getClass())
+                || getClassDerivativeInfo(obj.getClass()).contains(expected));
     }
 
     /**

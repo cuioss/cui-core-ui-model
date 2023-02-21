@@ -18,7 +18,7 @@ import io.cui.test.valueobjects.api.property.PropertyReflectionConfig;
 class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
 
     @Test
-    public void testBaseRangeCounterRangeCounter() {
+    void testBaseRangeCounterRangeCounter() {
 
         final var count = 10;
         final var totalCount = 100;
@@ -38,7 +38,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    public void testBaseRangeCounterRangeCounter2() {
+    void testBaseRangeCounterRangeCounter2() {
 
         final var baserangeCounter = new BaseRangeCounter(null, null);
 
@@ -51,7 +51,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    public void testBaseRangeCounterRangeCounter3() {
+    void testBaseRangeCounterRangeCounter3() {
 
         final var count = 0;
         final var totalCount = 0;
@@ -66,7 +66,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    public void testBaseRangeCounterRangeCounter4() {
+    void testBaseRangeCounterRangeCounter4() {
 
         final var count = 1;
 
@@ -77,7 +77,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    public void testBaseRangeCounterRangeCounter5() {
+    void testBaseRangeCounterRangeCounter5() {
         final var totalCount = 0;
         final var baserangeCounter = new BaseRangeCounter(null, totalCount);
 

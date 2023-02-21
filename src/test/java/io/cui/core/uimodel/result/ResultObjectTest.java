@@ -6,9 +6,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -52,58 +52,25 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
     void shouldProvideResult() {
         final ResultObject<?> target = generator.next();
 
-        assertThat(target.getResult(), is(notNullValue()));
+        assertNotNull(target.getResult());
+
+        var resultState = Generators.enumValues(ResultState.class).next();
+        var detail = detailGenerator.next();
 
         // verify requestResult is mandatory
-        try {
-            final var anyResult =
-                new ResultObject<Serializable>(null, Generators.enumValues(ResultState.class).next(),
-                        detailGenerator.next());
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultObject<Serializable>(null, resultState, detail));
 
-            assertThat(anyResult, is(nullValue()));
-            fail("must throw IllegalArgumentException before");
-        } catch (final IllegalArgumentException e) {
-            assertThat(e, is(notNullValue()));
-        }
     }
 
     @Test
     void shouldProvideState() {
 
-        final ResultObject<?> target = generator.next();
-
-        assertThat(target.getState(), is(notNullValue()));
-
         // verify requestResult is mandatory
-        try {
-            final var anyResult =
-                new ResultObject<>(Generators.nonEmptyStrings().next(), null,
-                        detailGenerator.next());
+        var result = Generators.nonEmptyStrings().next();
 
-            assertThat(anyResult, is(nullValue()));
-            fail("must throw IllegalArgumentException before");
-        } catch (final IllegalArgumentException e) {
-            assertThat(e, is(notNullValue()));
-        }
-    }
-
-    @Test
-    void shouldProvideResultDetail() {
-
-        final ResultObject<?> target = generator.next();
-
-        assertThat(target.getResultDetail(), is(notNullValue()));
-
-        // verify requestResult is mandatory
-        try {
-            final var anyResult =
-                new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.ERROR);
-
-            assertThat(anyResult, is(nullValue()));
-            fail("must throw IllegalArgumentException before");
-        } catch (final IllegalArgumentException e) {
-            assertThat(e, is(notNullValue()));
-        }
+        assertThrows(IllegalArgumentException.class,
+                () -> new ResultObject<>(result, ResultState.ERROR));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package io.cui.core.uimodel.field.impl;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -17,7 +18,7 @@ import io.cui.test.valueobjects.api.contracts.VerifyConstructor;
 class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
 
     @Test
-    public void shouldConstructIntegerField() {
+    void shouldConstructIntegerField() {
         var editableField = new IntegerEditableField(true);
         assertEquals(DynamicFieldType.INTEGER, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -29,7 +30,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldConstructStringField() {
+    void shouldConstructStringField() {
         var editableField = new StringEditableField(true);
         assertEquals(DynamicFieldType.STRING, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -42,7 +43,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldConstructBooleanField() {
+    void shouldConstructBooleanField() {
         var editableField = new BooleanEditableField(true);
         assertEquals(DynamicFieldType.BOOLEAN, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -55,7 +56,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldConstructDoubleField() {
+    void shouldConstructDoubleField() {
         var editableField = new DoubleEditableField(true);
         assertEquals(DynamicFieldType.DOUBLE, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -68,7 +69,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldConstructFloatField() {
+    void shouldConstructFloatField() {
         var editableField = new FloatEditableField(true);
         assertEquals(DynamicFieldType.FLOAT, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -81,7 +82,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldConstructLongField() {
+    void shouldConstructLongField() {
         var editableField = new LongEditableField(true);
         assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
         assertFalse(editableField.isAvailable());
@@ -94,7 +95,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldEnterFalseValue() {
+    void shouldEnterFalseValue() {
         final var editableField = new LongEditableField(true);
         editableField.setValue(null);
         assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
@@ -102,7 +103,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldResetValue() {
+    void shouldResetValue() {
         final var editableField = new LongEditableField(true);
         final var serialVersionUID = 7865845990018198224L;
         editableField.setValue(serialVersionUID);
@@ -110,25 +111,25 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
     }
 
     @Test
-    public void shouldSetValue() {
+    void shouldSetValue() {
         final var editableField = new LongEditableField(true);
         final var oldValue = 7865845990018198224L;
         final var newValue = 7865845990018198224L;
         editableField.setValue(oldValue);
-        editableField.setValue(newValue);
+        assertDoesNotThrow(() -> editableField.setValue(newValue));
     }
 
     @Test
-    public void shouldSetValue2() {
+    void shouldSetValue2() {
         final var editableField = new LongEditableField(true);
         final var oldValue = 7865845990018198224L;
         final var newValue = 7865845990018198324L;
         editableField.setValue(oldValue);
-        editableField.setValue(newValue);
+        assertDoesNotThrow(() -> editableField.setValue(newValue));
     }
 
     @Test
-    public void shouldThrowException() {
+    void shouldThrowException() {
         final var editableField = new LongEditableField(false);
         final var serialVersionUID = 7865845990018198224L;
         assertThrows(IllegalStateException.class, () -> editableField.setValue(serialVersionUID));

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class DynamicFieldTypeTest {
 
     @Test
-    public void shouldDetermineByType() {
+    void shouldDetermineByType() {
         assertEquals(DynamicFieldType.STRING, DynamicFieldType.getByTypeString("notdefined"));
         assertEquals(DynamicFieldType.STRING,
                 DynamicFieldType.getByTypeString(Object.class.getName()));
@@ -45,7 +45,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateStringField() {
+    void shouldCreateStringField() {
         DynamicField<? extends Serializable> stringField =
             DynamicFieldType.STRING.createDynamicField("value", true);
         assertNotNull(stringField);
@@ -65,7 +65,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateIntegerField() {
+    void shouldCreateIntegerField() {
         DynamicField<? extends Serializable> integerField =
             DynamicFieldType.INTEGER.createDynamicField(2, true);
         assertNotNull(integerField);
@@ -85,7 +85,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateBooleanField() {
+    void shouldCreateBooleanField() {
         DynamicField<? extends Serializable> booleanField =
             DynamicFieldType.BOOLEAN.createDynamicField(Boolean.TRUE,
                     true);
@@ -106,7 +106,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateLongField() {
+    void shouldCreateLongField() {
         DynamicField<? extends Serializable> booleanField =
             DynamicFieldType.LONG.createDynamicField(1l,
                     true);
@@ -127,7 +127,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateDoubleField() {
+    void shouldCreateDoubleField() {
         DynamicField<? extends Serializable> doubleField =
             DynamicFieldType.DOUBLE.createDynamicField(1d,
                     true);
@@ -149,7 +149,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldCreateFloatField() {
+    void shouldCreateFloatField() {
         DynamicField<? extends Serializable> floatField =
             DynamicFieldType.FLOAT.createDynamicField(1f,
                     true);
@@ -171,7 +171,7 @@ class DynamicFieldTypeTest {
     }
 
     @Test
-    public void shouldDetermineBooleanField() {
+    void shouldDetermineBooleanField() {
         assertTrue(DynamicFieldType.BOOLEAN.isBooleanField());
         assertFalse(DynamicFieldType.DOUBLE.isBooleanField());
 

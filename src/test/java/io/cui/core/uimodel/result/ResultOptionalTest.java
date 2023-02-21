@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.Serializable;
+
 import org.junit.jupiter.api.Test;
 
 import io.cui.core.uimodel.nameprovider.DisplayName;
+import io.cui.core.uimodel.result.ResultOptional.Builder;
 import io.cui.test.valueobjects.contract.SerializableContractImpl;
 
 class ResultOptionalTest {
@@ -36,19 +39,14 @@ class ResultOptionalTest {
 
     @Test
     void testBuilderWithoutState() {
-        ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
-        assertThrows(UnsupportedOperationException.class, () -> {
-            resultBuilder.result("Test").build();
-
-        });
+        var resultBuilder = ResultOptional.optionalBuilder().result("Test");
+        assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
     }
 
     @Test
     void testBuilderWithErrorAndWithoutDetail() {
-        ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
-        assertThrows(UnsupportedOperationException.class, () -> {
-            resultBuilder.result("Test").state(ResultState.ERROR).build();
-        });
+        var resultBuilder = ResultOptional.optionalBuilder().result("Test").state(ResultState.ERROR);
+        assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
     }
 
     @Test

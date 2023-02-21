@@ -205,12 +205,11 @@ public class ResultObject<T> implements Serializable {
 
         this.state = checkArgumentNotNull(state, STATE_MESSAGE);
 
-        if (ResultState.VALID.equals(this.state)) {
-
-        } else if (null == resultDetail) {
+        if (ResultState.VALID != this.state && null == resultDetail) {
             throw new IllegalArgumentException(
                     String.format(REQUEST_RESULT_DETAIL_IS_MANDATORY, this.state));
         }
+
         // null object for Detail supported here
         this.resultDetail = resultDetail;
 
@@ -253,6 +252,7 @@ public class ResultObject<T> implements Serializable {
      * @return {@linkplain Optional} containing a {@linkplain Enum} as error code if available,
      *         {@linkplain Optional#empty()} otherwise
      */
+    @SuppressWarnings("java:S1452") // owolff: currently we allow any enum here
     public Optional<Enum<?>> getErrorCode() {
         errorCodePrompted = true;
         return Optional.ofNullable(this.errorCode);

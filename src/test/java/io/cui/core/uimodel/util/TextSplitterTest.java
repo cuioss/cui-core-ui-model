@@ -41,7 +41,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     private TextSplitter textSplitter;
 
     @Test
-    public void shouldRecognizeIfNoAbridgeNeededAtAll() {
+    void shouldRecognizeIfNoAbridgeNeededAtAll() {
         assertEquals("", new TextSplitter(null).getAbridgedText(), ABRIDGED_TEXT_IS_WRONG);
 
         assertEquals("",
@@ -56,7 +56,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldAbridgeHumanProducedText() {
+    void shouldAbridgeHumanProducedText() {
         final var text = "My extremly long text with some usefull information";
         textSplitter = new TextSplitter(text);
         textSplitter.setAbridgedLength(valueOf(16));
@@ -66,7 +66,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldRecognizeIfNoAbridgeToHumanProducedTextNeeded() {
+    void shouldRecognizeIfNoAbridgeToHumanProducedTextNeeded() {
         final var text = "My short text";
         textSplitter = new TextSplitter(text);
 
@@ -75,7 +75,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldAbridgeComputerProducedText() {
+    void shouldAbridgeComputerProducedText() {
         final var text = "Myextremlylongtextwithsomeusefullinformation";
         textSplitter = new TextSplitter(text);
         textSplitter.setAbridgedLength(valueOf(16));
@@ -86,7 +86,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldRecognizeIfNoAbridgeToComputerProducedNeeded() {
+    void shouldRecognizeIfNoAbridgeToComputerProducedNeeded() {
         final var text = "Myshorttext";
         textSplitter = new TextSplitter(text);
 
@@ -95,7 +95,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldProvideWebConformLongText() {
+    void shouldProvideWebConformLongText() {
         final var text =
             "My-extremly.long;text_with!some usefull:information?andAveryLongDivulgementWithVeryLongComments";
 
@@ -113,7 +113,7 @@ class TextSplitterTest extends ValueObjectTest<TextSplitter> {
     }
 
     @Test
-    public void shouldProvideTextRepresentationForComputerCreatedTextSequence() {
+    void shouldProvideTextRepresentationForComputerCreatedTextSequence() {
         final var text = "shouldProvideTextRepresentationForComputerCreatedTextSequence";
         textSplitter = new TextSplitter(text);
         assertEquals("shouldProvideTex ...",
