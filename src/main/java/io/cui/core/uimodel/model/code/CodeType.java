@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Interface abstracts any implementation of eHF Code, CodeDto, CodedValueDto, AnnotatedCode etc.
- * <br/>
+ * Abstracts any implementation of eHF Code, CodeDto, CodedValueDto, AnnotatedCode etc.
+ * <p>
  * The idea is use (resolve) any of this object without care about how the magic resolving
- * is working.<br/>
+ * is working.
  * This approach provide a lose coupling from UI to BE. Additional advantage is the simple creation
  * of mocks.
+ * </p>
  * <p>
- * PRECONDITION : appropriate use is only possible if you have knowledge about DAO pattern (data
- * access object)
+ * <em>PRECONDITION</em> : appropriate use is only possible if you have knowledge about DAO pattern
+ * (data access object)
  * </p>
  * This interface doesn't make assumptions about the resolving strategies or caching feel free to
  * use the power of this.

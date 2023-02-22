@@ -13,8 +13,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * Generic ResultObject<br/>
- * ResultObject provide Builder which supports a handy object creation.<br/>
+ * <h2>Generic ResultObject</h2>
+ * ResultObject provide Builder which supports a handy object creation.
  *
  * See example implementation for provider:
  *

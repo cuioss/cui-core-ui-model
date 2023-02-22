@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Content which can be used to transfer message key and arguments.<br/>
+ * Content which can be used to transfer message key and arguments.
  * Usage for {@linkplain java.text.MessageFormat}
  *
  * @author Eugen Fischer
