@@ -7,6 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.Serializable;
+import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
@@ -78,6 +80,25 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
         final ResultObject<?> target =
             new ResultObject<>(Generators.nonEmptyStrings().next(), VALID);
         assertThat(target.getResultDetail().isPresent(), is(Boolean.FALSE));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void shouldHandleCopyConstructorWithMapper() {
+        final ResultObject<String> expected = generator.next();
+        var copy = new ResultObject<>(expected, Function.identity(), "");
+        assertEquals(expected.getResult(), copy.getResult());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void shouldHandleCopyConstructor() {
+        final ResultObject<String> expected = generator.next();
+        var copy = new ResultObject<>(expected.getResult(), expected);
+        assertEquals(expected.getResult(), copy.getResult());
+        assertEquals(expected.getErrorCode(), copy.getErrorCode());
+        assertEquals(expected.getState(), copy.getState());
+        assertEquals(expected.getResultDetail(), copy.getResultDetail());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package io.cui.core.uimodel.result;
 
+import static io.cui.tools.collect.MoreCollections.isEmpty;
 import static io.cui.tools.string.MoreStrings.nullToEmpty;
 import static java.util.Objects.requireNonNull;
 
@@ -303,7 +304,7 @@ public class ResultObject<T> implements Serializable {
      *         strategy
      */
     public boolean containsErrorCode(final Enum<?>... errorCode) {
-        if (null == this.errorCode || null == errorCode || 0 == errorCode.length) {
+        if (isEmpty((Object[]) errorCode)) {
             return false;
         }
         for (final Enum<?> aErrorCode : errorCode) {
