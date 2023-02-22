@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import io.cui.test.generator.domain.EmailGenerator;
+
 class IDNInternetAddressTest {
 
     @Test
@@ -22,7 +24,7 @@ class IDNInternetAddressTest {
     }
 
     @Test
-    void testRoundTrip() {
+    void testRoundTripComplete() {
         var orig = "MD KARIN KALLWITZ <user1@müller.com>";
         assertEquals("MD KARIN KALLWITZ <user1@xn--mller-kva.com>",
                 IDNInternetAddress.encode(orig));
@@ -31,6 +33,13 @@ class IDNInternetAddressTest {
         orig = "user1@müller.com";
         assertEquals("user1@xn--mller-kva.com", IDNInternetAddress.encode(orig));
         assertEquals(orig, IDNInternetAddress.decode(IDNInternetAddress.encode(orig)));
+    }
+
+    @Test
+    void shouldRoundtripStandardEmailAdress() {
+        var email = new EmailGenerator().next();
+
+        assertEquals(email, IDNInternetAddress.decode(IDNInternetAddress.encode(email)), email);
     }
 
 }

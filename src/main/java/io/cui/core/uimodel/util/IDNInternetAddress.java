@@ -28,9 +28,10 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class IDNInternetAddress {
 
-    private static final Pattern addressPatternWithDisplayName = Pattern.compile("(.*)<(.+)@(.+)>(.*)");
+    private static final Pattern addressPatternWithDisplayName =
+        Pattern.compile("(.{0,64})<(.{1,64})@(.{1,64})>(.{0,64})");
 
-    private static final Pattern addressPattern = Pattern.compile("(.+)@(.+)");
+    private static final Pattern addressPattern = Pattern.compile("(.{1,64})@(.{1,64})");
 
     /**
      * Encode the domain part of an email address

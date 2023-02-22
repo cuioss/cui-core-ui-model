@@ -34,7 +34,7 @@ public class TextSplitter implements Serializable {
     private static final long serialVersionUID = 6594890288982910944L;
 
     /**
-     * Quote from Dominique: Der Browser muss über Sollbruchstellen die Möglichkeit bekommen lange
+     * Der Browser muss über Sollbruchstellen die Möglichkeit bekommen lange
      * Wortketten zu trennen/umzubrechen. Dafür gibt es zwei unsichtbare Zeichen, die in den HTML
      * code eingebaut werden können: "&amp;shy;" und "&amp;#8203;". Der Unterschied zwischen beiden
      * ist, dass das eine einfach ein Leerzeichen ohne breite ist, welches beim Umbruch keine Spuren
