@@ -11,17 +11,17 @@ import lombok.experimental.UtilityClass;
  * <p>
  * Utility class to handle IDN email addresses.
  * </p>
- * <p>
- * see
+ * See
+ * <ul>
+ * <li>
  * <a href="https://docs.oracle.com/javase/tutorial/i18n/network/idn.html">https://docs.oracle.com/
- * javase/tutorial/i18n/network/idn.html</a><br />
- * see
+ * javase/tutorial/i18n/network/idn.html</a></li>
+ * <li>
  * <a href="https://de.wikipedia.org/wiki/Internationalisierter_Domainname">https://de.wikipedia.org
- * /wiki/Internationalisierter_Domainname</a><br />
- * see
+ * /wiki/Internationalisierter_Domainname</a></li>
+ * <li>
  * <a href="https://en.wikipedia.org/wiki/Internationalized_domain_name">https://en.wikipedia.org/
- * wiki/Internationalized_domain_name</a><br />
- * </p>
+ * wiki/Internationalized_domain_name</a></li>
  *
  * @author Matthias Walliczek
  */
