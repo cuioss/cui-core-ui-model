@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import io.cui.core.uimodel.nameprovider.DisplayName;
@@ -74,5 +76,40 @@ class ResultOptionalTest {
         assertEquals(new ResultDetail(new DisplayName("Test2")), result.getResultDetail().get());
         assertFalse(result.getErrorCode().isPresent());
         assertEquals(result, SerializableContractImpl.serializeAndDeserialize(result));
+    }
+
+    @Test
+    void shouldHandleCopyConstructorForValid() {
+        ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
+        var expected = resultBuilder.result("Test").state(ResultState.VALID).build();
+        var copy = new ResultOptional<String>(expected, Function.identity());
+        assertEquals(expected.getResult(), copy.getResult());
+        assertEquals(expected.getErrorCode(), copy.getErrorCode());
+        assertEquals(expected.getState(), copy.getState());
+        assertEquals(expected.getResultDetail(), copy.getResultDetail());
+    }
+
+    @Test
+    void shouldHandleCopyConstructorForError() {
+        ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
+        var expected = resultBuilder.state(ResultState.ERROR).resultDetail(new ResultDetail(new DisplayName("Test")))
+                .errorCode(ResultErrorCodes.NOT_FOUND).build();
+        var copy = new ResultOptional<String>(expected, Function.identity());
+        assertEquals(expected.getResult(), copy.getResult());
+        assertEquals(expected.getErrorCode(), copy.getErrorCode());
+        assertEquals(expected.getState(), copy.getState());
+        assertEquals(expected.getResultDetail(), copy.getResultDetail());
+    }
+
+    @Test
+    void shouldHandleCopyBuilderForValid() {
+        ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
+        var expected = resultBuilder.result("Test").state(ResultState.VALID).build();
+        var copy =
+            ResultOptional.optionalBuilder().extractStateAndDetailsAndErrorCodeFrom(expected).result("Test").build();
+        assertEquals(expected.getResult(), copy.getResult());
+        assertEquals(expected.getErrorCode(), copy.getErrorCode());
+        assertEquals(expected.getState(), copy.getState());
+        assertEquals(expected.getResultDetail(), copy.getResultDetail());
     }
 }

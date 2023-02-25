@@ -49,7 +49,7 @@ public class DisplayMessageProvider implements IDisplayNameProvider<DisplayMessa
     public String getMessageFormated(final ResourceBundle bundle) {
 
         requireNonNull(bundle, "bundle");
-        return MessageFormat.format(bundle.getString(content.getMsgKey()),
+        return MessageFormat.format(bundle.getString(content.getMessageKey()),
                 content.getArguments()
                         .toArray(new Object[content.getArguments().size()]));
     }
@@ -65,9 +65,9 @@ public class DisplayMessageProvider implements IDisplayNameProvider<DisplayMessa
          * @param messageKey must not be {@code null} or empty
          * @return DisplayMessageFormat builder
          */
-        public io.cui.core.uimodel.nameprovider.DisplayMessageFormat.Builder messageKey(
+        public io.cui.core.uimodel.nameprovider.DisplayMessageFormat.DisplayMessageFormatBuilder messageKey(
                 final String messageKey) {
-            return new DisplayMessageFormat.Builder(messageKey);
+            return new DisplayMessageFormat.DisplayMessageFormatBuilder().messageKey(messageKey);
         }
     }
 }
