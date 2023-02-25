@@ -22,7 +22,7 @@ import lombok.ToString;
 /**
  * This class provide functionality to
  * transform long text to several html useful representation and encapsulate this as an object.
- * Furthermore is provide the possibility to keep calculated text.
+ * It is implemented as an value-object keeping the calculated text.
  *
  * @author Eugen Fischer
  */

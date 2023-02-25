@@ -1,9 +1,9 @@
 package io.cui.core.uimodel.util;
 
 import java.net.IDN;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
-import io.cui.core.uimodel.security.Sanitizer;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
@@ -22,6 +22,7 @@ import lombok.experimental.UtilityClass;
  * <li>
  * <a href="https://en.wikipedia.org/wiki/Internationalized_domain_name">https://en.wikipedia.org/
  * wiki/Internationalized_domain_name</a></li>
+ * </ul>
  *
  * @author Matthias Walliczek
  */
@@ -48,20 +49,20 @@ public class IDNInternetAddress {
      * care on the special elements like {@code <>} by not trying to sanitize them.
      *
      * @param completeAddress
-     * @param sanitizer
+     * @param sanitizer to be passed as UnaryOperator
      * @return the sanitized and encoded address.
      */
-    public static String encode(@NonNull final String completeAddress, Sanitizer sanitizer) {
+    public static String encode(@NonNull final String completeAddress, UnaryOperator<String> sanitizer) {
         var matcher = addressPatternWithDisplayName.matcher(completeAddress);
         if (matcher.matches() && matcher.groupCount() == 4) {
-            return sanitizer.sanitize(matcher.group(1)) + "<" + sanitizer.sanitize(matcher.group(2)) + "@" + sanitizer
-                    .sanitize(IDN.toASCII(matcher.group(3))) + ">" + sanitizer.sanitize(matcher.group(4));
+            return sanitizer.apply(matcher.group(1)) + "<" + sanitizer.apply(matcher.group(2)) + "@" + sanitizer
+                    .apply(IDN.toASCII(matcher.group(3))) + ">" + sanitizer.apply(matcher.group(4));
         }
         matcher = addressPattern.matcher(completeAddress);
         if (matcher.matches() && matcher.groupCount() == 2) {
-            return sanitizer.sanitize(matcher.group(1)) + "@" + sanitizer.sanitize(IDN.toASCII(matcher.group(2)));
+            return sanitizer.apply(matcher.group(1)) + "@" + sanitizer.apply(IDN.toASCII(matcher.group(2)));
         }
-        return sanitizer.sanitize(completeAddress);
+        return sanitizer.apply(completeAddress);
     }
 
     /**
@@ -79,19 +80,19 @@ public class IDNInternetAddress {
      * care on the special elements like <> by not trying to sanitize them.
      *
      * @param completeAddress
-     * @param sanitizer
+     * @param sanitizer to be passed as UnaryOperator
      * @return the sanitized and decoded address.
      */
-    public static String decode(@NonNull final String completeAddress, Sanitizer sanitizer) {
+    public static String decode(@NonNull final String completeAddress, UnaryOperator<String> sanitizer) {
         var matcher = addressPatternWithDisplayName.matcher(completeAddress);
         if (matcher.matches() && matcher.groupCount() == 4) {
-            return sanitizer.sanitize(matcher.group(1)) + "<" + sanitizer.sanitize(matcher.group(2)) + "@" + sanitizer
-                    .sanitize(IDN.toUnicode(matcher.group(3))) + ">" + sanitizer.sanitize(matcher.group(4));
+            return sanitizer.apply(matcher.group(1)) + "<" + sanitizer.apply(matcher.group(2)) + "@" + sanitizer
+                    .apply(IDN.toUnicode(matcher.group(3))) + ">" + sanitizer.apply(matcher.group(4));
         }
         matcher = addressPattern.matcher(completeAddress);
         if (matcher.matches() && matcher.groupCount() == 2) {
-            return sanitizer.sanitize(matcher.group(1)) + "@" + sanitizer.sanitize(IDN.toUnicode(matcher.group(2)));
+            return sanitizer.apply(matcher.group(1)) + "@" + sanitizer.apply(IDN.toUnicode(matcher.group(2)));
         }
-        return sanitizer.sanitize(completeAddress);
+        return sanitizer.apply(completeAddress);
     }
 }
