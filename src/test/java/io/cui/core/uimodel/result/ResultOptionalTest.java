@@ -82,7 +82,7 @@ class ResultOptionalTest {
     void shouldHandleCopyConstructorForValid() {
         ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
         var expected = resultBuilder.result("Test").state(ResultState.VALID).build();
-        var copy = new ResultOptional<String>(expected, Function.identity());
+        var copy = new ResultOptional<>(expected, Function.identity());
         assertEquals(expected.getResult(), copy.getResult());
         assertEquals(expected.getErrorCode(), copy.getErrorCode());
         assertEquals(expected.getState(), copy.getState());
@@ -94,7 +94,7 @@ class ResultOptionalTest {
         ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
         var expected = resultBuilder.state(ResultState.ERROR).resultDetail(new ResultDetail(new DisplayName("Test")))
                 .errorCode(ResultErrorCodes.NOT_FOUND).build();
-        var copy = new ResultOptional<String>(expected, Function.identity());
+        var copy = new ResultOptional<>(expected, Function.identity());
         assertEquals(expected.getResult(), copy.getResult());
         assertEquals(expected.getErrorCode(), copy.getErrorCode());
         assertEquals(expected.getState(), copy.getState());
