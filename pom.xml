@@ -11,7 +11,7 @@
     <artifactId>cui-core-ui-model</artifactId>
     <name>cui core UI-Model</name>
     <version>1.0.0-SNAPSHOT</version>
-    <description>Defines types and stuctures symplifying the integration of server-side ui .
+    <description>Defines types and stuctures symplifying the integration of server-side ui.
     </description>
     <packaging>jar</packaging>
     <url>https://github.com/cuioss/cui-core-ui-model/</url>
@@ -25,9 +25,6 @@
         <url>https://github.com/cuioss/cui-core-ui-model/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
-    <properties>
-        <maven-javadoc-plugin.source>11</maven-javadoc-plugin.source>
-    </properties>
     <dependencies>
         <!-- Provided -->
         <dependency>

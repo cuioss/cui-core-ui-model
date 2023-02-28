@@ -27,7 +27,5 @@
  * </ul>
  *
  * @author Eugen Fischer
- * @see <a href="https://wiki.icw.int/display/DOC/Handle+exceptions+on+ui">Handle exceptions on
- *      ui</a>
  */
 package io.cui.core.uimodel.result;
