@@ -16,10 +16,7 @@ https://cuioss.github.io/cui-core-ui-model/index.html[Generated Documentation on
 
 == What is it?
 
-This is a template repository for creating java-modules for cui-open-source-projects. This incorporates all necessary java-structures, including `pom.xml`, sensible project-documentation, 
-an predefined github pipelines. 
-
-It is meant to be used as copy-paste-template.
+Defines types and structures simplifying the integration of server-side ui 
 
 === Maven Coordinates
 
@@ -31,7 +28,3 @@ It is meant to be used as copy-paste-template.
     </dependency>
 ----
 
-=== Further Steps
-
-* `src/site/asciidoc/about.adoc`: Adjust content
-* Review / Enable the elements under 'Security' Tab

@@ -1,10 +1,8 @@
 package io.cui.core.uimodel.model;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
+import static io.cui.test.generator.Generators.nonEmptyStrings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,28 +26,26 @@ class GenderTest {
 
         final var genderString = testItem.getKey();
         final var expected = testItem.getValue();
-        assertThat(Gender.determineFromString(genderString), is(expected));
+        assertEquals(expected, Gender.fromString(genderString));
     }
 
     @Test
     final void shouldHandleUndifinedValues() {
         final var expected = Gender.UNKNOWN;
-        assertThat(Gender.determineFromString(null), is(expected));
-        assertThat(Gender.determineFromString(""), is(expected));
-        assertThat(Gender.determineFromString("blablabla"), is(expected));
+        assertEquals(expected, Gender.fromString(null));
+        assertEquals(expected, Gender.fromString(""));
+        assertEquals(expected, Gender.fromString(nonEmptyStrings().next()));
     }
 
     @Test
-    final void shouldProvideMsgKeyAndCssInfo() {
+    final void shouldProvideMsgKey() {
         for (final Gender entry : Gender.values()) {
-            assertThat(entry + " has no valid css info", entry.getCssClass(), is(notNullValue()));
-            assertThat(entry + " has no valid title info", entry.getLabelKey(), is(notNullValue()));
+            assertNotNull(entry.getLabelKey(), entry + " has no valid title info");
         }
     }
 
     @Test
     final void shouldBeLabelKeyProvider() {
-        assertTrue(Gender.MALE instanceof LabelKeyProvider);
         assertEquals("cui.model.gender.male.title", Gender.MALE.getLabelKey());
     }
 

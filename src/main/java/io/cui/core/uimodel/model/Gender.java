@@ -2,6 +2,7 @@ package io.cui.core.uimodel.model;
 
 import static io.cui.tools.string.MoreStrings.nullToEmpty;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,48 +12,42 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Represents a gender icon to be consumed by GenderIcon. The factory method is quite fail-safe, see
- * {@link #determineFromString(String)}
+ * {@link #fromString(String)}
  *
  * @author Oliver Wolff
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum Gender implements LabelKeyProvider {
+public enum Gender implements Serializable {
+
     /**
      * Male
      */
-    MALE("cui-icon-gender_male", "cui.model.gender.male.title"),
+    MALE("cui.model.gender.male.title"),
 
     /**
      * Female
      */
-    FEMALE("cui-icon-gender_female", "cui.model.gender.female.title"),
+    FEMALE("cui.model.gender.female.title"),
 
     /**
      * Other
      */
-    OTHER("cui-icon-gender_other", "cui.model.gender.other.title"),
+    OTHER("cui.model.gender.other.title"),
 
     /**
      * Diverse
      */
-    DIVERSE("cui-icon-gender_divers", "cui.model.gender.diverse.title"),
+    DIVERSE("cui.model.gender.diverse.title"),
 
     /**
      * Undefined
      */
-    UNDEFINED("cui-icon-gender_undefined", "cui.model.gender.undefined.title"),
+    UNDEFINED("cui.model.gender.undefined.title"),
 
     /**
      * Unknown
      */
-    UNKNOWN("cui-icon-gender_unknown", "cui.model.gender.unknown.title")
-    ;
-
-    /**
-     * css icon class
-     */
-    @Getter
-    private final String cssClass;
+    UNKNOWN("cui.model.gender.unknown.title");
 
     /**
      * msg key for title
@@ -92,7 +87,7 @@ public enum Gender implements LabelKeyProvider {
      * @param genderString may be {@code null} or empty
      * @return the computed {@linkplain Gender} object.
      */
-    public static final Gender determineFromString(final String genderString) {
+    public static final Gender fromString(final String genderString) {
         final var key = nullToEmpty(genderString).toLowerCase();
         return MAPPING.getOrDefault(key, UNKNOWN);
     }

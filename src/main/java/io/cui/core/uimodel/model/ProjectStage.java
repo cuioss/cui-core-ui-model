@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  * @author Oliver Wolff
  */
-public interface CuiProjectStage extends Serializable {
+public interface ProjectStage extends Serializable {
 
     /**
      * Bean name for looking up instances.
