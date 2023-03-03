@@ -4,7 +4,7 @@
 
 image:https://github.com/cuioss/cui-core-ui-model/actions/workflows/maven.yml/badge.svg[Java CI with Maven,link=https://github.com/cuioss/cui-core-ui-model/actions/workflows/maven.yml]
 image:http://img.shields.io/:license-apache-blue.svg[License,link=http://www.apache.org/licenses/LICENSE-2.0.html]
-image:https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-core-ui-model/badge.svg[Maven Central,link=https://maven-badges.herokuapp.com/maven-central/io.github.cuioss/cui-core-ui-model]
+image:https://maven-badges.herokuapp.com/maven-central/de.cuioss/cui-core-ui-model/badge.svg[Maven Central,link=https://maven-badges.herokuapp.com/maven-central/de.cuioss/cui-core-ui-model]
 
 https://sonarcloud.io/summary/new_code?id=cuioss_cui-core-ui-model[image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-core-ui-model&metric=alert_status[Quality
 Gate Status]]
@@ -23,7 +23,7 @@ Defines types and structures simplifying the integration of server-side ui
 [source,xml]
 ----
     <dependency>
-        <groupId>io.github.cuioss</groupId>
+        <groupId>de.cuioss</groupId>
         <name>cui-core-ui-model</name>
     </dependency>
 ----
