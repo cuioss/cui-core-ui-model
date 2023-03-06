@@ -24,7 +24,7 @@ Defines types and structures simplifying the integration of server-side ui
 ----
     <dependency>
         <groupId>de.cuioss</groupId>
-        <name>cui-core-ui-model</name>
+        <artifactId>cui-core-ui-model</artifactId>
     </dependency>
 ----
 
