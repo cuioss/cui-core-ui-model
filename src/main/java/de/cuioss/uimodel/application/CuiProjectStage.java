@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Oliver Wolff
  */
-public interface ProjectStage extends Serializable {
+public interface CuiProjectStage extends Serializable {
 
     /**
      * @return true if project stage is 'development'.
