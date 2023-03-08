@@ -2,10 +2,10 @@ package de.cuioss.uimodel.model;
 
 import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.cuioss.uimodel.nameprovider.LabelKeyProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,37 +17,43 @@ import lombok.RequiredArgsConstructor;
  * @author Oliver Wolff
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum Gender implements Serializable {
+public enum Gender implements LabelKeyProvider {
 
     /**
      * Male
      */
-    MALE("cui.model.gender.male.title"),
+    MALE("cui-icon-gender_male", "cui.model.gender.male.title"),
 
     /**
      * Female
      */
-    FEMALE("cui.model.gender.female.title"),
+    FEMALE("cui-icon-gender_female", "cui.model.gender.female.title"),
 
     /**
      * Other
      */
-    OTHER("cui.model.gender.other.title"),
+    OTHER("cui-icon-gender_other", "cui.model.gender.other.title"),
 
     /**
      * Diverse
      */
-    DIVERSE("cui.model.gender.diverse.title"),
+    DIVERSE("cui-icon-gender_divers", "cui.model.gender.diverse.title"),
 
     /**
      * Undefined
      */
-    UNDEFINED("cui.model.gender.undefined.title"),
+    UNDEFINED("cui-icon-gender_undefined", "cui.model.gender.undefined.title"),
 
     /**
      * Unknown
      */
-    UNKNOWN("cui.model.gender.unknown.title");
+    UNKNOWN("cui-icon-gender_unknown", "cui.model.gender.unknown.title");
+
+    /**
+     * css icon class
+     */
+    @Getter
+    private final String cssClass;
 
     /**
      * msg key for title
