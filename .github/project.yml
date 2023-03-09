@@ -2,5 +2,5 @@ name: cui-core-ui-model
 pages-reference: cui-core-ui-model
 sonar-project-key: cuioss_cui-core-ui-model
 release:
-  current-version: 1.1.0
+  current-version: 1.1.1
   next-version: 1.2.0-SNAPSHOT
