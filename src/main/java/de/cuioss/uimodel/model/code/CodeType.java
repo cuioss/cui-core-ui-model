@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Abstracts any implementation of eHF Code, CodeDto, CodedValueDto, AnnotatedCode etc.
+ * Abstracts any implementation of Code, CodeDto, CodedValueDto, AnnotatedCode etc.
  * <p>
  * The idea is use (resolve) any of this object without care about how the magic resolving
  * is working.

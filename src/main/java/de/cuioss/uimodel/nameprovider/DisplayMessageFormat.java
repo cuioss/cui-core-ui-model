@@ -59,7 +59,7 @@ public class DisplayMessageFormat implements Serializable {
     /**
      * Provide creation of {@linkplain DisplayMessageProvider}
      *
-     * @author i000576
+     * @author Eugen Fischer
      */
     @NoArgsConstructor
     public static class Builder {
