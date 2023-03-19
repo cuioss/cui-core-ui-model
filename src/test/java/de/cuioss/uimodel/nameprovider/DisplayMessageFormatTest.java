@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.Serializable;
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.generator.Generators;
@@ -43,7 +45,7 @@ class DisplayMessageFormatTest extends ValueObjectTest<DisplayMessageFormat> {
     void shouldHandleArguments() {
         var builder = new DisplayMessageFormat.Builder(nonEmptyStrings().next());
         var ints = Generators.integerObjects();
-        builder.add(null);
+        builder.add((Serializable[]) null);
         builder.add();
         builder.add(ints.next());
         builder.add(ints.next(), ints.next());
