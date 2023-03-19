@@ -4,9 +4,11 @@ import static de.cuioss.tools.string.MoreStrings.isEmpty;
 
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -18,6 +20,8 @@ import lombok.ToString;
 @EqualsAndHashCode(exclude = "password", doNotUseGetters = true)
 @ToString(exclude = "password", doNotUseGetters = true)
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginCredentials implements Serializable {
 
     private static final long serialVersionUID = -5554252114058479008L;
