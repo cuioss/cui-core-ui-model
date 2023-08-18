@@ -1,6 +1,6 @@
 module de.cuioss.uimodel {
 
-    requires de.cuioss.java.tools;
+    requires transitive de.cuioss.java.tools;
     requires static lombok;
 
     exports de.cuioss.uimodel.application;
