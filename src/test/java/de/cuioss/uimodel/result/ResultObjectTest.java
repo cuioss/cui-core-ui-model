@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.result;
 
 import static de.cuioss.uimodel.result.ResultState.VALID;
@@ -35,15 +50,12 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
     private static final CuiLogger log = new CuiLogger(ResultObjectTest.class);
 
-    private static final ResultObject<String> SERVICE_NOT_AVAILABLE =
-        new ResultObject<>("Test", ResultState.ERROR, new ResultDetail(new DisplayName("Test")),
-                ExampleErrorCodes.SERVICE_NOT_AVAILABLE);
+    private static final ResultObject<String> SERVICE_NOT_AVAILABLE = new ResultObject<>("Test", ResultState.ERROR,
+            new ResultDetail(new DisplayName("Test")), ExampleErrorCodes.SERVICE_NOT_AVAILABLE);
 
-    private final ResultDetailGenerator detailGenerator =
-        new ResultDetailGenerator();
+    private final ResultDetailGenerator detailGenerator = new ResultDetailGenerator();
 
-    private final ResultObjectGenerator generator =
-        new ResultObjectGenerator();
+    private final ResultObjectGenerator generator = new ResultObjectGenerator();
 
     @Override
     protected ResultObject<?> anyValueObject() {
@@ -60,8 +72,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
         var detail = detailGenerator.next();
 
         // verify requestResult is mandatory
-        assertThrows(IllegalArgumentException.class,
-                () -> new ResultObject<Serializable>(null, resultState, detail));
+        assertThrows(IllegalArgumentException.class, () -> new ResultObject<Serializable>(null, resultState, detail));
 
     }
 
@@ -71,14 +82,12 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
         // verify requestResult is mandatory
         var result = Generators.nonEmptyStrings().next();
 
-        assertThrows(IllegalArgumentException.class,
-                () -> new ResultObject<>(result, ResultState.ERROR));
+        assertThrows(IllegalArgumentException.class, () -> new ResultObject<>(result, ResultState.ERROR));
     }
 
     @Test
     void shouldAllowOptionalResultDetail() {
-        final ResultObject<?> target =
-            new ResultObject<>(Generators.nonEmptyStrings().next(), VALID);
+        final ResultObject<?> target = new ResultObject<>(Generators.nonEmptyStrings().next(), VALID);
         assertThat(target.getResultDetail().isPresent(), is(Boolean.FALSE));
     }
 
@@ -104,9 +113,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
     @Test
     void shouldPreventIgnoreError() {
 
-        final ResultObject<?> target =
-            new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.ERROR,
-                    detailGenerator.next());
+        final ResultObject<?> target = new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.ERROR,
+                detailGenerator.next());
 
         try {
             target.getResult();
@@ -122,9 +130,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
     @Test
     void builderShouldSupportValidResult() {
         final var builder = new ResultObject.Builder<Serializable>();
-        final var anyResult =
-            new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING,
-                    detailGenerator.next());
+        final var anyResult = new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING,
+                detailGenerator.next());
         builder.validDefaultResult(anyResult).state(VALID);
         final var result = builder.build();
         assertTrue(result.isValid());
@@ -133,9 +140,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
     @Test
     void builderShouldFailWithInValidState() {
         final var builder = new ResultObject.Builder<Serializable>();
-        final var anyResult =
-            new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING,
-                    detailGenerator.next());
+        final var anyResult = new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING,
+                detailGenerator.next());
         builder.validDefaultResult(anyResult);
         assertThrows(UnsupportedOperationException.class, builder::build);
 
@@ -150,8 +156,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             builder.build();
         } catch (final UnsupportedOperationException e) {
             assertThat(e, is(notNullValue()));
-            assertThat(e.getMessage(),
-                    containsString("Use setResult or setValidDefaultResult as fallback"));
+            assertThat(e.getMessage(), containsString("Use setResult or setValidDefaultResult as fallback"));
         }
 
         try {
@@ -173,8 +178,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
         final var builder = new ResultObject.Builder<Boolean>();
         builder.validDefaultResult(Boolean.FALSE);
         final var anyResultDetail = detailGenerator.next();
-        final var anyResult =
-            new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING, anyResultDetail);
+        final var anyResult = new ResultObject<>(Generators.nonEmptyStrings().next(), ResultState.WARNING,
+                anyResultDetail);
 
         builder.extractStateAndDetailsAndErrorCodeFrom(anyResult);
         final var buildResult = builder.build();
@@ -194,9 +199,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
         assertFalse(SERVICE_NOT_AVAILABLE.containsErrorCode(ExampleErrorCodes.TEST));
 
-        assertTrue(
-                SERVICE_NOT_AVAILABLE.containsErrorCode(ExampleErrorCodes.TEST,
-                        ExampleErrorCodes.SERVICE_NOT_AVAILABLE));
+        assertTrue(SERVICE_NOT_AVAILABLE.containsErrorCode(ExampleErrorCodes.TEST,
+                ExampleErrorCodes.SERVICE_NOT_AVAILABLE));
     }
 
     @Test
@@ -229,8 +233,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
     @Test
     void shouldLogDetail() {
-        final var result =
-            new ResultObject<>("Test", WARNING, new ResultDetail(new DisplayName("Test")));
+        final var result = new ResultObject<>("Test", WARNING, new ResultDetail(new DisplayName("Test")));
 
         result.logDetail("Prefix", log);
 
@@ -239,11 +242,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
     @Test
     void shouldLogThrowable() {
-        final var result =
-            new ResultObject<>("Test", WARNING,
-                    new ResultDetail(
-                            new LabeledKey("some.key"),
-                            new IllegalStateException("b00m")));
+        final var result = new ResultObject<>("Test", WARNING,
+                new ResultDetail(new LabeledKey("some.key"), new IllegalStateException("b00m")));
 
         result.logDetail("prefix: ", log);
 

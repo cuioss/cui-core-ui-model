@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
 import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_COLLECTION_AND_SINGLE_ELEMENT;
@@ -36,20 +51,13 @@ import de.cuioss.uimodel.model.conceptkey.impl.ConceptCategoryGenerator.TestCode
 import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
 
 @PropertyConfig(name = "identifier", propertyClass = String.class)
-@PropertyConfig(name = "category", propertyClass = ConceptCategory.class,
-        generator = ConceptCategoryGenerator.class)
+@PropertyConfig(name = "category", propertyClass = ConceptCategory.class, generator = ConceptCategoryGenerator.class)
 @PropertyConfig(name = "labelResolver", propertyClass = I18nDisplayNameProvider.class)
-@PropertyConfig(name = "augmentation",
-        propertyClass = Map.class,
-        generator = AugmentationMapGenerator.class,
-        propertyReadWrite = WRITE_ONLY)
+@PropertyConfig(name = "augmentation", propertyClass = Map.class, generator = AugmentationMapGenerator.class, propertyReadWrite = WRITE_ONLY)
 @PropertyConfig(name = "aliases", propertyClass = String.class, collectionType = CollectionType.SET)
-@PropertyBuilderConfig(name = "aliases",
-        builderMethodName = "alias",
-        builderSingleAddMethodName = "alias",
-        propertyAccessStrategy = BUILDER_COLLECTION_AND_SINGLE_ELEMENT)
-@VerifyBuilder(of = { "identifier", "category", "labelResolver", "augmentation", "aliases" },
-        required = { "identifier", "labelResolver" })
+@PropertyBuilderConfig(name = "aliases", builderMethodName = "alias", builderSingleAddMethodName = "alias", propertyAccessStrategy = BUILDER_COLLECTION_AND_SINGLE_ELEMENT)
+@VerifyBuilder(of = { "identifier", "category", "labelResolver", "augmentation", "aliases" }, required = { "identifier",
+        "labelResolver" })
 @ObjectTestConfig(equalsAndHashCodeBasicOnly = true)
 @PropertyReflectionConfig(skip = true)
 class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
@@ -58,11 +66,9 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
 
     private static final String IDENTIFIER = "stringIdentifier";
 
-    private static final I18nDisplayNameProvider RESOLVER =
-        new I18nDisplayNameProvider(RESOLVED_VALUE);
+    private static final I18nDisplayNameProvider RESOLVER = new I18nDisplayNameProvider(RESOLVED_VALUE);
 
-    private static final I18nDisplayNameProvider RESOLVER2 =
-        new I18nDisplayNameProvider(VALUE2);
+    private static final I18nDisplayNameProvider RESOLVER2 = new I18nDisplayNameProvider(VALUE2);
 
     private final TypedGenerator<ConceptCategory> categories = new ConceptCategoryGenerator();
     private final AugmentationMapGenerator mapGenerator = new AugmentationMapGenerator();
@@ -70,8 +76,8 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
     @Test
     void shouldBuildWithCorrectParameter() {
         final var category = categories.next();
-        final var type = ConceptKeyTypeImpl.builder().category(category)
-                .identifier(IDENTIFIER).labelResolver(RESOLVER).build();
+        final var type = ConceptKeyTypeImpl.builder().category(category).identifier(IDENTIFIER).labelResolver(RESOLVER)
+                .build();
         assertEquals(RESOLVED_VALUE, type.getResolved(Generators.locales().next()));
         assertEquals(category, type.getCategory());
         assertEquals(IDENTIFIER, type.getIdentifier());
@@ -79,9 +85,8 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
 
     @Test
     void shouldHandleEmptyMap() {
-        final var type =
-            ConceptKeyTypeImpl.builder().category(categories.next())
-                    .identifier(IDENTIFIER).labelResolver(RESOLVER).build();
+        final var type = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
+                .labelResolver(RESOLVER).build();
 
         assertFalse(type.containsKey(KEY1));
         assertNull(type.get(KEY1, null));
@@ -94,11 +99,8 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
 
     @Test
     void shouldHandleAugmentationMap() {
-        final var type =
-            ConceptKeyTypeImpl.builder().category(categories.next())
-                    .augmentation(mapGenerator.next()).identifier(IDENTIFIER)
-                    .labelResolver(RESOLVER)
-                    .build();
+        final var type = ConceptKeyTypeImpl.builder().category(categories.next()).augmentation(mapGenerator.next())
+                .identifier(IDENTIFIER).labelResolver(RESOLVER).build();
 
         for (final Entry<String, String> entry : mapGenerator.next().entrySet()) {
             assertTrue(type.containsKey(entry.getKey()));
@@ -112,10 +114,8 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
 
     @Test
     void shouldHandleAugmentationEntries() {
-        final var type =
-            ConceptKeyTypeImpl.builder().category(categories.next())
-                    .augmentation(KEY1, VALUE1).augmentation(KEY2, VALUE2).identifier(IDENTIFIER)
-                    .labelResolver(RESOLVER).build();
+        final var type = ConceptKeyTypeImpl.builder().category(categories.next()).augmentation(KEY1, VALUE1)
+                .augmentation(KEY2, VALUE2).identifier(IDENTIFIER).labelResolver(RESOLVER).build();
 
         for (final Entry<String, String> entry : mapGenerator.next().entrySet()) {
             assertTrue(type.containsKey(entry.getKey()));
@@ -129,22 +129,17 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
 
     @Test
     void shouldHandleAliases() {
-        var type =
-            ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
-                    .labelResolver(RESOLVER).build();
+        var type = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
+                .labelResolver(RESOLVER).build();
         assertTrue(type.getAliases().isEmpty());
 
-        type =
-            ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
-                    .alias(KEY1)
-                    .labelResolver(RESOLVER).build();
+        type = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER).alias(KEY1)
+                .labelResolver(RESOLVER).build();
         assertFalse(type.getAliases().isEmpty());
         assertEquals(KEY1, type.getAliases().iterator().next());
 
-        type =
-            ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
-                    .alias(mutableSet(KEY1, KEY2))
-                    .labelResolver(RESOLVER).build();
+        type = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER)
+                .alias(mutableSet(KEY1, KEY2)).labelResolver(RESOLVER).build();
         assertFalse(type.getAliases().isEmpty());
         assertEquals(2, type.getAliases().size());
     }
@@ -154,23 +149,21 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
         final var category = categories.next();
 
         // Same Object
-        var type1 = ConceptKeyTypeImpl.builder().category(category)
-                .identifier(IDENTIFIER).labelResolver(RESOLVER).augmentation(Collections.emptyMap())
+        var type1 = ConceptKeyTypeImpl.builder().category(category).identifier(IDENTIFIER).labelResolver(RESOLVER)
+                .augmentation(Collections.emptyMap()).build();
+        var type2 = ConceptKeyTypeImpl.builder().category(category).identifier(IDENTIFIER).labelResolver(RESOLVER2)
                 .build();
-        var type2 = ConceptKeyTypeImpl.builder().category(category)
-                .identifier(IDENTIFIER).labelResolver(RESOLVER2).build();
         assertEquals(0, type1.compareTo(type2));
 
         // Different identifier
-        type2 = ConceptKeyTypeImpl.builder().category(category)
-                .identifier(IDENTIFIER + IDENTIFIER).labelResolver(RESOLVER)
-                .augmentation(Collections.emptyMap()).build();
+        type2 = ConceptKeyTypeImpl.builder().category(category).identifier(IDENTIFIER + IDENTIFIER)
+                .labelResolver(RESOLVER).augmentation(Collections.emptyMap()).build();
         assertTrue(type1.compareTo(type2) < 0);
         assertNotEquals(type1, type2);
 
         // Different category
-        type1 = ConceptKeyTypeImpl.builder().category(TestCodeCategory.CAT1)
-                .identifier(IDENTIFIER).labelResolver(RESOLVER).build();
+        type1 = ConceptKeyTypeImpl.builder().category(TestCodeCategory.CAT1).identifier(IDENTIFIER)
+                .labelResolver(RESOLVER).build();
         type2 = ConceptKeyTypeImpl.builder().category(TestCodeCategory.CAT2).identifier(IDENTIFIER)
                 .labelResolver(RESOLVER).build();
         assertTrue(type1.compareTo(type2) < 0);
@@ -185,22 +178,18 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
     @Test
     void shouldFailOnMissingResolver() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER);
-        assertThrows(NullPointerException.class,
-                () -> builder.build());
+        assertThrows(NullPointerException.class, () -> builder.build());
     }
 
     @Test
     void shouldFailOnMissingIdentifier() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class,
-                () -> builder.build());
+        assertThrows(NullPointerException.class, () -> builder.build());
     }
 
     @Test
     void shouldFailOnEmptyIdentifier() {
-        var builder = ConceptKeyTypeImpl.builder().identifier("").category(categories.next())
-                .labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class,
-                () -> builder.build());
+        var builder = ConceptKeyTypeImpl.builder().identifier("").category(categories.next()).labelResolver(RESOLVER);
+        assertThrows(NullPointerException.class, () -> builder.build());
     }
 }

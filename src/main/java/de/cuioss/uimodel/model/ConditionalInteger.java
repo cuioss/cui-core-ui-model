@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.model;
 
 import java.io.Serializable;
@@ -11,10 +26,8 @@ import lombok.ToString;
  *
  * @author Eugen Fischer
  */
-@ToString(of = "content",
-        doNotUseGetters = true)
-@EqualsAndHashCode(of = "content",
-        doNotUseGetters = true)
+@ToString(of = "content", doNotUseGetters = true)
+@EqualsAndHashCode(of = "content", doNotUseGetters = true)
 public class ConditionalInteger implements Serializable {
 
     private static final int DAX_MAX_BOUND = 32;
@@ -28,8 +41,7 @@ public class ConditionalInteger implements Serializable {
     /**
      * Empty instance of {@linkplain ConditionalInteger}
      */
-    public static final ConditionalInteger EMPTY_INSTANCE = new ConditionalInteger(null, MIN_BOUND,
-            MIN_BOUND);
+    public static final ConditionalInteger EMPTY_INSTANCE = new ConditionalInteger(null, MIN_BOUND, MIN_BOUND);
 
     private static final long serialVersionUID = 5495286309563797727L;
 
@@ -45,18 +57,18 @@ public class ConditionalInteger implements Serializable {
     /**
      * ConditionalInteger constructor
      *
-     * @param content {@linkplain Integer} could be {@code null}
+     * @param content  {@linkplain Integer} could be {@code null}
      * @param minBound min bound value
      * @param maxBound max bound value
      */
     public ConditionalInteger(final Integer content, final int minBound, final int maxBound) {
         if (null == content) {
             this.content = null;
-            this.validAndInBound = false;
+            validAndInBound = false;
         } else {
             this.content = content;
             final int valueData = content;
-            this.validAndInBound = valueData > minBound && valueData < maxBound;
+            validAndInBound = valueData > minBound && valueData < maxBound;
         }
     }
 

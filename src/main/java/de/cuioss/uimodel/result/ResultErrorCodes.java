@@ -1,10 +1,26 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.result;
 
 import de.cuioss.tools.logging.CuiLogger;
 import de.cuioss.uimodel.service.OptionalService;
 
 /**
- * Default error codes for {@linkplain ResultObject} to be used like HTTP error codes.
+ * Default error codes for {@linkplain ResultObject} to be used like HTTP error
+ * codes.
  */
 public enum ResultErrorCodes {
 
@@ -48,19 +64,13 @@ public enum ResultErrorCodes {
     public static ResultErrorCodes parseHttpCode(int httpCode) {
         log.trace("Parsing ResultErrorCode from httpCode '{}'", httpCode);
 
-        switch (httpCode) {
-            case 400:
-                return BAD_REQUEST;
-            case 401:
-                return NOT_AUTHENTICATED;
-            case 403:
-                return NOT_AUTHORIZED;
-            case 404:
-                return NOT_FOUND;
-            case 503:
-                return SERVICE_NOT_AVAILABLE;
-            default:
-                return RUNTIME_ERROR;
-        }
+        return switch (httpCode) {
+        case 400 -> BAD_REQUEST;
+        case 401 -> NOT_AUTHENTICATED;
+        case 403 -> NOT_AUTHORIZED;
+        case 404 -> NOT_FOUND;
+        case 503 -> SERVICE_NOT_AVAILABLE;
+        default -> RUNTIME_ERROR;
+        };
     }
 }

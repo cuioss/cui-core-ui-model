@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
 import java.util.HashMap;
@@ -15,8 +30,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Base abstract implementation of {@link ConceptKeyType}, implementing aliases, augmentationMap and
- * category handling.
+ * Base abstract implementation of {@link ConceptKeyType}, implementing aliases,
+ * augmentationMap and category handling.
  *
  * @author Matthias Walliczek
  */
@@ -41,10 +56,10 @@ public abstract class BaseConceptKeyType implements ConceptKeyType {
 
     @Override
     public String get(final String key, final String defaultValue) {
-        if (!this.augmentationMap.containsKey(key)) {
+        if (!augmentationMap.containsKey(key)) {
             return defaultValue;
         }
-        return this.augmentationMap.get(key);
+        return augmentationMap.get(key);
     }
 
     @Override
@@ -53,17 +68,17 @@ public abstract class BaseConceptKeyType implements ConceptKeyType {
     }
 
     protected void set(final String key, final String value) {
-        this.augmentationMap.put(key, value);
+        augmentationMap.put(key, value);
     }
 
     @Override
     public boolean containsKey(final String key) {
-        return this.augmentationMap.containsKey(key);
+        return augmentationMap.containsKey(key);
     }
 
     @Override
     public Set<Entry<String, String>> entrySet() {
-        return this.augmentationMap.entrySet();
+        return augmentationMap.entrySet();
     }
 
 }

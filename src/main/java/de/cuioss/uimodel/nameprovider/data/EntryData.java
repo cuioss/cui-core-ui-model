@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.nameprovider.data;
 
 import java.io.Serializable;
@@ -9,8 +24,8 @@ import lombok.NonNull;
 import lombok.ToString;
 
 /**
- * Entry data implements {@linkplain Entry} interface which can be used for transformation to be
- * added in {@linkplain Map}
+ * Entry data implements {@linkplain Entry} interface which can be used for
+ * transformation to be added in {@linkplain Map}
  *
  * @author Eugen Fischer
  * @param <K> bounded type for Key must extends {@linkplain Serializable}
@@ -18,8 +33,7 @@ import lombok.ToString;
  */
 @ToString(doNotUseGetters = true)
 @EqualsAndHashCode(doNotUseGetters = true)
-public class EntryData<K extends Serializable, V extends Serializable>
-        implements Entry<K, V>, Serializable {
+public class EntryData<K extends Serializable, V extends Serializable> implements Entry<K, V>, Serializable {
 
     private static final long serialVersionUID = -6403178000941411123L;
 
@@ -36,7 +50,7 @@ public class EntryData<K extends Serializable, V extends Serializable>
     }
 
     /**
-     * @param key must not be {@code null}
+     * @param key   must not be {@code null}
      * @param value
      */
     public EntryData(final K key, final V value) {

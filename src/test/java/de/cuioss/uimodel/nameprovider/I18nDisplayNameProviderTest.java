@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.nameprovider;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +36,6 @@ import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider.Builder;
 import de.cuioss.uimodel.nameprovider.testdata.ConfiguredDataGenerator;
 import de.cuioss.uimodel.nameprovider.testdata.DemoTransformationFunction;
-import lombok.val;
 
 @PropertyReflectionConfig(skip = true)
 class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvider> {
@@ -70,11 +84,10 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
 
     @Test
     void shouldCreateProviderWithTransformation() {
-        final val data = new ConfiguredDataGenerator().next();
+        final var data = new ConfiguredDataGenerator().next();
         final var transormationFunction = new DemoTransformationFunction();
 
-        final val provider =
-            createBuilder().transformAndAddAll(data, transormationFunction).build();
+        final var provider = createBuilder().transformAndAddAll(data, transormationFunction).build();
 
         assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
         assertThat(provider.getContent().get(Locale.UK), is("[en_GB] text"));
@@ -99,10 +112,8 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
         assertThat(provider.lookupTextFor(Locale.GERMAN), is(nullValue()));
 
         // short cut method with fallback
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH),
-                is("[en_GB] text"));
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN),
-                is("[de_DE] text"));
+        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
+        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
         assertThat(provider.lookupTextFor(Locale.CHINESE), is(nullValue()));
     }
 
@@ -117,10 +128,8 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
         final var provider = builder.build();
 
         // short cut method with fallback
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH),
-                is("[en_GB] text"));
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN),
-                is("[de_DE] text"));
+        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
+        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
         assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.CHINESE), is("default"));
     }
 

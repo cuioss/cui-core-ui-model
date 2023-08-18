@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.nameprovider;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
@@ -17,8 +32,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Content which can be used to transfer message key and arguments.
- * Usage for {@linkplain java.text.MessageFormat}
+ * Content which can be used to transfer message key and arguments. Usage for
+ * {@linkplain java.text.MessageFormat}
  *
  * @author Eugen Fischer
  */
@@ -37,11 +52,10 @@ public class DisplayMessageFormat implements Serializable {
     /**
      * Create DisplayMessageFormat
      *
-     * @param messageKey must not be {@code null} or empty
+     * @param messageKey       must not be {@code null} or empty
      * @param messageArguments must not be {@code null}
      */
-    public DisplayMessageFormat(final String messageKey,
-            final List<Serializable> messageArguments) {
+    public DisplayMessageFormat(final String messageKey, final List<Serializable> messageArguments) {
         msgKey = requireNotEmpty(messageKey, "messageKey");
         arguments = requireNonNull(messageArguments);
     }
@@ -49,7 +63,7 @@ public class DisplayMessageFormat implements Serializable {
     /**
      * Create DisplayMessageFormat
      *
-     * @param messageKey must not be {@code null} or empty
+     * @param messageKey       must not be {@code null} or empty
      * @param messageArguments may be null or empty
      */
     public DisplayMessageFormat(final String messageKey, final Serializable... messageArguments) {
@@ -118,12 +132,10 @@ public class DisplayMessageFormat implements Serializable {
         public DisplayMessageProvider build() {
             requireNonNull(tempMsgKey);
             if (tempArguments.isEmpty()) {
-                log.warn("{}\n{}",
-                        "Are you really sure there are no message format arguments needed?",
+                log.warn("{}\n{}", "Are you really sure there are no message format arguments needed?",
                         "May it's better idea to use LabeledKey instead?");
             }
-            return new DisplayMessageProvider(
-                    new DisplayMessageFormat(tempMsgKey, tempArguments));
+            return new DisplayMessageProvider(new DisplayMessageFormat(tempMsgKey, tempArguments));
         }
     }
 

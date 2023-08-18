@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.nameprovider;
 
 import static de.cuioss.tools.string.MoreStrings.emptyToNull;
@@ -16,8 +31,8 @@ import lombok.ToString;
 import lombok.Value;
 
 /**
- * Instance of IDisplayNameProvider which indicates to provide display key that has a mapping to
- * resource bundle key.
+ * Instance of IDisplayNameProvider which indicates to provide display key that
+ * has a mapping to resource bundle key.
  *
  * @author Eugen Fischer
  */
@@ -33,8 +48,8 @@ public class LabeledKey implements IDisplayNameProvider<String> {
     private final String content;
 
     /**
-     * Optional Parameter-list to be passed to the label-resolving mechanism. May be empty but never
-     * null
+     * Optional Parameter-list to be passed to the label-resolving mechanism. May be
+     * empty but never null
      */
     @Getter
     @Singular("parameter")
@@ -48,7 +63,7 @@ public class LabeledKey implements IDisplayNameProvider<String> {
     }
 
     /**
-     * @param labelKey must not be null.
+     * @param labelKey  must not be null.
      * @param parameter One or more parameter to be passed to the label-resolving
      */
     public LabeledKey(final String labelKey, Serializable... parameter) {
@@ -56,8 +71,9 @@ public class LabeledKey implements IDisplayNameProvider<String> {
     }
 
     /**
-     * @param labelKey must not be null.
-     * @param parameter An optional List of parameter to be passed to the label-resolving
+     * @param labelKey  must not be null.
+     * @param parameter An optional List of parameter to be passed to the
+     *                  label-resolving
      */
     public LabeledKey(final String labelKey, List<Serializable> parameter) {
         content = requireNonNull(emptyToNull(labelKey), "Key identifier must not be null");

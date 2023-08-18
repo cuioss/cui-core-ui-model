@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
 import static de.cuioss.tools.collect.CollectionLiterals.immutableMap;
@@ -21,17 +36,17 @@ import lombok.ToString;
 
 /**
  * <p>
- * Default implementation of {@link ConceptKeyType}. The actual labelResolving will be done by a
- * given {@link I18nDisplayNameProvider}, see
+ * Default implementation of {@link ConceptKeyType}. The actual labelResolving
+ * will be done by a given {@link I18nDisplayNameProvider}, see
  * {@link ConceptKeyTypeImplBuilder#labelResolver(I18nDisplayNameProvider)}
  * </p>
  * <h3>Ordering</h3>
  * <ul>
  * <li>If {@link ConceptCategory} are not equal they will be compared</li>
- * <li>If {@link ConceptCategory} are equal the {@link #getIdentifier()} will be compared</li>
- * <li>The result of {@link I18nDisplayNameProvider} will not be regarded here, because it is
- * {@link Locale}
- * specific</li>
+ * <li>If {@link ConceptCategory} are equal the {@link #getIdentifier()} will be
+ * compared</li>
+ * <li>The result of {@link I18nDisplayNameProvider} will not be regarded here,
+ * because it is {@link Locale} specific</li>
  * </ul>
  *
  * @author Oliver Wolff
@@ -83,7 +98,7 @@ public class ConceptKeyTypeImpl extends BaseConceptKeyType {
 
         /**
          * @param identifier the String identifier for finding a code category. see
-         *            {@link CodeType#getIdentifier()}
+         *                   {@link CodeType#getIdentifier()}
          * @return the {@link ConceptKeyTypeImplBuilder}
          */
         public ConceptKeyTypeImplBuilder identifier(final String identifier) {
@@ -92,7 +107,8 @@ public class ConceptKeyTypeImpl extends BaseConceptKeyType {
         }
 
         /**
-         * @param category identifying the category this {@link ConceptKeyType} belongs to.
+         * @param category identifying the category this {@link ConceptKeyType} belongs
+         *                 to.
          * @return the {@link ConceptKeyTypeImplBuilder}
          */
         public ConceptKeyTypeImplBuilder category(final ConceptCategory category) {
@@ -113,14 +129,13 @@ public class ConceptKeyTypeImpl extends BaseConceptKeyType {
          * @param augmentationMap for the augmentationMap must not be null.
          * @return the {@link ConceptKeyTypeImplBuilder}
          */
-        public ConceptKeyTypeImplBuilder augmentation(
-                final Map<String, String> augmentationMap) {
+        public ConceptKeyTypeImplBuilder augmentation(final Map<String, String> augmentationMap) {
             tempAugmentationMap.putAll(augmentationMap);
             return this;
         }
 
         /**
-         * @param key for the augmentationMap must not be null.
+         * @param key   for the augmentationMap must not be null.
          * @param value for the augmentationMap must not be null.
          * @return the {@link ConceptKeyTypeImplBuilder}
          */
@@ -155,9 +170,8 @@ public class ConceptKeyTypeImpl extends BaseConceptKeyType {
             requireNonNull(tempLabelResolver, "labelResolver");
             tempAugmentationMap = immutableMap(tempAugmentationMap);
             tempAliases = immutableSet(tempAliases);
-            return new ConceptKeyTypeImpl(tempIdentifier, tempCategory,
-                    tempAugmentationMap,
-                    tempLabelResolver, tempAliases);
+            return new ConceptKeyTypeImpl(tempIdentifier, tempCategory, tempAugmentationMap, tempLabelResolver,
+                    tempAliases);
         }
     }
 

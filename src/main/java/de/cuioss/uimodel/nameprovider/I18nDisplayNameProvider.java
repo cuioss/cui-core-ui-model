@@ -1,3 +1,18 @@
+/*
+ * Copyright 2023 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * https://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.cuioss.uimodel.nameprovider;
 
 import static de.cuioss.tools.base.Preconditions.checkArgument;
@@ -18,7 +33,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Attention : stored translated text is <b>NOT</b> sanitized, on usage you need to care about!
+ * Attention : stored translated text is <b>NOT</b> sanitized, on usage you need
+ * to care about!
  *
  * @author Eugen Fischer
  */
@@ -61,9 +77,8 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
     }
 
     /**
-     * Shortcut method provide lookup to localized text in storage with fall-back strategy where
-     * only
-     * language is required for match
+     * Shortcut method provide lookup to localized text in storage with fall-back
+     * strategy where only language is required for match
      *
      * @param locale {@linkplain Locale} must not be {@code null}
      *
@@ -110,8 +125,8 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
         }
 
         /**
-         * Store all entries which should be used for creation.
-         * Attention on add entries each will get checked!
+         * Store all entries which should be used for creation. Attention on add entries
+         * each will get checked!
          *
          * @param data {@linkplain Map} must not be null
          *
@@ -131,7 +146,7 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
 
         /**
          * @param locale {@linkplain Locale} must not be {@code null}
-         * @param text any String
+         * @param text   any String
          *
          * @return {@linkplain Builder} in fluent api style
          * @throws IllegalArgumentException if locale is {@code null}
@@ -147,8 +162,8 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
         }
 
         /**
-         * Store all entries which should be used for creation.
-         * Attention on add entries each will get checked!
+         * Store all entries which should be used for creation. Attention on add entries
+         * each will get checked!
          *
          * @param entries {@linkplain Set} of enties must not be {@code null}
          *
@@ -188,7 +203,7 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
         /**
          * Transform and add all data by using {@linkplain Function} to the builder
          *
-         * @param data must not be null
+         * @param data                  must not be null
          * @param transormationFunction must not be null
          *
          * @return {@linkplain Builder} in fluent api style
