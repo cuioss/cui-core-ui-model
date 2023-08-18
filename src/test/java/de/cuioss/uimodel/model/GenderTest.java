@@ -15,7 +15,7 @@
  */
 package de.cuioss.uimodel.model;
 
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
+import static de.cuioss.test.generator.Generators.letterStrings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -49,7 +49,7 @@ class GenderTest {
         final var expected = Gender.UNKNOWN;
         assertEquals(expected, Gender.fromString(null));
         assertEquals(expected, Gender.fromString(""));
-        assertEquals(expected, Gender.fromString(nonEmptyStrings().next()));
+        assertEquals(expected, Gender.fromString(letterStrings(2, 10).next()));
     }
 
     @Test
