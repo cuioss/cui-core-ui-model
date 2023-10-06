@@ -20,7 +20,7 @@ import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.uimodel.field.DynamicField;
 import de.cuioss.uimodel.field.DynamicFieldType;
 
-@SuppressWarnings({ "rawtypes", "javadoc" })
+@SuppressWarnings({ "rawtypes" })
 public class BaseDynamicFieldGenerator implements TypedGenerator<DynamicField> {
 
     private final TypedGenerator<String> generator = Generators.letterStrings();

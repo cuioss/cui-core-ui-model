@@ -21,7 +21,6 @@ import de.cuioss.uimodel.nameprovider.DisplayName;
 import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
 import de.cuioss.uimodel.nameprovider.LabeledKey;
 
-@SuppressWarnings("javadoc")
 public class ResultDetailGenerator implements TypedGenerator<ResultDetail> {
 
     @Override

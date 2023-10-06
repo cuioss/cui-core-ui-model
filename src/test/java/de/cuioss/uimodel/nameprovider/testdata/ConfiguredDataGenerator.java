@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import de.cuioss.test.generator.TypedGenerator;
 
-@SuppressWarnings({ "javadoc", "rawtypes" })
+@SuppressWarnings({ "rawtypes" })
 public class ConfiguredDataGenerator implements TypedGenerator<Stream> {
 
     private final List<ConfiguredData> valid = Arrays.asList(

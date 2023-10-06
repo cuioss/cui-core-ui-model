@@ -18,7 +18,7 @@ package de.cuioss.uimodel.result;
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
 
-@SuppressWarnings({ "javadoc", "rawtypes" })
+@SuppressWarnings({ "rawtypes" })
 public class ResultObjectGenerator implements TypedGenerator<ResultObject> {
 
     private static final ResultDetailGenerator DETAIL_GENERATOR = new ResultDetailGenerator();

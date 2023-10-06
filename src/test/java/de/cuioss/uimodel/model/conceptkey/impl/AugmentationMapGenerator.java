@@ -20,7 +20,7 @@ import java.util.Map;
 
 import de.cuioss.test.generator.TypedGenerator;
 
-@SuppressWarnings({ "rawtypes", "javadoc" })
+@SuppressWarnings({ "rawtypes" })
 public class AugmentationMapGenerator implements TypedGenerator<Map> {
 
     public static final String KEY1 = "key1";

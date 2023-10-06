@@ -21,7 +21,6 @@ import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstans;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
 
-@SuppressWarnings("javadoc")
 public class ConceptCategoryGenerator implements TypedGenerator<ConceptCategory> {
 
     private final TypedGenerator<ConceptCategory> generator = Generators.fixedValues(ConceptCategory.class,
