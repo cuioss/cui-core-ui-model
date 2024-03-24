@@ -113,10 +113,10 @@ class DynamicFieldTypeTest {
 
     @Test
     void shouldCreateLongField() {
-        DynamicField<? extends Serializable> booleanField = DynamicFieldType.LONG.createDynamicField(1l, true);
+        DynamicField<? extends Serializable> booleanField = DynamicFieldType.LONG.createDynamicField(1L, true);
         assertNotNull(booleanField);
         assertEquals(DynamicFieldType.LONG, booleanField.getFieldType());
-        assertEquals(1l, booleanField.getValue());
+        assertEquals(1L, booleanField.getValue());
 
         assertTrue(booleanField.isEditable());
         assertTrue(booleanField.isAvailable());

@@ -45,7 +45,6 @@ public class EntryData<K extends Serializable, V extends Serializable> implement
      * @param key must not be {@code null}
      */
     public EntryData(@NonNull final K key) {
-        super();
         this.key = key;
     }
 

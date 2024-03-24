@@ -46,7 +46,6 @@ public class CodeTypeImpl implements CodeType {
      * @param identifier must not be null
      */
     public CodeTypeImpl(final String resolved, final String identifier) {
-        super();
         this.resolved = requireNonNull(resolved, "resolved must not be null");
         this.identifier = requireNonNull(identifier, "identifier must not be null");
     }
