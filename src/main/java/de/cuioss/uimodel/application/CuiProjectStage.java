@@ -35,12 +35,7 @@ public interface CuiProjectStage extends Serializable {
     boolean isTest();
 
     /**
-     * @return true if project stage is 'configuration'.
-     */
-    boolean isConfiguration();
-
-    /**
-     * @return true if project stage is 'production' or unknown.
+     * @return true if the project stage is 'production' or unknown.
      */
     boolean isProduction();
 }
