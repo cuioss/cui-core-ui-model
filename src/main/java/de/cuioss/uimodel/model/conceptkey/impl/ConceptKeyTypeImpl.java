@@ -52,7 +52,7 @@ import lombok.ToString;
  *
  * @author Oliver Wolff
  */
-@EqualsAndHashCode(of = { "identifier" }, callSuper = true)
+@EqualsAndHashCode(of = {"identifier"}, callSuper = true)
 @ToString(callSuper = true)
 public class ConceptKeyTypeImpl extends BaseConceptKeyType {
 

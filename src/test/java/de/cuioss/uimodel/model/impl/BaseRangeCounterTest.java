@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -27,8 +28,8 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.uimodel.model.RangeCounter;
 
-@PropertyReflectionConfig(of = { "count", "totalCount" })
-@VerifyConstructor(of = { "count", "totalCount" })
+@PropertyReflectionConfig(of = {"count", "totalCount"})
+@VerifyConstructor(of = {"count", "totalCount"})
 @VerifyCopyConstructor(argumentType = RangeCounter.class)
 class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
 

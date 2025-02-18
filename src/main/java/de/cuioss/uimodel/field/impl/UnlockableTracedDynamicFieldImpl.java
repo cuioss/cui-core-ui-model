@@ -28,8 +28,8 @@ import lombok.ToString;
  *
  * @author Eugen Fischer
  */
-@ToString(doNotUseGetters = true, of = { "currentValue", "currentEditableValue" })
-@EqualsAndHashCode(doNotUseGetters = true, of = { "currentValue", "currentEditableValue" })
+@ToString(doNotUseGetters = true, of = {"currentValue", "currentEditableValue"})
+@EqualsAndHashCode(doNotUseGetters = true, of = {"currentValue", "currentEditableValue"})
 public class UnlockableTracedDynamicFieldImpl<T extends Serializable> implements UnlockableTracedDynamicField<T> {
 
     @Serial

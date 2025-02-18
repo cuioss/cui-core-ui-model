@@ -65,12 +65,12 @@ public enum ResultErrorCodes {
         log.trace("Parsing ResultErrorCode from httpCode '{}'", httpCode);
 
         return switch (httpCode) {
-        case 400 -> BAD_REQUEST;
-        case 401 -> NOT_AUTHENTICATED;
-        case 403 -> NOT_AUTHORIZED;
-        case 404 -> NOT_FOUND;
-        case 503 -> SERVICE_NOT_AVAILABLE;
-        default -> RUNTIME_ERROR;
+            case 400 -> BAD_REQUEST;
+            case 401 -> NOT_AUTHENTICATED;
+            case 403 -> NOT_AUTHORIZED;
+            case 404 -> NOT_FOUND;
+            case 503 -> SERVICE_NOT_AVAILABLE;
+            default -> RUNTIME_ERROR;
         };
     }
 }

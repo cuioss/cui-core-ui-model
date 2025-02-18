@@ -23,6 +23,7 @@ import static de.cuioss.uimodel.result.ResultErrorCodes.RUNTIME_ERROR;
 import static de.cuioss.uimodel.result.ResultErrorCodes.SERVICE_NOT_AVAILABLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import org.junit.jupiter.api.Test;
 
 class ResultErrorCodesTest {

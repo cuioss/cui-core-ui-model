@@ -36,7 +36,7 @@ import lombok.ToString;
  *
  * @author Matthias Walliczek
  */
-@EqualsAndHashCode(of = { "category" })
+@EqualsAndHashCode(of = {"category"})
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseConceptKeyType implements ConceptKeyType {

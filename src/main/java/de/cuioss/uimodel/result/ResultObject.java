@@ -283,18 +283,18 @@ public class ResultObject<T> implements Serializable {
             if (null != state) {
                 final var throwable = detail.getCause().orElse(null);
                 switch (state) {
-                case VALID:
-                    log.debug(msg, throwable);
-                    break;
-                case INFO:
-                    log.info(msg, throwable);
-                    break;
-                case WARNING:
-                    log.warn(msg, throwable);
-                    break;
-                case ERROR:
-                    log.error(msg, throwable);
-                    break;
+                    case VALID:
+                        log.debug(msg, throwable);
+                        break;
+                    case INFO:
+                        log.info(msg, throwable);
+                        break;
+                    case WARNING:
+                        log.warn(msg, throwable);
+                        break;
+                    case ERROR:
+                        log.error(msg, throwable);
+                        break;
                 }
             } else {
                 log.debug(msg, detail.getCause());

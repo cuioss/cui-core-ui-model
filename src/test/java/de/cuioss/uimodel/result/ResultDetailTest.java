@@ -17,6 +17,7 @@ package de.cuioss.uimodel.result;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;

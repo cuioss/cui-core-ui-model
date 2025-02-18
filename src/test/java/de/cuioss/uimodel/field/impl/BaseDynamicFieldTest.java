@@ -22,14 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.uimodel.field.DynamicFieldType;
 
-@VerifyConstructor(of = { "editable" })
-@VerifyConstructor(of = { "value", "editable" })
+@VerifyConstructor(of = {"editable"})
+@VerifyConstructor(of = {"value", "editable"})
 class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
 
     @Test

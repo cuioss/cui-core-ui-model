@@ -25,7 +25,7 @@ import java.util.Map;
 
 import de.cuioss.test.generator.TypedGenerator;
 
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({"rawtypes"})
 public class LocaleMappingGenerator implements TypedGenerator<Map> {
 
     private final TypedGenerator<String> labels = nonEmptyStrings();

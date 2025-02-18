@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.generator.Generators;
@@ -56,8 +57,8 @@ import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
 @PropertyConfig(name = "augmentation", propertyClass = Map.class, generator = AugmentationMapGenerator.class, propertyReadWrite = WRITE_ONLY)
 @PropertyConfig(name = "aliases", propertyClass = String.class, collectionType = CollectionType.SET)
 @PropertyBuilderConfig(name = "aliases", builderMethodName = "alias", builderSingleAddMethodName = "alias", propertyAccessStrategy = BUILDER_COLLECTION_AND_SINGLE_ELEMENT)
-@VerifyBuilder(of = { "identifier", "category", "labelResolver", "augmentation", "aliases" }, required = { "identifier",
-        "labelResolver" })
+@VerifyBuilder(of = {"identifier", "category", "labelResolver", "augmentation", "aliases"}, required = {"identifier",
+        "labelResolver"})
 @ObjectTestConfig(equalsAndHashCodeBasicOnly = true)
 @PropertyReflectionConfig(skip = true)
 class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {

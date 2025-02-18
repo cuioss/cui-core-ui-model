@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Serializable;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.generator.Generators;
@@ -39,14 +40,14 @@ import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 // FIXME efischer: The structure seems to be problematic
 // @PropertyBuilderConfig(name = "arguments", builderMethodName = "addAll")
 // @VerifyBuilder(of = { "msgKey", "arguments" })
-@VerifyConstructor(of = { "msgKey", "arguments" }, required = { "msgKey", "arguments" })
+@VerifyConstructor(of = {"msgKey", "arguments"}, required = {"msgKey", "arguments"})
 @EnableTestLogger
 class DisplayMessageFormatTest extends ValueObjectTest<DisplayMessageFormat> {
 
     @Test
     void shouldFailOnEmptyBuilder() {
         var builder = DisplayMessageFormat.builder();
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
@@ -71,7 +72,7 @@ class DisplayMessageFormatTest extends ValueObjectTest<DisplayMessageFormat> {
     }
 
     @Test
-    void shhouldHandleVarArgsConstuctor() {
+    void shouldHandleVarArgsConstructor() {
         assertDoesNotThrow(
                 () -> new DisplayMessageFormat(nonEmptyStrings().next(), integerObjects().next(), strings().next()));
     }

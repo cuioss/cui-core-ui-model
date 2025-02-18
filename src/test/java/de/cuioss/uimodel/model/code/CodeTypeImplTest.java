@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Locale;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -30,8 +31,8 @@ import de.cuioss.tools.property.PropertyReadWrite;
 @PropertyConfig(name = CodeTypeImplTest.RESOLVED, propertyClass = String.class, propertyReadWrite = PropertyReadWrite.WRITE_ONLY)
 @VerifyConstructor(of = CodeTypeImplTest.IDENTIFIER, required = CodeTypeImplTest.IDENTIFIER)
 // Resolved is used as identifier
-@VerifyConstructor(of = { CodeTypeImplTest.RESOLVED, CodeTypeImplTest.IDENTIFIER }, required = {
-        CodeTypeImplTest.RESOLVED, CodeTypeImplTest.IDENTIFIER })
+@VerifyConstructor(of = {CodeTypeImplTest.RESOLVED, CodeTypeImplTest.IDENTIFIER}, required = {
+        CodeTypeImplTest.RESOLVED, CodeTypeImplTest.IDENTIFIER})
 @ObjectTestConfig(equalsAndHashCodeOf = CodeTypeImplTest.IDENTIFIER)
 class CodeTypeImplTest extends ValueObjectTest<CodeTypeImpl> {
 

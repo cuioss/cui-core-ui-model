@@ -25,7 +25,7 @@ import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 
 @PropertyConfig(name = "minBound", propertyClass = int.class, propertyReadWrite = WRITE_ONLY)
 @PropertyConfig(name = "maxBound", propertyClass = int.class, propertyReadWrite = WRITE_ONLY)
-@VerifyConstructor(of = { "content", "minBound", "maxBound" })
+@VerifyConstructor(of = {"content", "minBound", "maxBound"})
 @VerifyFactoryMethod(of = "content", factoryMethodName = "createYearInstance")
 @VerifyFactoryMethod(of = "content", factoryMethodName = "createMonthInstance")
 @VerifyFactoryMethod(of = "content", factoryMethodName = "createDayInstance")

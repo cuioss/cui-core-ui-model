@@ -19,6 +19,7 @@ import static de.cuioss.test.generator.Generators.nonEmptyStrings;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -27,7 +28,7 @@ import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 
 @VerifyBuilder
-@PropertyReflectionConfig(of = { "username", "password", "userStore", "rememberLoginCredentials" })
+@PropertyReflectionConfig(of = {"username", "password", "userStore", "rememberLoginCredentials"})
 @ObjectTestConfig(equalsAndHashCodeExclude = "password")
 class LoginCredentialsTest extends ValueObjectTest<LoginCredentials> {
 

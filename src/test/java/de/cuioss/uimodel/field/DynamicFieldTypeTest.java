@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.Serializable;
 
+
 import org.junit.jupiter.api.Test;
 
 class DynamicFieldTypeTest {
