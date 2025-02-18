@@ -15,12 +15,12 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider.Builder;
+import de.cuioss.uimodel.nameprovider.testdata.ConfiguredDataGenerator;
+import de.cuioss.uimodel.nameprovider.testdata.DemoTransformationFunction;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,14 +29,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider.Builder;
-import de.cuioss.uimodel.nameprovider.testdata.ConfiguredDataGenerator;
-import de.cuioss.uimodel.nameprovider.testdata.DemoTransformationFunction;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @PropertyReflectionConfig(skip = true)
 class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvider> {
@@ -86,9 +84,9 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
     @Test
     void shouldCreateProviderWithTransformation() {
         final var data = new ConfiguredDataGenerator().next();
-        final var transormationFunction = new DemoTransformationFunction();
+        final var transformationFunction = new DemoTransformationFunction();
 
-        final var provider = createBuilder().transformAndAddAll(data, transormationFunction).build();
+        final var provider = createBuilder().transformAndAddAll(data, transformationFunction).build();
 
         assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
         assertThat(provider.getContent().get(Locale.UK), is("[en_GB] text"));
@@ -105,14 +103,14 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
 
         final var provider = builder.build();
 
-        // short cut method usage
+        // shortcut method usage
         assertThat(provider.lookupTextFor(Locale.GERMANY), is("[de_DE] text"));
         assertThat(provider.lookupTextFor(Locale.UK), is("[en_GB] text"));
 
         assertThat(provider.lookupTextFor(Locale.ENGLISH), is(nullValue()));
         assertThat(provider.lookupTextFor(Locale.GERMAN), is(nullValue()));
 
-        // short cut method with fallback
+        // shortcut method with fallback
         assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
         assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
         assertThat(provider.lookupTextFor(Locale.CHINESE), is(nullValue()));

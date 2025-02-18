@@ -15,19 +15,17 @@
  */
 package de.cuioss.uimodel.field.impl;
 
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import de.cuioss.uimodel.field.DynamicFieldType;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
-import de.cuioss.uimodel.field.DynamicFieldType;
 
 @VerifyConstructor(of = {"editable"})
 @VerifyConstructor(of = {"value", "editable"})
@@ -42,7 +40,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isAvailable());
         assertTrue(editableField.isChanged());
         // Different constructor
-        editableField = new IntegerEditableField(1, false);
+        assertDoesNotThrow(() -> new IntegerEditableField(1, false));
     }
 
     @Test
@@ -55,7 +53,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isChanged());
 
         // Different constructor
-        editableField = new StringEditableField("1", false);
+        assertDoesNotThrow(() -> new StringEditableField("1", false));
     }
 
     @Test
@@ -68,7 +66,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isChanged());
 
         // Different constructor
-        editableField = new BooleanEditableField(Boolean.TRUE, false);
+        assertDoesNotThrow(() -> new BooleanEditableField(Boolean.TRUE, false));
     }
 
     @Test
@@ -81,7 +79,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isChanged());
 
         // Different constructor
-        editableField = new DoubleEditableField(2d, false);
+        assertDoesNotThrow(() -> new DoubleEditableField(2d, false));
     }
 
     @Test
@@ -94,7 +92,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isChanged());
 
         // Different constructor
-        editableField = new FloatEditableField(1f, false);
+        assertDoesNotThrow(() -> new FloatEditableField(1f, false));
     }
 
     @Test
@@ -107,7 +105,7 @@ class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
         assertTrue(editableField.isChanged());
 
         // Different constructor
-        editableField = new LongEditableField(1L, false);
+        assertDoesNotThrow(() -> new LongEditableField(1L, false));
     }
 
     @Test
