@@ -17,7 +17,7 @@ package de.cuioss.uimodel.model.conceptkey.impl;
 
 import java.io.Serial;
 
-import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstans;
+import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstants;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
 import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
@@ -60,7 +60,7 @@ public class BaseConceptCategory implements ConceptCategory {
     @Override
     public ConceptKeyType createUndefinedConceptKey(final String value) {
         return ConceptKeyTypeImpl.builder().identifier(value).labelResolver(new I18nDisplayNameProvider(value))
-                .category(this).augmentation(AugmentationKeyConstans.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
+                .category(this).augmentation(AugmentationKeyConstants.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
     }
 
 }

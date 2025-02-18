@@ -109,7 +109,7 @@ public enum Gender implements LabelKeyProvider {
      * @param genderString may be {@code null} or empty
      * @return the computed {@linkplain Gender} object.
      */
-    public static final Gender fromString(final String genderString) {
+    public static Gender fromString(final String genderString) {
         final var key = nullToEmpty(genderString).toLowerCase();
         return MAPPING.getOrDefault(key, UNKNOWN);
     }

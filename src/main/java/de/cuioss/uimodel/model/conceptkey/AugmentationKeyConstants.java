@@ -23,11 +23,10 @@ import lombok.experimental.UtilityClass;
  * @author Matthias Walliczek
  */
 @UtilityClass
-public final class AugmentationKeyConstans {
+public final class AugmentationKeyConstants {
 
     /**
-     * Marks one code in a category as default, e.g. to be used to preselect a drop
-     * down box.
+     * Marks one code in a category as default, e.g., to be used to preselect a drop-down box.
      */
     public static final String DEFAULT_VALUE = "default_value";
 
@@ -43,8 +42,8 @@ public final class AugmentationKeyConstans {
      *         <code>true</code>.
      */
     public static boolean isUndefinedValue(final ConceptKeyType codeType) {
-        return null != codeType && null != codeType.get(AugmentationKeyConstans.UNDEFINED_VALUE)
-                && Boolean.parseBoolean(codeType.get(AugmentationKeyConstans.UNDEFINED_VALUE));
+        return null != codeType && null != codeType.get(AugmentationKeyConstants.UNDEFINED_VALUE)
+                && Boolean.parseBoolean(codeType.get(AugmentationKeyConstants.UNDEFINED_VALUE));
     }
 
     /**
@@ -54,7 +53,7 @@ public final class AugmentationKeyConstans {
      *         <code>true</code>.
      */
     public static boolean isDefaultValue(final ConceptKeyType codeType) {
-        return null != codeType && null != codeType.get(AugmentationKeyConstans.DEFAULT_VALUE)
-                && Boolean.parseBoolean(codeType.get(AugmentationKeyConstans.DEFAULT_VALUE));
+        return null != codeType && null != codeType.get(AugmentationKeyConstants.DEFAULT_VALUE)
+                && Boolean.parseBoolean(codeType.get(AugmentationKeyConstants.DEFAULT_VALUE));
     }
 }

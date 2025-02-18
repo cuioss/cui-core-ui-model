@@ -34,7 +34,7 @@ public interface ConceptCategory extends Serializable {
     /**
      * @param value the identifier
      * @return an ConceptKeyType with given value marked with
-     *         {@link AugmentationKeyConstans#UNDEFINED_VALUE}
+     *         {@link AugmentationKeyConstants#UNDEFINED_VALUE}
      */
     ConceptKeyType createUndefinedConceptKey(String value);
 }

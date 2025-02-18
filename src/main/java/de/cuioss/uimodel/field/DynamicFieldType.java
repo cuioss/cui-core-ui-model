@@ -133,7 +133,7 @@ public enum DynamicFieldType {
      * @return {@link DynamicFieldType} identified by the given type. In case there
      *         is no fitting type it will return {@link DynamicFieldType#STRING}
      */
-    public static final DynamicFieldType getByTypeString(final String type) {
+    public static DynamicFieldType getByTypeString(final String type) {
         var fieldType = DynamicFieldType.STRING;
 
         for (final DynamicFieldType dynamicFieldType : DynamicFieldType.values()) {

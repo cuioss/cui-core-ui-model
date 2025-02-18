@@ -144,7 +144,7 @@ public class DisplayMessageFormat implements Serializable {
     /**
      * @return {@linkplain Builder} in fluent api style
      */
-    public static final Builder builder() {
+    public static Builder builder() {
         return new Builder();
     }
 }
