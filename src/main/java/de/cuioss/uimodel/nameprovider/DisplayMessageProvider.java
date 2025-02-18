@@ -17,6 +17,7 @@ package de.cuioss.uimodel.nameprovider;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -35,6 +36,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class DisplayMessageProvider implements IDisplayNameProvider<DisplayMessageFormat> {
 
+    @Serial
     private static final long serialVersionUID = -3453598477657055961L;
 
     private final DisplayMessageFormat content;

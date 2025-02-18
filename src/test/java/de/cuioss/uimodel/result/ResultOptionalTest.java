@@ -30,7 +30,7 @@ import de.cuioss.uimodel.nameprovider.DisplayName;
 class ResultOptionalTest {
 
     @Test
-    void testEmpty() {
+    void empty() {
         var result = new ResultOptional<String>(null, ResultState.VALID);
         assertTrue(result.isValid());
         assertFalse(result.getResult().isPresent());
@@ -40,7 +40,7 @@ class ResultOptionalTest {
     }
 
     @Test
-    void testBuilder() {
+    void builder() {
         ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
         var result = resultBuilder.result("Test").state(ResultState.VALID).build();
         assertTrue(result.isValid());
@@ -52,19 +52,19 @@ class ResultOptionalTest {
     }
 
     @Test
-    void testBuilderWithoutState() {
+    void builderWithoutState() {
         var resultBuilder = ResultOptional.optionalBuilder().result("Test");
         assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
     }
 
     @Test
-    void testBuilderWithErrorAndWithoutDetail() {
+    void builderWithErrorAndWithoutDetail() {
         var resultBuilder = ResultOptional.optionalBuilder().result("Test").state(ResultState.ERROR);
         assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
     }
 
     @Test
-    void testBuilderWithDetailAndErrorCode() {
+    void builderWithDetailAndErrorCode() {
         ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
         var result = resultBuilder.state(ResultState.ERROR).resultDetail(new ResultDetail(new DisplayName("Test")))
                 .errorCode(ResultErrorCodes.NOT_FOUND).build();
@@ -78,7 +78,7 @@ class ResultOptionalTest {
     }
 
     @Test
-    void testBuilderWithTwoDetails() {
+    void builderWithTwoDetails() {
         ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
         var result = resultBuilder.state(ResultState.ERROR).resultDetail(new ResultDetail(new DisplayName("Test")))
                 .resultDetail(new ResultDetail(new DisplayName("Test2"))).build();

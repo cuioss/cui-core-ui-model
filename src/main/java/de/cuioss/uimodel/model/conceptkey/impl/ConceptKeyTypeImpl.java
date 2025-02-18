@@ -20,6 +20,7 @@ import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
 import static de.cuioss.tools.string.MoreStrings.emptyToNull;
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -55,6 +56,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class ConceptKeyTypeImpl extends BaseConceptKeyType {
 
+    @Serial
     private static final long serialVersionUID = 5225412069791405625L;
 
     @Getter

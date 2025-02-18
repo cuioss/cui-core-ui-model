@@ -15,6 +15,8 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
+import java.io.Serial;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -32,6 +34,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class DisplayName implements IDisplayNameProvider<String> {
 
+    @Serial
     private static final long serialVersionUID = -5827322353134669923L;
 
     @Getter

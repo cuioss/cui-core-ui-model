@@ -33,7 +33,7 @@ import de.cuioss.uimodel.model.RangeCounter;
 class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
 
     @Test
-    void testBaseRangeCounterRangeCounter() {
+    void baseRangeCounterRangeCounter() {
 
         final var count = 10;
         final var totalCount = 100;
@@ -53,7 +53,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    void testBaseRangeCounterRangeCounter2() {
+    void baseRangeCounterRangeCounter2() {
 
         final var baserangeCounter = new BaseRangeCounter(null, null);
 
@@ -66,7 +66,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    void testBaseRangeCounterRangeCounter3() {
+    void baseRangeCounterRangeCounter3() {
 
         final var count = 0;
         final var totalCount = 0;
@@ -81,7 +81,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    void testBaseRangeCounterRangeCounter4() {
+    void baseRangeCounterRangeCounter4() {
 
         final var count = 1;
 
@@ -92,7 +92,7 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
     }
 
     @Test
-    void testBaseRangeCounterRangeCounter5() {
+    void baseRangeCounterRangeCounter5() {
         final var totalCount = 0;
         final var baserangeCounter = new BaseRangeCounter(null, totalCount);
 

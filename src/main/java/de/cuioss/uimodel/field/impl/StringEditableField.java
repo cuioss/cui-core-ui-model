@@ -15,6 +15,8 @@
  */
 package de.cuioss.uimodel.field.impl;
 
+import java.io.Serial;
+
 import de.cuioss.uimodel.field.DynamicFieldType;
 
 /**
@@ -24,6 +26,7 @@ import de.cuioss.uimodel.field.DynamicFieldType;
  */
 public class StringEditableField extends BaseDynamicField<String> {
 
+    @Serial
     private static final long serialVersionUID = 1576605569211546203L;
 
     /**

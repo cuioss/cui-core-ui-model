@@ -15,6 +15,8 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
+import java.io.Serial;
+
 import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstans;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
@@ -33,6 +35,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "name")
 public class BaseConceptCategory implements ConceptCategory {
 
+    @Serial
     private static final long serialVersionUID = 8937041650695445812L;
 
     /**

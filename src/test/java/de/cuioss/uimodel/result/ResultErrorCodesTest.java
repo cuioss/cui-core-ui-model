@@ -32,7 +32,7 @@ class ResultErrorCodesTest {
      * {@link de.cuioss.uimodel.result.ResultErrorCodes#parseHttpCode(int)}.
      */
     @Test
-    void testParseHttpCode() {
+    void parseHttpCode() {
         assertEquals(RUNTIME_ERROR, ResultErrorCodes.parseHttpCode(0));
         assertEquals(RUNTIME_ERROR, ResultErrorCodes.parseHttpCode(500));
 

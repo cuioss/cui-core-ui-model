@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
+import java.io.Serial;
 import java.time.temporal.TemporalAccessor;
 
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ import lombok.ToString;
 @SuppressWarnings("squid:S1948") // owolff: all known implementation are Serializable
 public class TemporalAccessorDisplayNameProvider implements IDisplayNameProvider<TemporalAccessor> {
 
+    @Serial
     private static final long serialVersionUID = -1148355576864804121L;
 
     @Getter

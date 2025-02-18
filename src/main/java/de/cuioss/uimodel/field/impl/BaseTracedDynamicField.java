@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.field.impl;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -32,6 +33,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class BaseTracedDynamicField<T extends Serializable> implements TracedDynamicField<T> {
 
+    @Serial
     private static final long serialVersionUID = -5393234651696267199L;
 
     private final T defaultValue;

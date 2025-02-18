@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
@@ -43,6 +44,7 @@ public class ConditionalInteger implements Serializable {
      */
     public static final ConditionalInteger EMPTY_INSTANCE = new ConditionalInteger(null, MIN_BOUND, MIN_BOUND);
 
+    @Serial
     private static final long serialVersionUID = 5495286309563797727L;
 
     @Getter

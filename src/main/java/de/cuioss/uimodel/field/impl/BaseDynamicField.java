@@ -17,6 +17,7 @@ package de.cuioss.uimodel.field.impl;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ import lombok.ToString;
 @ToString
 public abstract class BaseDynamicField<T extends Serializable> implements DynamicField<T> {
 
+    @Serial
     private static final long serialVersionUID = 7865845990018198224L;
 
     @Getter

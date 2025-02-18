@@ -17,6 +17,7 @@ package de.cuioss.uimodel.model.code;
 
 import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Locale;
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CodeTypeComparator implements Comparator<CodeType>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7747878519156301042L;
 
     private final Locale locale;

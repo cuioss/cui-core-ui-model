@@ -19,6 +19,7 @@ import static de.cuioss.tools.string.MoreStrings.emptyToNull;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,7 @@ import lombok.Value;
 @Value
 public class LabeledKey implements IDisplayNameProvider<String> {
 
+    @Serial
     private static final long serialVersionUID = 4766238897848300167L;
 
     @Getter

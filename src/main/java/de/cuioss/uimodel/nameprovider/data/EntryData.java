@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.nameprovider.data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,6 +36,7 @@ import lombok.ToString;
 @EqualsAndHashCode(doNotUseGetters = true)
 public class EntryData<K extends Serializable, V extends Serializable> implements Entry<K, V>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = -6403178000941411123L;
 
     private final K key;

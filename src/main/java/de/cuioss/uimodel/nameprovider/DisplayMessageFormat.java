@@ -20,6 +20,7 @@ import static de.cuioss.tools.string.MoreStrings.emptyToNull;
 import static de.cuioss.tools.string.MoreStrings.requireNotEmpty;
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class DisplayMessageFormat implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1169472475051755852L;
 
     @Getter

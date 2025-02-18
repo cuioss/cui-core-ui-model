@@ -17,6 +17,7 @@ package de.cuioss.uimodel.model.code;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.util.Locale;
 
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ import lombok.ToString;
 @ToString
 public class CodeTypeImpl implements CodeType {
 
+    @Serial
     private static final long serialVersionUID = 6827791409255699288L;
 
     private final String resolved;

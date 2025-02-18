@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,6 +41,7 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseConceptKeyType implements ConceptKeyType {
 
+    @Serial
     private static final long serialVersionUID = 3314726756126201321L;
 
     @Getter

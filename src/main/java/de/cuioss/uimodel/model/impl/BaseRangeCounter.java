@@ -15,6 +15,8 @@
  */
 package de.cuioss.uimodel.model.impl;
 
+import java.io.Serial;
+
 import de.cuioss.uimodel.model.RangeCounter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,6 +33,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class BaseRangeCounter implements RangeCounter {
 
+    @Serial
     private static final long serialVersionUID = -1535931081715308509L;
 
     @Getter

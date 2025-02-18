@@ -18,6 +18,7 @@ package de.cuioss.uimodel.nameprovider;
 import static de.cuioss.tools.base.Preconditions.checkArgument;
 import static de.cuioss.tools.collect.CollectionLiterals.mutableSet;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class I18nDisplayNameProvider implements IDisplayNameProvider<Map<Locale,
 
     private static final String LOCALE_MUST_NOT_BE_NULL = "Locale must not be null.";
 
+    @Serial
     private static final long serialVersionUID = 416489243142980911L;
 
     @Getter

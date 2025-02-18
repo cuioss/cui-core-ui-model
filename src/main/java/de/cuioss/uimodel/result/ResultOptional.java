@@ -17,6 +17,7 @@ package de.cuioss.uimodel.result;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Function;
@@ -38,6 +39,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true, of = "result", doNotUseGetters = true)
 public class ResultOptional<T extends Serializable> extends ResultObject<Optional<T>> {
 
+    @Serial
     private static final long serialVersionUID = 4619738393641630076L;
 
     private final T result;

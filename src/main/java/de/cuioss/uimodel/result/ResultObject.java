@@ -19,6 +19,7 @@ import static de.cuioss.tools.collect.MoreCollections.isEmpty;
 import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Function;
@@ -79,6 +80,7 @@ public class ResultObject<T> implements Serializable {
 
     private static final String RESULT_MESSAGE = "result";
 
+    @Serial
     private static final long serialVersionUID = -80595591786771138L;
 
     private static final String HANDLE_EXCEPTION_FIRST = "ResultObject include error which you must handle first. See";

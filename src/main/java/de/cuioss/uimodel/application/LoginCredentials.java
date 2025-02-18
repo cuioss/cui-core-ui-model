@@ -17,6 +17,7 @@ package de.cuioss.uimodel.application;
 
 import static de.cuioss.tools.string.MoreStrings.isEmpty;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -39,6 +40,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class LoginCredentials implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -5554252114058479008L;
 
     @Getter
