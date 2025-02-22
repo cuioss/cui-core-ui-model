@@ -32,10 +32,69 @@ import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Instance of IDisplayNameProvider which indicates to provide display key that
- * has a mapping to resource bundle key.
+ * An implementation of {@link IDisplayNameProvider} that represents a key-based
+ * label with optional parameters. This class is designed to work with resource
+ * bundles for internationalization (i18n) support.
+ *
+ * <p>Key Features:
+ * <ul>
+ *   <li>Immutable value object</li>
+ *   <li>Resource bundle key support</li>
+ *   <li>Optional parameter list</li>
+ *   <li>Builder pattern support</li>
+ *   <li>Null-safe operations</li>
+ * </ul>
+ *
+ * <p>Usage Examples:
+ * <pre>
+ * // Simple key
+ * LabeledKey simple = new LabeledKey("button.save");
+ *
+ * // Key with parameters
+ * LabeledKey withParams = new LabeledKey("user.greeting", "John", 42);
+ *
+ * // Using builder
+ * LabeledKey built = LabeledKey.builder()
+ *     .content("dialog.title")
+ *     .parameter("Document")
+ *     .parameter(123)
+ *     .build();
+ *
+ * // Getting content for resource bundle lookup
+ * String key = labeledKey.getContent();
+ * List&lt;Serializable&gt; params = labeledKey.getParameter();
+ * </pre>
+ *
+ * <p>Implementation Notes:
+ * <ul>
+ *   <li>Content key cannot be null or empty</li>
+ *   <li>Parameter list is never null (empty list if no parameters)</li>
+ *   <li>All fields are immutable</li>
+ *   <li>Implements proper equals/hashCode</li>
+ *   <li>Provides comprehensive toString</li>
+ * </ul>
+ *
+ * <p>Common Use Cases:
+ * <ul>
+ *   <li>UI labels and messages</li>
+ *   <li>Internationalized content</li>
+ *   <li>Parameterized messages</li>
+ *   <li>Button/menu labels</li>
+ *   <li>Error messages</li>
+ * </ul>
+ *
+ * <p>Differences from {@link DisplayMessageFormat}:
+ * <ul>
+ *   <li>LabeledKey is simpler, focusing only on key-based lookups</li>
+ *   <li>Parameters are optional and handled by the resolver</li>
+ *   <li>More suitable for simple UI labels</li>
+ *   <li>No direct formatting capabilities</li>
+ * </ul>
  *
  * @author Eugen Fischer
+ * @since 1.0
+ * @see IDisplayNameProvider
+ * @see LabelKeyProvider
  */
 @ToString
 @EqualsAndHashCode
@@ -46,36 +105,58 @@ public class LabeledKey implements IDisplayNameProvider<String> {
     @Serial
     private static final long serialVersionUID = 4766238897848300167L;
 
+    /**
+     * The resource bundle key that identifies this label.
+     * This key is used for looking up the actual text in a resource bundle.
+     */
     @Getter
     private final String content;
 
     /**
-     * Optional Parameter-list to be passed to the label-resolving mechanism. May be
-     * empty but never null
+     * Optional parameters that can be used during label resolution.
+     * These parameters might be used for placeholder replacement or
+     * other transformations during the resolution process.
+     *
+     * <p>Implementation Notes:
+     * <ul>
+     *   <li>Never null (empty list if no parameters)</li>
+     *   <li>Immutable list</li>
+     *   <li>Elements must be serializable</li>
+     *   <li>Order of parameters is preserved</li>
+     * </ul>
      */
     @Getter
     @Singular("parameter")
     private final List<Serializable> parameter;
 
     /**
-     * @param labelKey must not be null nor empty.
+     * Creates a new LabeledKey with just a key and no parameters.
+     *
+     * @param labelKey the resource bundle key, must not be null or empty
+     * @throws IllegalArgumentException if labelKey is null or empty
      */
     public LabeledKey(final String labelKey) {
         this(labelKey, Collections.emptyList());
     }
 
     /**
-     * @param labelKey  must not be null.
-     * @param parameter One or more parameter to be passed to the label-resolving
+     * Creates a new LabeledKey with a key and variable number of parameters.
+     *
+     * @param labelKey the resource bundle key, must not be null or empty
+     * @param parameter optional parameters for label resolution
+     * @throws IllegalArgumentException if labelKey is null or empty
      */
     public LabeledKey(final String labelKey, Serializable... parameter) {
         this(labelKey, asList(parameter));
     }
 
     /**
-     * @param labelKey  must not be null.
-     * @param parameter An optional List of parameter to be passed to the
-     *                  label-resolving
+     * Creates a new LabeledKey with a key and a list of parameters.
+     *
+     * @param labelKey the resource bundle key, must not be null or empty
+     * @param parameter optional list of parameters for label resolution,
+     *                 if null an empty list will be used
+     * @throws IllegalArgumentException if labelKey is null or empty
      */
     public LabeledKey(final String labelKey, List<Serializable> parameter) {
         content = requireNonNull(emptyToNull(labelKey), "Key identifier must not be null");
@@ -84,6 +165,5 @@ public class LabeledKey implements IDisplayNameProvider<String> {
         } else {
             this.parameter = parameter;
         }
-
     }
 }

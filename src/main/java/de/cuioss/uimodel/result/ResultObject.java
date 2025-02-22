@@ -30,47 +30,148 @@ import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 import static java.util.Objects.requireNonNull;
 
 /**
- * <h2>Generic ResultObject</h2> ResultObject provide Builder which supports a
- * handy object creation.
+ * A type-safe wrapper for service operation results that elegantly handles both
+ * successful outcomes and error cases. This class is the cornerstone of the result
+ * handling framework, providing a robust alternative to exception-based error handling.
  *
- * See example implementation for provider:
+ * <h2>Key Features</h2>
+ * <ul>
+ *   <li>Type-safe result wrapping</li>
+ *   <li>Built-in error handling</li>
+ *   <li>Fluent builder API</li>
+ *   <li>Default result support</li>
+ *   <li>Immutable design</li>
+ *   <li>Optional integration</li>
+ * </ul>
  *
+ * <h2>Usage Patterns</h2>
+ *
+ * <h3>1. Service Provider Implementation</h3>
  * <pre>
- *
- * public ResultObject&lt;Patient&gt; retrievePatient(final SearchParameter param) {
- *
- *     final Builder&lt;Patient&gt; builder = new ResultObject.Builder<>();
- *     builder.validDefaultResult(new Patient());
- *
- *     try {
- *         builder.result(service.lookupPatient(param)).state(ResultState.VALID);
- *     } catch (final NoSuchPatientException e) {
- *         private IDisplayNameProvider&lt;?&gt; detail = new DisplayName("No patient found");
- *         builder.resultDetail(new ResultDetail(detail, e)).state(ResultState.ERROR);
+ * public ResultObject&lt;Patient&gt; retrievePatient(SearchParameter param) {
+ *     // Initialize builder with default result
+ *     ResultObject.Builder&lt;Patient&gt; builder = new ResultObject.Builder&lt;&gt;()
+ *         .validDefaultResult(new Patient());
+ *     
+ *     // Validate input
+ *     if (!param.isValid()) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Invalid search parameters")))
+ *             .errorCode(ResultErrorCodes.BAD_REQUEST)
+ *             .build();
  *     }
- *
- *     return builder.build();
+ *     
+ *     // Check authorization
+ *     if (!securityContext.isAuthorized("PATIENT_READ")) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Not authorized to view patient data")))
+ *             .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+ *             .build();
+ *     }
+ *     
+ *     // Perform lookup
+ *     Patient patient = patientRepository.findByParam(param);
+ *     if (patient == null) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Patient not found")))
+ *             .errorCode(ResultErrorCodes.NOT_FOUND)
+ *             .build();
+ *     }
+ *     
+ *     // Handle success case
+ *     return builder
+ *         .result(patient)
+ *         .state(ResultState.VALID)
+ *         .build();
  * }
  * </pre>
  *
- * See example implementation for consumer:
- *
+ * <h3>2. Consumer Implementation</h3>
  * <pre>
- *
- * public void buttonClicked() {
- *
- *     final ResultObject&lt;Patient&gt; result = service.getPatient();
+ * public void processPatient() {
+ *     ResultObject&lt;Patient&gt; result = service.retrievePatient(searchParam);
+ *     
+ *     // Check result validity
  *     if (!result.isValid()) {
- *         new MessageProducerAccessor().getValue().addGlobalMessage(resolve(content), FacesMessage.SEVERITY_WARN);
- *     } else {
- *         this.patient = result.getResult();
+ *         // Handle error with appropriate UI feedback
+ *         result.getResultDetail().ifPresent(detail -> 
+ *             messageProducer.addError(detail));
+ *             
+ *         // Handle specific error cases
+ *         result.getErrorCode().ifPresent(code -> {
+ *             switch (code) {
+ *                 case NOT_FOUND:
+ *                     showNotFoundMessage();
+ *                     break;
+ *                 case NOT_AUTHORIZED:
+ *                     redirectToLogin();
+ *                     break;
+ *                 case BAD_REQUEST:
+ *                     highlightInvalidFields();
+ *                     break;
+ *                 default:
+ *                     showGeneralError();
+ *             }
+ *         });
+ *         return;
  *     }
+ *     
+ *     // Process valid result
+ *     Patient patient = result.getResult();
+ *     displayPatient(patient);
  * }
  * </pre>
  *
- * @param <T> bounded result type, should implement {@link Serializable}
+ * <h3>3. Builder Usage</h3>
+ * <pre>
+ * // Success case
+ * ResultObject&lt;User&gt; success = new ResultObject.Builder&lt;User&gt;()
+ *     .result(user)
+ *     .state(ResultState.VALID)
+ *     .build();
+ *     
+ * // Error case with default result
+ * ResultObject&lt;User&gt; error = new ResultObject.Builder&lt;User&gt;()
+ *     .validDefaultResult(new User())
+ *     .state(ResultState.ERROR)
+ *     .resultDetail(new ResultDetail(
+ *         new DisplayName("User creation failed")))
+ *     .errorCode(ResultErrorCodes.BAD_REQUEST)
+ *     .build();
+ * </pre>
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>Thread-safe due to immutable design</li>
+ *   <li>Serializable when T implements Serializable</li>
+ *   <li>Null-safe operations with proper validation</li>
+ *   <li>Integrates with JSF message handling</li>
+ *   <li>Supports Java 8 Optional API</li>
+ * </ul>
+ *
+ * <h2>Error Handling</h2>
+ * <ul>
+ *   <li>Invalid state prevents result access</li>
+ *   <li>Detailed error information available via ResultDetail</li>
+ *   <li>Support for multiple error details</li>
+ *   <li>Integration with message bundles</li>
+ *   <li>Exception context preservation</li>
+ * </ul>
+ *
+ * @param <T> The type of the result value. Should implement {@link Serializable}
+ *           for proper serialization support.
  *
  * @author Eugen Fischer
+ * @see ResultDetail
+ * @see ResultState
+ * @see ResultOptional
+ * @since 1.0
  */
 @ToString(doNotUseGetters = true)
 @EqualsAndHashCode(doNotUseGetters = true)
@@ -88,34 +189,36 @@ public class ResultObject<T> implements Serializable {
     private static final String REQUEST_RESULT_DETAIL_IS_MANDATORY = "Result state is [%s], so request result detail is mandatory";
 
     /**
-     * provide non null result
+     * The wrapped result value. Never null, defaults to validDefaultResult if
+     * an error occurs.
      */
     @SuppressWarnings("squid:S1948") // T should implement {@link Serializable}
     private final T result;
 
     /**
-     * Represents the state of result
+     * The current state of the result, indicating whether it represents a
+     * valid value or an error condition.
      */
     @Getter
     private final ResultState state;
 
     /**
-     * optional additional details
+     * Optional additional details
      */
     private final ResultDetail resultDetail;
 
     /**
-     * optional error code
+     * Optional error code
      */
     private final Enum<?> errorCode;
 
     /**
-     * flag remember at least one time access to stateDetail
+     * Flag to remember at least one time access to stateDetail
      */
     private boolean resultDetailPrompted = false;
 
     /**
-     * flag remember at least one time access to errorCode
+     * Flag to remember at least one time access to errorCode
      */
     private boolean errorCodePrompted = false;
 

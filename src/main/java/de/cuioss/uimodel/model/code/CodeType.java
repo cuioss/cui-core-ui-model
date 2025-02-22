@@ -19,35 +19,119 @@ import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Abstracts any implementation of Code, CodeDto, CodedValueDto, AnnotatedCode
- * etc.
- * <p>
- * The idea is use (resolve) any of this object without care about how the magic
- * resolving is working. This approach provide a lose coupling from UI to BE.
- * Additional advantage is the simple creation of mocks.
- * </p>
- * <p>
- * <em>PRECONDITION</em> : appropriate use is only possible if you have
- * knowledge about DAO pattern (data access object)
- * </p>
- * This interface doesn't make assumptions about the resolving strategies or
- * caching feel free to use the power of this.
+ * Defines a unified contract for handling coded values across different system layers.
+ * This interface provides a common abstraction for various code implementations
+ * (e.g., Code, CodeDto, CodedValueDto, AnnotatedCode), enabling loose coupling
+ * between UI and backend components while facilitating testing through simple mock creation.
+ *
+ * <p>Key Features:
+ * <ul>
+ *   <li>Unified code handling across system layers</li>
+ *   <li>Internationalization support through locale-based resolution</li>
+ *   <li>Unique identifier requirement for each code</li>
+ *   <li>Serialization support for distributed systems</li>
+ *   <li>Flexible implementation allowing various resolving strategies</li>
+ * </ul>
+ *
+ * <p>Design Principles:
+ * <ul>
+ *   <li>Loose coupling between UI and backend</li>
+ *   <li>Separation of concerns through DAO pattern</li>
+ *   <li>Implementation-agnostic resolving strategies</li>
+ *   <li>Support for caching and optimization</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * public class StatusCode implements CodeType {
+ *     private final String code;
+ *     private final Map&lt;Locale, String&gt; translations;
+ *
+ *     public StatusCode(String code, Map&lt;Locale, String&gt; translations) {
+ *         this.code = code;
+ *         this.translations = new HashMap&lt;&gt;(translations);
+ *     }
+ *
+ *     &#64;Override
+ *     public String getResolved(Locale locale) {
+ *         return translations.getOrDefault(locale,
+ *             translations.getOrDefault(Locale.ENGLISH, code));
+ *     }
+ *
+ *     &#64;Override
+ *     public String getIdentifier() {
+ *         return code;
+ *     }
+ * }
+ *
+ * // Using the code type
+ * CodeType status = new StatusCode("ACTIVE", Map.of(
+ *     Locale.ENGLISH, "Active",
+ *     Locale.GERMAN, "Aktiv"
+ * ));
+ *
+ * String germanLabel = status.getResolved(Locale.GERMAN); // Returns "Aktiv"
+ * String code = status.getIdentifier(); // Returns "ACTIVE"
+ * </pre>
+ *
+ * <p>Implementation Requirements:
+ * <ul>
+ *   <li>Implementations must be thread-safe</li>
+ *   <li>The identifier must be immutable and non-null</li>
+ *   <li>Resolution strategies should handle null or invalid locales gracefully</li>
+ *   <li>Consider implementing appropriate equals/hashCode based on the identifier</li>
+ * </ul>
+ *
+ * <p><em>Note:</em> Proper usage requires understanding of the DAO (Data Access Object)
+ * pattern and its implications for code resolution and caching strategies.
  *
  * @author Eugen Fischer
+ * @since 1.0
+ * @see java.util.Locale
+ * @see java.io.Serializable
  */
 public interface CodeType extends Serializable {
 
     /**
-     * Provide translated value by using implementation defined resolving /
-     * fall-back logic.
+     * Resolves and returns the localized value for this code using the implementation's
+     * defined resolution strategy. The strategy may include:
+     * <ul>
+     *   <li>Direct lookup in a translation map</li>
+     *   <li>Database queries</li>
+     *   <li>Resource bundle lookups</li>
+     *   <li>Fallback chains for missing translations</li>
+     *   <li>Caching mechanisms</li>
+     * </ul>
      *
-     * @param locale {@linkplain Locale} must not be null.
-     * @return resolved value if possible, {@code null} otherwise.
+     * <p>Implementations should define clear fallback behavior when:
+     * <ul>
+     *   <li>The requested locale is not available</li>
+     *   <li>No translation exists for the code</li>
+     *   <li>The resolution process fails</li>
+     * </ul>
+     *
+     * @param locale the target locale for resolution, must not be null
+     * @return the resolved value in the specified locale, or null if resolution fails
+     * @throws NullPointerException if locale is null
      */
     String getResolved(Locale locale);
 
     /**
-     * @return unique id must be always defined
+     * Returns the unique identifier for this code. This identifier serves as:
+     * <ul>
+     *   <li>A primary key for the code</li>
+     *   <li>A fallback display value</li>
+     *   <li>A reference key for resolution</li>
+     * </ul>
+     *
+     * <p>The identifier must be:
+     * <ul>
+     *   <li>Non-null</li>
+     *   <li>Immutable</li>
+     *   <li>Unique within its context</li>
+     * </ul>
+     *
+     * @return the unique identifier for this code, never null
      */
     String getIdentifier();
 }

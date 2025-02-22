@@ -18,23 +18,105 @@ package de.cuioss.uimodel.model.conceptkey;
 import java.io.Serializable;
 
 /**
- * Category for an {@link ConceptKeyType} containing a list of mandatory
- * augmentation keys.
+ * Defines a category system for {@link ConceptKeyType} instances, providing
+ * classification and factory capabilities for concept keys. Categories help
+ * organize and validate concept keys while ensuring proper augmentation
+ * handling.
+ *
+ * <p>Key Features:
+ * <ul>
+ *   <li>Unique category identification</li>
+ *   <li>Factory methods for undefined concepts</li>
+ *   <li>Serialization support</li>
+ *   <li>Immutable design</li>
+ * </ul>
+ *
+ * <p>Common Categories:
+ * <ul>
+ *   <li>Diagnosis codes</li>
+ *   <li>Procedure codes</li>
+ *   <li>Medication codes</li>
+ *   <li>Laboratory values</li>
+ *   <li>Clinical findings</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * public enum MedicalCategory implements ConceptCategory {
+ *     DIAGNOSIS("diagnosis"),
+ *     PROCEDURE("procedure"),
+ *     MEDICATION("medication");
+ *
+ *     private final String name;
+ *
+ *     MedicalCategory(String name) {
+ *         this.name = name;
+ *     }
+ *
+ *     &#64;Override
+ *     public String getName() {
+ *         return name;
+ *     }
+ *
+ *     &#64;Override
+ *     public ConceptKeyType createUndefinedConceptKey(String value) {
+ *         return new UndefinedConceptKey(value, this);
+ *     }
+ * }
+ *
+ * // Using the category
+ * ConceptCategory category = MedicalCategory.DIAGNOSIS;
+ * ConceptKeyType undefined = category.createUndefinedConceptKey("ICD10-X99");
+ * </pre>
+ *
+ * <p>Implementation Notes:
+ * <ul>
+ *   <li>Categories should be implemented as enums where possible</li>
+ *   <li>Category names should be unique within the system</li>
+ *   <li>Consider internationalization needs</li>
+ *   <li>Undefined concept keys should maintain traceability</li>
+ * </ul>
  *
  * @author Matthias Walliczek
+ * @since 1.0
+ * @see ConceptKeyType
+ * @see AugmentationKeyConstants
+ * @see Serializable
  */
 public interface ConceptCategory extends Serializable {
 
     /**
-     * @return name of the code category. Name is internal use only. could be named
-     *         id.
+     * Returns the unique name (identifier) for this category. This name is used
+     * internally to identify and distinguish between different categories.
+     *
+     * <p>Requirements:
+     * <ul>
+     *   <li>Must be unique within the system</li>
+     *   <li>Should be consistent across system restarts</li>
+     *   <li>Should follow a consistent naming convention</li>
+     *   <li>Should be lowercase, using underscores for spaces</li>
+     * </ul>
+     *
+     * @return the internal name of this category, never null
      */
     String getName();
 
     /**
-     * @param value the identifier
-     * @return an ConceptKeyType with given value marked with
-     *         {@link AugmentationKeyConstants#UNDEFINED_VALUE}
+     * Creates a new undefined concept key for the given value within this category.
+     * Undefined concept keys are used to handle cases where a concept identifier
+     * is known but its full definition is not available or not yet loaded.
+     *
+     * <p>The created concept key will:
+     * <ul>
+     *   <li>Belong to this category</li>
+     *   <li>Have the specified value as identifier</li>
+     *   <li>Be marked with {@link AugmentationKeyConstants#UNDEFINED_VALUE}</li>
+     *   <li>Maintain traceability of its undefined status</li>
+     * </ul>
+     *
+     * @param value the identifier for the undefined concept
+     * @return a new ConceptKeyType instance marked as undefined
+     * @throws IllegalArgumentException if value is null or empty
      */
     ConceptKeyType createUndefinedConceptKey(String value);
 }

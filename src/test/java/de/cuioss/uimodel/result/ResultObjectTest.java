@@ -302,4 +302,108 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
                     "prefix: LabeledKey(content=some.key, parameter=[])");
         }
     }
+
+    @Nested
+    @DisplayName("Javadoc example tests")
+    class JavadocExampleTests {
+        
+        @Test
+        @DisplayName("Should demonstrate service provider implementation pattern")
+        void shouldDemonstrateServiceProviderPattern() {
+            // Given: A service with various error cases
+            var builder = new ResultObject.Builder<String>()
+                .validDefaultResult("default");
+            
+            // When/Then: Invalid parameters
+            var badRequest = builder
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Invalid search parameters")))
+                .errorCode(ResultErrorCodes.BAD_REQUEST)
+                .build();
+            assertFalse(badRequest.isValid());
+            assertEquals(ResultErrorCodes.BAD_REQUEST, badRequest.getErrorCode().get());
+            assertEquals("Invalid search parameters", badRequest.getResultDetail().get().getDetail().getContent());
+            
+            // When/Then: Not authorized
+            var notAuthorized = builder
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Not authorized to view patient data")))
+                .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+                .build();
+            assertFalse(notAuthorized.isValid());
+            assertEquals(ResultErrorCodes.NOT_AUTHORIZED, notAuthorized.getErrorCode().get());
+            
+            // When/Then: Not found
+            var notFound = builder
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Patient not found")))
+                .errorCode(ResultErrorCodes.NOT_FOUND)
+                .build();
+            assertFalse(notFound.isValid());
+            assertEquals(ResultErrorCodes.NOT_FOUND, notFound.getErrorCode().get());
+            
+            // When/Then: Success case
+            var success = builder
+                .result("Found Patient")
+                .state(ResultState.VALID)
+                .build();
+            assertTrue(success.isValid());
+            assertEquals("Found Patient", success.getResult());
+        }
+
+        @Test
+        @DisplayName("Should demonstrate consumer implementation pattern")
+        void shouldDemonstrateConsumerPattern() {
+            // Given: Different result scenarios
+            var builder = new ResultObject.Builder<String>();
+            
+            // When/Then: Error case
+            var errorResult = builder
+                .validDefaultResult("default")
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Error occurred")))
+                .errorCode(ResultErrorCodes.NOT_FOUND)
+                .build();
+                
+            assertFalse(errorResult.isValid());
+            assertTrue(errorResult.getResultDetail().isPresent());
+            assertTrue(errorResult.getErrorCode().isPresent());
+            assertEquals(ResultErrorCodes.NOT_FOUND, errorResult.getErrorCode().get());
+            
+            // When/Then: Success case
+            var validResult = builder
+                .result("success data")
+                .state(ResultState.VALID)
+                .build();
+                
+            assertTrue(validResult.isValid());
+            assertEquals("success data", validResult.getResult());
+        }
+
+        @Test
+        @DisplayName("Should demonstrate builder usage patterns")
+        void shouldDemonstrateBuilderPatterns() {
+            // When/Then: Success case
+            var success = new ResultObject.Builder<String>()
+                .result("user data")
+                .state(ResultState.VALID)
+                .build();
+                
+            assertTrue(success.isValid());
+            assertEquals("user data", success.getResult());
+            
+            // When/Then: Error case with default result
+            var error = new ResultObject.Builder<String>()
+                .validDefaultResult("default user")
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("User creation failed")))
+                .errorCode(ResultErrorCodes.BAD_REQUEST)
+                .build();
+                
+            assertFalse(error.isValid());
+            // Don't try to get result in error state
+            assertEquals(ResultErrorCodes.BAD_REQUEST, error.getErrorCode().get());
+            assertEquals("User creation failed", error.getResultDetail().get().getDetail().getContent());
+        }
+    }
 }

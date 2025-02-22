@@ -22,58 +22,158 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * An extension to {@link CodeType} providing additional information like
- * {@link ConceptCategory} and augmented data. The augmented data is to be kept
- * in a {@link Map}-like structure with {@link Serializable} keys and values.
- * All implementations must be immutable because the approach is about
- * implementing a type-safe-enum pattern, therefore the concrete instances are
- * to be treated like constants. The concept is not about content data but
- * defining data-structures.
+ * Extends {@link CodeType} to provide a rich, immutable representation of concept keys
+ * with additional metadata support. This interface defines a type-safe enumeration pattern
+ * for handling concept-based data structures, particularly in medical and healthcare
+ * contexts.
+ *
+ * <p>Key Features:
+ * <ul>
+ *   <li>Category-based organization via {@link ConceptCategory}</li>
+ *   <li>Alias support for code mapping</li>
+ *   <li>Immutable key-value metadata storage</li>
+ *   <li>Natural ordering support</li>
+ *   <li>Type-safe enumeration pattern</li>
+ * </ul>
+ *
+ * <p>Design Principles:
+ * <ul>
+ *   <li>Immutability: All implementations must be immutable</li>
+ *   <li>Type Safety: Implements type-safe enumeration pattern</li>
+ *   <li>Metadata Support: Structured storage of additional information</li>
+ *   <li>Extensibility: Allows for category-specific implementations</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * public class DiagnosisKey implements ConceptKeyType {
+ *     private final String code;
+ *     private final Map&lt;String, String&gt; metadata;
+ *     private final Set&lt;String&gt; aliases;
+ *
+ *     public DiagnosisKey(String code, Map&lt;String, String&gt; metadata,
+ *             Set&lt;String&gt; aliases) {
+ *         this.code = requireNonNull(code);
+ *         this.metadata = new HashMap&lt;&gt;(metadata);
+ *         this.aliases = new HashSet&lt;&gt;(aliases);
+ *     }
+ *
+ *     &#64;Override
+ *     public ConceptCategory getCategory() {
+ *         return ConceptCategory.DIAGNOSIS;
+ *     }
+ *
+ *     &#64;Override
+ *     public Set&lt;String&gt; getAliases() {
+ *         return Collections.unmodifiableSet(aliases);
+ *     }
+ *
+ *     &#64;Override
+ *     public String get(String key, String defaultValue) {
+ *         return metadata.getOrDefault(key, defaultValue);
+ *     }
+ *
+ *     // ... other implementation methods
+ * }
+ * </pre>
+ *
+ * <p>Implementation Requirements:
+ * <ul>
+ *   <li>Must be immutable</li>
+ *   <li>Must handle null values appropriately</li>
+ *   <li>Should implement proper equals/hashCode</li>
+ *   <li>Should provide meaningful toString</li>
+ *   <li>Must maintain thread-safety</li>
+ * </ul>
  *
  * @author Oliver Wolff
+ * @since 1.0
+ * @see CodeType
+ * @see ConceptCategory
+ * @see Comparable
+ * @see Serializable
  */
 public interface ConceptKeyType extends CodeType, Comparable<ConceptKeyType> {
 
     /**
-     * @return the {@link ConceptCategory} this {@link ConceptKeyType} is related
-     *         to. Must never be <code>null</code>
+     * Returns the category to which this concept key belongs. The category
+     * defines the semantic context and available operations for this concept.
+     *
+     * <p>Categories help in:
+     * <ul>
+     *   <li>Organizing concepts by domain</li>
+     *   <li>Determining available operations</li>
+     *   <li>Validating relationships</li>
+     *   <li>Filtering and grouping</li>
+     * </ul>
+     *
+     * @return the category of this concept, never null
+     * @see ConceptCategory
      */
     ConceptCategory getCategory();
 
     /**
-     * @return a set of aliases for this code. Defines whether this code maps to
-     *         another identifier of the same category
+     * Returns the set of alternative identifiers (aliases) for this concept.
+     * Aliases enable mapping between different coding systems or historical
+     * identifiers for the same concept.
+     *
+     * <p>Common uses include:
+     * <ul>
+     *   <li>Legacy system compatibility</li>
+     *   <li>Cross-system mapping</li>
+     *   <li>Alternative code support</li>
+     *   <li>Version compatibility</li>
+     * </ul>
+     *
+     * @return an unmodifiable set of aliases, never null but may be empty
      */
     Set<String> getAliases();
 
     /**
-     * @param key          identifying the content must not be null nor empty.
-     * @param defaultValue optional element that will be returned if there is no
-     *                     entry for the given key.
-     * @return the object stored under the given key or the defaultValue, if nothing
-     *         is stored under the key.
+     * Retrieves a metadata value for the specified key, with a fallback default value.
+     * This method provides safe access to the concept's metadata with graceful
+     * handling of missing values.
+     *
+     * @param key identifying the content, must not be null or empty
+     * @param defaultValue to return if no value exists for the key
+     * @return the value associated with the key, or defaultValue if none exists
+     * @throws IllegalArgumentException if key is null or empty
      */
     String get(String key, String defaultValue);
 
     /**
-     * @param key identifying the content must not be null nor empty.
-     * @return the object stored under the given key or null if nothing is stored
-     *         under the key.
+     * Retrieves a metadata value for the specified key. This is a convenience
+     * method equivalent to calling {@link #get(String, String)} with null as
+     * the default value.
+     *
+     * @param key identifying the content, must not be null or empty
+     * @return the value associated with the key, or null if none exists
+     * @throws IllegalArgumentException if key is null or empty
      */
     String get(String key);
 
     /**
-     * @param key identifying the content must not be null nor empty.
-     * @return Returns <code>true</code> if the map contains a mapping for the
-     *         specified key <code>false</code> if not.
+     * Checks if this concept contains metadata for the specified key.
+     *
+     * @param key identifying the content, must not be null or empty
+     * @return true if the concept contains metadata for the key, false otherwise
+     * @throws IllegalArgumentException if key is null or empty
      */
     boolean containsKey(String key);
 
     /**
-     * Returns a {@link Set} view of the mappings contained in the map. The set is
-     * never <code>null</code> but may be empty.
+     * Provides access to all metadata entries associated with this concept.
+     * The returned set is unmodifiable to maintain immutability.
      *
-     * @return a set view of the mappings contained in this map
+     * <p>The entries can be used for:
+     * <ul>
+     *   <li>Metadata iteration</li>
+     *   <li>Bulk processing</li>
+     *   <li>Data export</li>
+     *   <li>Debugging</li>
+     * </ul>
+     *
+     * @return an unmodifiable set of metadata entries, never null but may be empty
      */
     Set<Map.Entry<String, String>> entrySet();
 }

@@ -11,20 +11,98 @@ Gate Status]]
 image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-core-ui-model&metric=ncloc[Lines of Code,link=https://sonarcloud.io/summary/new_code?id=cuioss_cui-core-ui-model]
 image:https://sonarcloud.io/api/project_badges/measure?project=cuioss_cui-core-ui-model&metric=coverage[Coverage,link=https://sonarcloud.io/summary/new_code?id=cuioss_cui-core-ui-model]
 
-
 https://cuioss.github.io/cui-core-ui-model/about.html[Generated Documentation on github-pages]
 
 == What is it?
 
-Defines types and structures simplifying the integration of server-side ui 
+The cui-core-ui-model library provides a comprehensive set of framework-agnostic UI model components designed for building robust and maintainable user interface applications. It offers core functionality that can be used independently of JSF or any other web framework.
+
+== Key Features
+
+=== Result Handling Framework
+* Type-safe wrapper for operation results (`ResultObject`)
+* Standardized error codes and states
+* Comprehensive error detail support
+* Builder pattern for fluent API usage
+* Integration with message bundles
+
+=== Name Provider System
+* Consistent handling of display names
+* Internationalization support
+* Message formatting capabilities
+* Type-safe message parameter handling
+
+=== Service Integration
+* Standardized service state management
+* Optional-based service access
+* Thread-safe operations
+* Error handling patterns
+
+=== Application Support
+* Project stage management
+* Authentication handling
+* Core application components
+
+== Getting Started
 
 === Maven Coordinates
 
 [source,xml]
 ----
-    <dependency>
-        <groupId>de.cuioss</groupId>
-        <artifactId>cui-core-ui-model</artifactId>
-    </dependency>
+<dependency>
+    <groupId>de.cuioss</groupId>
+    <artifactId>cui-core-ui-model</artifactId>
+</dependency>
 ----
+
+=== Basic Usage Example
+
+[source,java]
+----
+// Create a result with the builder pattern
+ResultObject<User> result = ResultObject.builder()
+    .result(user)
+    .state(ResultState.VALID)
+    .build();
+
+// Handle different result states
+if (result.isValid()) {
+    User user = result.getResult();
+    // Process valid result
+} else {
+    result.getResultDetail().ifPresent(detail -> 
+        // Handle error with appropriate UI feedback
+        messageProducer.addError(detail));
+}
+----
+
+== Design Principles
+
+* *Framework Independence*: Components work without specific UI frameworks
+* *Type Safety*: Strong typing to catch errors at compile time
+* *Immutability*: Thread-safe and side-effect free operations
+* *Builder Pattern*: Fluent APIs for object construction
+* *Consistent Error Handling*: Standardized approach to error management
+
+== Documentation
+
+=== Core Packages
+
+* `de.cuioss.uimodel.result`: Result handling framework
+* `de.cuioss.uimodel.nameprovider`: Display name and message handling
+* `de.cuioss.uimodel.service`: Service integration patterns
+* `de.cuioss.uimodel.application`: Application lifecycle support
+
+=== Key Components
+
+* `ResultObject`: Type-safe wrapper for operation results
+* `DisplayMessageProvider`: Localized message handling
+* `OptionalService`: Null-safe service access
+* `CuiProjectStage`: Application lifecycle management
+
+For detailed documentation, please refer to:
+
+* https://cuioss.github.io/cui-core-ui-model/about.html[Generated Documentation]
+* JavaDoc documentation in the source code
+* Unit tests demonstrating usage patterns
 

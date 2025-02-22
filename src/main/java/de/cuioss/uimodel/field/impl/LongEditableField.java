@@ -20,9 +20,29 @@ import de.cuioss.uimodel.field.DynamicFieldType;
 import java.io.Serial;
 
 /**
- * An input field where the user can type in a number.
+ * Concrete implementation of {@link BaseDynamicField} for long integer values,
+ * designed for numeric input scenarios requiring whole numbers beyond the
+ * {@link Integer} range.
+ *
+ * <p>Features:
+ * <ul>
+ *   <li>Handles long values from {@link Long#MIN_VALUE} to {@link Long#MAX_VALUE}</li>
+ *   <li>Supports null values for optional numeric fields</li>
+ *   <li>Automatically uses {@link DynamicFieldType#LONG}</li>
+ *   <li>Suitable for large numeric values like timestamps or IDs</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * // Create an editable field with initial value using factory
+ * DynamicField<Long> field = DynamicFieldType.LONG.createDynamicField(System.currentTimeMillis(), true);
+ *
+ * // Create an empty editable field using factory
+ * DynamicField<Long> emptyField = DynamicFieldType.LONG.createDynamicField(null, true);
+ * </pre>
  *
  * @author Oliver Wolff
+ * @since 1.0
  */
 public class LongEditableField extends BaseDynamicField<Long> {
 
@@ -30,22 +50,22 @@ public class LongEditableField extends BaseDynamicField<Long> {
     private static final long serialVersionUID = 1576605569211546203L;
 
     /**
-     * C'tor.
+     * Constructs a new long field with the specified editability.
+     * The initial value will be null.
      *
-     * @param editable If the input field is editable.
+     * @param editable Whether the field should be editable
      */
     public LongEditableField(final boolean editable) {
         super(editable, DynamicFieldType.LONG);
     }
 
     /**
-     * C'tor.
+     * Constructs a new long field with the specified value and editability.
      *
-     * @param value    The value of the input field
-     * @param editable If the value is editable
+     * @param value    The initial long value, may be null
+     * @param editable Whether the field should be editable
      */
     public LongEditableField(final Long value, final boolean editable) {
         super(value, editable, DynamicFieldType.LONG);
     }
-
 }

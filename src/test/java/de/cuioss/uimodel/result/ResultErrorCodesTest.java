@@ -21,6 +21,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("ResultErrorCodes Tests")
 class ResultErrorCodesTest {
@@ -45,6 +46,82 @@ class ResultErrorCodesTest {
 
             // Assert
             assertEquals(expected, actual);
+        }
+    }
+
+    @Nested
+    @DisplayName("Javadoc example tests")
+    class JavadocExampleTests {
+        
+        @org.junit.jupiter.api.Test
+        @DisplayName("Should demonstrate basic error code usage")
+        void shouldDemonstrateBasicErrorCodeUsage() {
+            // Given: A repository result
+            var user = new TestUser("123", "John Doe");
+            
+            // When: User is not found
+            var notFoundResult = findUser("456");
+            
+            // Then: Not found error is returned
+            assertEquals(ResultErrorCodes.NOT_FOUND, notFoundResult.getErrorCode().get());
+            assertEquals("User not found", notFoundResult.getResultDetail().get().getDetail().getContent());
+            
+            // When: Security exception occurs
+            var securityResult = findUserWithSecurityException("123");
+            
+            // Then: Not authorized error is returned
+            assertEquals(ResultErrorCodes.NOT_AUTHORIZED, securityResult.getErrorCode().get());
+            assertEquals("Access denied", securityResult.getResultDetail().get().getDetail().getContent());
+            
+            // When: User is found
+            var foundResult = findUser("123");
+            
+            // Then: Success result is returned
+            assertTrue(foundResult.isValid());
+            assertEquals(user.getId(), ((TestUser)foundResult.getResult()).getId());
+        }
+        
+        private ResultObject<?> findUser(String id) {
+            if ("123".equals(id)) {
+                return ResultObject.builder()
+                    .result(new TestUser("123", "John Doe"))
+                    .state(ResultState.VALID)
+                    .build();
+            }
+            return ResultObject.builder()
+                .validDefaultResult(new TestUser("", ""))
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("User not found")))
+                .errorCode(ResultErrorCodes.NOT_FOUND)
+                .build();
+        }
+        
+        private ResultObject<?> findUserWithSecurityException(String id) {
+            return ResultObject.builder()
+                .validDefaultResult(new TestUser("", ""))
+                .state(ResultState.ERROR)
+                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Access denied")))
+                .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+                .build();
+        }
+        
+        private static class TestUser implements java.io.Serializable {
+            private static final long serialVersionUID = 1L;
+            private final String id;
+            private final String name;
+            
+            TestUser(String id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+            
+            String getId() {
+                return id;
+            }
+            
+            String getName() {
+                return name;
+            }
         }
     }
 }
