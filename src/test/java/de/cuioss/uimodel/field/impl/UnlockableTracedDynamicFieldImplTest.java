@@ -15,46 +15,88 @@
  */
 package de.cuioss.uimodel.field.impl;
 
+import de.cuioss.uimodel.field.UnlockableTracedDynamicField;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.uimodel.field.UnlockableTracedDynamicField;
-
+@DisplayName("Unlockable Traced Dynamic Field Tests")
 class UnlockableTracedDynamicFieldImplTest {
 
     private static final String DEFAULT_VALUE = "default";
     private static final String SOME_VALUE = "value";
 
-    @Test
-    void shouldReset() {
-        UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
-        underTest.setValue(SOME_VALUE);
-        assertEquals(SOME_VALUE, underTest.getValue());
-        underTest.resetValue();
-        assertEquals(DEFAULT_VALUE, underTest.getValue());
+    @Nested
+    @DisplayName("Value Management Tests")
+    class ValueManagementTests {
+
+        @Test
+        @DisplayName("Should reset value to default")
+        void shouldReset() {
+            // Arrange
+            UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
+            
+            // Act
+            underTest.setValue(SOME_VALUE);
+            
+            // Assert
+            assertEquals(SOME_VALUE, underTest.getValue());
+            
+            // Act
+            underTest.resetValue();
+            
+            // Assert
+            assertEquals(DEFAULT_VALUE, underTest.getValue());
+        }
+
+        @Test
+        @DisplayName("Should track changed state")
+        void shouldServeChangedState() {
+            // Arrange
+            UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
+            
+            // Act
+            underTest.setValue(SOME_VALUE);
+            
+            // Assert
+            assertTrue(underTest.isChanged());
+            
+            // Act
+            underTest.resetValue();
+            
+            // Assert
+            assertFalse(underTest.isChanged());
+        }
     }
 
-    @Test
-    void shouldServeChangedState() {
-        UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
-        underTest.setValue(SOME_VALUE);
-        assertTrue(underTest.isChanged());
-        underTest.resetValue();
-        assertFalse(underTest.isChanged());
-    }
+    @Nested
+    @DisplayName("Availability Tests")
+    class AvailabilityTests {
 
-    @Test
-    void shouldBeAvailableOnValue() {
-        UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(null, true);
-        assertFalse(underTest.isAvailable());
-        underTest.setValue(SOME_VALUE);
-        assertTrue(underTest.isAvailable());
+        @Test
+        @DisplayName("Should determine availability based on value")
+        void shouldBeAvailableOnValue() {
+            // Arrange & Act
+            UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(null, true);
+            
+            // Assert
+            assertFalse(underTest.isAvailable());
+            
+            // Act
+            underTest.setValue(SOME_VALUE);
+            
+            // Assert
+            assertTrue(underTest.isAvailable());
 
-        underTest = new UnlockableTracedDynamicFieldImpl<>(SOME_VALUE, true);
-        assertTrue(underTest.isAvailable());
+            // Arrange & Act
+            underTest = new UnlockableTracedDynamicFieldImpl<>(SOME_VALUE, true);
+            
+            // Assert
+            assertTrue(underTest.isAvailable());
+        }
     }
 }

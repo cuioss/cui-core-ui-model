@@ -15,6 +15,24 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.generator.TypedGenerator;
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
+import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyBuilderConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import de.cuioss.test.valueobjects.property.util.CollectionType;
+import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
+import de.cuioss.uimodel.model.conceptkey.impl.ConceptCategoryGenerator.TestCodeCategory;
+import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
+import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_COLLECTION_AND_SINGLE_ELEMENT;
 import static de.cuioss.tools.collect.CollectionLiterals.mutableSet;
 import static de.cuioss.tools.property.PropertyReadWrite.WRITE_ONLY;
@@ -30,26 +48,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.generator.TypedGenerator;
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
-import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyBuilderConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-import de.cuioss.test.valueobjects.property.util.CollectionType;
-import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
-import de.cuioss.uimodel.model.conceptkey.impl.ConceptCategoryGenerator.TestCodeCategory;
-import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
 
 @PropertyConfig(name = "identifier", propertyClass = String.class)
 @PropertyConfig(name = "category", propertyClass = ConceptCategory.class, generator = ConceptCategoryGenerator.class)

@@ -15,16 +15,16 @@
  */
 package de.cuioss.uimodel.result;
 
-import static java.util.Objects.requireNonNull;
+import de.cuioss.tools.logging.CuiLogger;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Function;
 
-import de.cuioss.tools.logging.CuiLogger;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A {@link ResultObject} that can store results that are not mandatory from the

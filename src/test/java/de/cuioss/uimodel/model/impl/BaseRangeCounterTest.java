@@ -15,89 +15,98 @@
  */
 package de.cuioss.uimodel.model.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.contracts.VerifyCopyConstructor;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.uimodel.model.RangeCounter;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DisplayName("Tests BaseRangeCounter Implementation")
 @PropertyReflectionConfig(of = {"count", "totalCount"})
 @VerifyConstructor(of = {"count", "totalCount"})
 @VerifyCopyConstructor(argumentType = RangeCounter.class)
 class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
 
-    @Test
-    void baseRangeCounterRangeCounter() {
+    @Nested
+    @DisplayName("Constructor and Copy Tests")
+    class ConstructorTests {
 
-        final var count = 10;
-        final var totalCount = 100;
-        var checkCount = 0;
+        @Test
+        @DisplayName("Should create and copy with valid counts")
+        void shouldCreateAndCopyWithValidCounts() {
+            // Arrange
+            final var count = 10;
+            final var totalCount = 100;
 
-        final var baserangeCounter = new BaseRangeCounter(count, totalCount);
-        final var baserangeCounter2 = new BaseRangeCounter(baserangeCounter);
-        checkCount = baserangeCounter2.getCount();
+            // Act
+            final var baseRangeCounter = new BaseRangeCounter(count, totalCount);
+            final var copiedCounter = new BaseRangeCounter(baseRangeCounter);
 
-        assertEquals(count, checkCount);
-        assertTrue(baserangeCounter2.isCountAvailable());
-        assertTrue(baserangeCounter.isTotalCountAvailable());
-        assertFalse(baserangeCounter.isSingleValueOnly());
-        assertTrue(baserangeCounter.isComplete());
-        assertFalse(baserangeCounter.isEmpty());
+            // Assert
+            assertEquals(count, copiedCounter.getCount());
+            assertTrue(copiedCounter.isCountAvailable());
+            assertTrue(baseRangeCounter.isTotalCountAvailable());
+            assertFalse(baseRangeCounter.isSingleValueOnly());
+            assertTrue(baseRangeCounter.isComplete());
+            assertFalse(baseRangeCounter.isEmpty());
+        }
 
+        @Test
+        @DisplayName("Should handle null values")
+        void shouldHandleNullValues() {
+            // Arrange & Act
+            final var baseRangeCounter = new BaseRangeCounter(null, null);
+
+            // Assert
+            assertFalse(baseRangeCounter.isCountAvailable());
+            assertFalse(baseRangeCounter.isTotalCountAvailable());
+            assertFalse(baseRangeCounter.isSingleValueOnly());
+            assertTrue(baseRangeCounter.isEmpty());
+            assertFalse(baseRangeCounter.isComplete());
+        }
+
+        @Test
+        @DisplayName("Should handle zero values")
+        void shouldHandleZeroValues() {
+            // Arrange & Act
+            final var baseRangeCounter = new BaseRangeCounter(0, 0);
+
+            // Assert
+            assertTrue(baseRangeCounter.isCountAvailable());
+            assertFalse(baseRangeCounter.isEmpty());
+            assertFalse(baseRangeCounter.isSingleValueOnly());
+            assertTrue(baseRangeCounter.isComplete());
+        }
     }
 
-    @Test
-    void baseRangeCounterRangeCounter2() {
+    @Nested
+    @DisplayName("Single Value Tests")
+    class SingleValueTests {
 
-        final var baserangeCounter = new BaseRangeCounter(null, null);
+        @ParameterizedTest(name = "count={0}, totalCount={1}")
+        @DisplayName("Should detect single value cases")
+        @CsvSource({
+            "1, ''",
+            "'', 0"
+        })
+        void shouldDetectSingleValue(String count, String totalCount) {
+            // Arrange & Act
+            final var baseRangeCounter = new BaseRangeCounter(
+                count.isEmpty() ? null : Integer.parseInt(count),
+                totalCount.isEmpty() ? null : Integer.parseInt(totalCount)
+            );
 
-        assertFalse(baserangeCounter.isCountAvailable());
-        assertFalse(baserangeCounter.isTotalCountAvailable());
-        assertFalse(baserangeCounter.isSingleValueOnly());
-        assertTrue(baserangeCounter.isEmpty());
-        assertFalse(baserangeCounter.isComplete());
-
-    }
-
-    @Test
-    void baseRangeCounterRangeCounter3() {
-
-        final var count = 0;
-        final var totalCount = 0;
-
-        final var baserangeCounter = new BaseRangeCounter(count, totalCount);
-
-        assertTrue(baserangeCounter.isCountAvailable());
-        assertFalse(baserangeCounter.isEmpty());
-        assertFalse(baserangeCounter.isSingleValueOnly());
-        assertTrue(baserangeCounter.isComplete());
-
-    }
-
-    @Test
-    void baseRangeCounterRangeCounter4() {
-
-        final var count = 1;
-
-        final var baserangeCounter = new BaseRangeCounter(count, null);
-
-        assertTrue(baserangeCounter.isSingleValueOnly());
-
-    }
-
-    @Test
-    void baseRangeCounterRangeCounter5() {
-        final var totalCount = 0;
-        final var baserangeCounter = new BaseRangeCounter(null, totalCount);
-
-        assertTrue(baserangeCounter.isSingleValueOnly());
-
+            // Assert
+            assertTrue(baseRangeCounter.isSingleValueOnly());
+        }
     }
 }

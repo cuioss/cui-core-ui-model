@@ -15,19 +15,20 @@
  */
 package de.cuioss.uimodel.model.code;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Locale;
-
-
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.tools.property.PropertyReadWrite;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@DisplayName("Tests CodeType Implementation")
 @PropertyConfig(name = CodeTypeImplTest.RESOLVED, propertyClass = String.class, propertyReadWrite = PropertyReadWrite.WRITE_ONLY)
 @VerifyConstructor(of = CodeTypeImplTest.IDENTIFIER, required = CodeTypeImplTest.IDENTIFIER)
 // Resolved is used as identifier
@@ -39,24 +40,46 @@ class CodeTypeImplTest extends ValueObjectTest<CodeTypeImpl> {
     protected static final String RESOLVED = "resolved";
     protected static final String IDENTIFIER = "identifier";
 
-    @Test
-    void shouldCreateWithSimpleConstructor() {
-        final var type = new CodeTypeImpl(RESOLVED);
-        assertEquals(RESOLVED, type.getResolved(Locale.ENGLISH));
-        assertEquals(RESOLVED, type.getIdentifier());
+    @Nested
+    @DisplayName("Constructor Tests")
+    class ConstructorTests {
+
+        @Test
+        @DisplayName("Should create with simple constructor")
+        void shouldCreateWithSimpleConstructor() {
+            // Arrange & Act
+            final var type = new CodeTypeImpl(RESOLVED);
+
+            // Assert
+            assertEquals(RESOLVED, type.getResolved(Locale.ENGLISH));
+            assertEquals(RESOLVED, type.getIdentifier());
+        }
+
+        @Test
+        @DisplayName("Should create with standard constructor")
+        void shouldCreateWithStandardConstructor() {
+            // Arrange & Act
+            final var type = new CodeTypeImpl(RESOLVED, IDENTIFIER);
+
+            // Assert
+            assertEquals(RESOLVED, type.getResolved(Locale.ENGLISH));
+            assertEquals(IDENTIFIER, type.getIdentifier());
+        }
     }
 
-    @Test
-    void shouldCreateWithStandardConstructor() {
-        final var type = new CodeTypeImpl(RESOLVED, IDENTIFIER);
-        assertEquals(RESOLVED, type.getResolved(Locale.ENGLISH));
-        assertEquals(IDENTIFIER, type.getIdentifier());
-    }
+    @Nested
+    @DisplayName("Locale Handling Tests")
+    class LocaleHandlingTests {
 
-    @Test
-    void shouldIgnoreLocale() {
-        final var type = new CodeTypeImpl(RESOLVED, IDENTIFIER);
-        assertEquals(RESOLVED, type.getResolved(null));
-        assertEquals(IDENTIFIER, type.getIdentifier());
+        @Test
+        @DisplayName("Should ignore locale parameter")
+        void shouldIgnoreLocale() {
+            // Arrange
+            final var type = new CodeTypeImpl(RESOLVED, IDENTIFIER);
+
+            // Act & Assert
+            assertEquals(RESOLVED, type.getResolved(null));
+            assertEquals(IDENTIFIER, type.getIdentifier());
+        }
     }
 }

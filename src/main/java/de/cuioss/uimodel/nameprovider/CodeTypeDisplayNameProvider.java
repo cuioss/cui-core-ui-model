@@ -15,14 +15,14 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import java.io.Serial;
-
 import de.cuioss.uimodel.model.code.CodeType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
 
 /**
  * Instance of IDisplayNameProvider which indicates to provide display key that

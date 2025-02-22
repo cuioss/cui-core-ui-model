@@ -1,18 +1,3 @@
-/*
- * Copyright 2023 the original author or authors.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package de.cuioss.uimodel.nameprovider;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
@@ -20,6 +5,8 @@ import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider.Builder;
 import de.cuioss.uimodel.nameprovider.testdata.ConfiguredDataGenerator;
 import de.cuioss.uimodel.nameprovider.testdata.DemoTransformationFunction;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -32,10 +19,9 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
+@DisplayName("Tests I18nDisplayNameProvider Implementation")
 @PropertyReflectionConfig(skip = true)
 class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvider> {
 
@@ -47,134 +33,166 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
         return new I18nDisplayNameProvider(imported, null);
     }
 
-    @Test
-    void shouldReactOnWrongParameter() {
+    @Nested
+    @DisplayName("Builder Tests")
+    class BuilderTests {
 
-        final var builder = createBuilder();
+        @Test
+        @DisplayName("Should handle invalid parameters")
+        void shouldReactOnWrongParameter() {
+            // Arrange
+            final var builder = createBuilder();
 
-        // map must not be null
-        try {
-            builder.addAll(null);
-            fail();
-        } catch (final IllegalArgumentException e) {
-            assertThat(e.getMessage(), containsString("Map must not be null."));
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class,
+                () -> builder.addAll(null),
+                "Map must not be null.");
+        }
+
+        @Test
+        @DisplayName("Should create provider with valid initialization")
+        void shouldCreateProviderOnValidInitialization() {
+            // Arrange
+            final var builder = createBuilder();
+            builder.add(Locale.ENGLISH, "[en] text");
+            builder.add(Locale.GERMAN, "[de] text");
+
+            // Act
+            final var provider = builder.build();
+
+            // Assert - IDisplayNameProvider API usage
+            assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
+            assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
+            assertThat(provider.getContent().get(Locale.GERMANY), is(nullValue()));
+
+            // Assert - shortcut method usage
+            assertThat(provider.lookupTextFor(Locale.ENGLISH), is("[en] text"));
+            assertThat(provider.lookupTextFor(Locale.GERMAN), is("[de] text"));
+            assertThat(provider.lookupTextFor(Locale.GERMANY), is(nullValue()));
+        }
+
+        @Test
+        @DisplayName("Should create provider with transformation")
+        void shouldCreateProviderWithTransformation() {
+            // Arrange
+            final var data = new ConfiguredDataGenerator().next();
+            final var transformationFunction = new DemoTransformationFunction();
+
+            // Act
+            final var provider = createBuilder()
+                .transformAndAddAll(data, transformationFunction)
+                .build();
+
+            // Assert
+            assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
+            assertThat(provider.getContent().get(Locale.UK), is("[en_GB] text"));
+            assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
+            assertThat(provider.getContent().get(Locale.GERMANY), is("[de_DE] text"));
         }
     }
 
-    @Test
-    void shouldCreateProviderOnValidInitialization() {
-        final var builder = createBuilder();
+    @Nested
+    @DisplayName("Lookup Tests")
+    class LookupTests {
 
-        builder.add(Locale.ENGLISH, "[en] text");
-        builder.add(Locale.GERMAN, "[de] text");
+        @Test
+        @DisplayName("Should provide fallback lookup")
+        void shouldProvideFallbackLookup() {
+            // Arrange
+            final var builder = createBuilder();
+            builder.add(Locale.UK, "[en_GB] text");
+            builder.add(Locale.GERMANY, "[de_DE] text");
+            final var provider = builder.build();
 
-        final var provider = builder.build();
+            // Assert - shortcut method usage
+            assertThat(provider.lookupTextFor(Locale.GERMANY), is("[de_DE] text"));
+            assertThat(provider.lookupTextFor(Locale.UK), is("[en_GB] text"));
+            assertThat(provider.lookupTextFor(Locale.ENGLISH), is(nullValue()));
+            assertThat(provider.lookupTextFor(Locale.GERMAN), is(nullValue()));
 
-        // IDisplayNameProvider api usage
-        assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
-        assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
-        assertThat(provider.getContent().get(Locale.GERMANY), is(nullValue()));
+            // Assert - shortcut method with fallback
+            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
+            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
+            assertThat(provider.lookupTextFor(Locale.CHINESE), is(nullValue()));
+        }
 
-        // short cut method usage
-        assertThat(provider.lookupTextFor(Locale.ENGLISH), is("[en] text"));
-        assertThat(provider.lookupTextFor(Locale.GERMAN), is("[de] text"));
-        assertThat(provider.lookupTextFor(Locale.GERMANY), is(nullValue()));
+        @Test
+        @DisplayName("Should provide default label")
+        void shouldProvideDefaultLabel() {
+            // Arrange
+            final var builder = createBuilder();
+            builder.add(Locale.UK, "[en_GB] text");
+            builder.add(Locale.GERMANY, "[de_DE] text");
+            builder.defaultValue("default");
+            final var provider = builder.build();
+
+            // Assert
+            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
+            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
+            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.CHINESE), is("default"));
+        }
     }
 
-    @Test
-    void shouldCreateProviderWithTransformation() {
-        final var data = new ConfiguredDataGenerator().next();
-        final var transformationFunction = new DemoTransformationFunction();
+    @Nested
+    @DisplayName("Error Handling Tests")
+    class ErrorHandlingTests {
 
-        final var provider = createBuilder().transformAndAddAll(data, transformationFunction).build();
+        @Test
+        @DisplayName("Should throw exception for null locale")
+        void shouldThrowExceptionForNullLocale() {
+            // Arrange
+            final var builder = createBuilder();
 
-        assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
-        assertThat(provider.getContent().get(Locale.UK), is("[en_GB] text"));
-        assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
-        assertThat(provider.getContent().get(Locale.GERMANY), is("[de_DE] text"));
-    }
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class, () -> builder.add(null, "[en] text"));
+        }
 
-    @Test
-    void shouldProvideFallbackLookup() {
-        final var builder = createBuilder();
+        @Test
+        @DisplayName("Should throw exception for null entry in set")
+        void shouldThrowExceptionForNullEntry() {
+            // Arrange
+            final Set<Entry<Locale, String>> set = new HashSet<>();
+            set.add(null);
+            final var builder = createBuilder();
 
-        builder.add(Locale.UK, "[en_GB] text");
-        builder.add(Locale.GERMANY, "[de_DE] text");
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class, () -> builder.add(set));
+        }
 
-        final var provider = builder.build();
+        @Test
+        @DisplayName("Should throw exception for null lookup locale")
+        void shouldThrowExceptionForNullLookupLocale() {
+            // Arrange
+            final Map<Locale, String> imported = new HashMap<>();
+            imported.put(Locale.FRENCH, "[fr] text");
+            final var provider = new I18nDisplayNameProvider(imported, null);
 
-        // shortcut method usage
-        assertThat(provider.lookupTextFor(Locale.GERMANY), is("[de_DE] text"));
-        assertThat(provider.lookupTextFor(Locale.UK), is("[en_GB] text"));
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class, () -> provider.lookupTextFor(null));
+        }
 
-        assertThat(provider.lookupTextFor(Locale.ENGLISH), is(nullValue()));
-        assertThat(provider.lookupTextFor(Locale.GERMAN), is(nullValue()));
+        @Test
+        @DisplayName("Should throw exception for null fallback lookup locale")
+        void shouldThrowExceptionForNullFallbackLookupLocale() {
+            // Arrange
+            final Map<Locale, String> imported = new HashMap<>();
+            imported.put(Locale.FRENCH, "[fr] text");
+            final var provider = new I18nDisplayNameProvider(imported, null);
 
-        // shortcut method with fallback
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
-        assertThat(provider.lookupTextFor(Locale.CHINESE), is(nullValue()));
-    }
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class,
+                    () -> provider.lookupTextWithFallbackFirstFittingLanguageOnly(null));
+        }
 
-    @Test
-    void shouldProvideDefaultLabel() {
-        final var builder = createBuilder();
+        @Test
+        @DisplayName("Should throw exception for null set")
+        void shouldThrowExceptionForNullSet() {
+            // Arrange
+            final var builder = createBuilder();
 
-        builder.add(Locale.UK, "[en_GB] text");
-        builder.add(Locale.GERMANY, "[de_DE] text");
-        builder.defaultValue("default");
-
-        final var provider = builder.build();
-
-        // short cut method with fallback
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
-        assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.CHINESE), is("default"));
-    }
-
-    @Test
-    void shouldThrowException() {
-        final var builder = createBuilder();
-        assertThrows(IllegalArgumentException.class, () -> builder.add(null, "[en] text"));
-    }
-
-    @Test
-    void shouldThrowException2() {
-        final Set<Entry<Locale, String>> set = new HashSet<>();
-        set.add(null);
-        final var builder = createBuilder();
-        assertThrows(IllegalArgumentException.class, () -> builder.add(set));
-    }
-
-    @Test
-    void shouldThrowException3() {
-        final Map<Locale, String> imported = new HashMap<>();
-        imported.put(Locale.FRENCH, "[fr] text");
-        imported.put(Locale.FRENCH, "[fr] text");
-        final var displayNameProvider = new I18nDisplayNameProvider(imported, null);
-        assertThrows(IllegalArgumentException.class, () -> displayNameProvider.lookupTextFor(null));
-
-    }
-
-    @Test
-    void shouldThrowException4() {
-
-        final Map<Locale, String> imported = new HashMap<>();
-        imported.put(Locale.FRENCH, "[fr] text");
-        imported.put(Locale.FRENCH, "[fr] text");
-        final var displayNameProvider = new I18nDisplayNameProvider(imported, null);
-        assertThrows(IllegalArgumentException.class,
-                () -> displayNameProvider.lookupTextWithFallbackFirstFittingLanguageOnly(null));
-
-    }
-
-    @Test
-    void shouldThrowException6() {
-
-        final Set<Entry<Locale, String>> set = null;
-        final var builder = createBuilder();
-        assertThrows(IllegalArgumentException.class, () -> builder.add(set));
-
+            // Act & Assert
+            assertThrows(IllegalArgumentException.class, () -> builder.add((Set<Entry<Locale, String>>) null));
+        }
     }
 
     private static Builder createBuilder() {

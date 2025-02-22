@@ -15,10 +15,10 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
+import de.cuioss.test.generator.TypedGenerator;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import de.cuioss.test.generator.TypedGenerator;
 
 @SuppressWarnings({"rawtypes"})
 public class AugmentationMapGenerator implements TypedGenerator<Map> {

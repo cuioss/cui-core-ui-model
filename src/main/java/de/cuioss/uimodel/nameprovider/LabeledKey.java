@@ -15,21 +15,21 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import static de.cuioss.tools.string.MoreStrings.emptyToNull;
-import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Singular;
 import lombok.ToString;
 import lombok.Value;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+
+import static de.cuioss.tools.string.MoreStrings.emptyToNull;
+import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Instance of IDisplayNameProvider which indicates to provide display key that

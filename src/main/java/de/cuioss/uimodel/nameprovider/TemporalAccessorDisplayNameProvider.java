@@ -15,14 +15,14 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import java.io.Serial;
-import java.time.temporal.TemporalAccessor;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.time.temporal.TemporalAccessor;
 
 /**
  * Displays instances of {@link TemporalAccessor}

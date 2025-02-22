@@ -15,16 +15,15 @@
  */
 package de.cuioss.uimodel.result;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @PropertyReflectionConfig(skip = true)
 @DisplayName("ResultDetail Tests")

@@ -15,9 +15,9 @@
  */
 package de.cuioss.uimodel.field.impl;
 
-import java.io.Serial;
-
 import de.cuioss.uimodel.field.DynamicFieldType;
+
+import java.io.Serial;
 
 /**
  * An input field where the user can type in a {@link Float}.

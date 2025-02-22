@@ -15,11 +15,6 @@
  */
 package de.cuioss.uimodel.field;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-
-import java.io.Serializable;
-import java.util.Set;
-
 import de.cuioss.uimodel.field.impl.BooleanEditableField;
 import de.cuioss.uimodel.field.impl.DoubleEditableField;
 import de.cuioss.uimodel.field.impl.FloatEditableField;
@@ -29,6 +24,11 @@ import de.cuioss.uimodel.field.impl.StringEditableField;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
 
 /**
  * Runtime information of {@link DynamicField} regarding the concrete wrapped

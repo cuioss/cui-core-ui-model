@@ -15,10 +15,13 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableMap;
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-import static de.cuioss.tools.string.MoreStrings.emptyToNull;
-import static java.util.Objects.requireNonNull;
+import de.cuioss.uimodel.model.code.CodeType;
+import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
+import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
+import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.util.HashMap;
@@ -27,13 +30,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.cuioss.uimodel.model.code.CodeType;
-import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
-import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
-import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableMap;
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
+import static de.cuioss.tools.string.MoreStrings.emptyToNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * <p>

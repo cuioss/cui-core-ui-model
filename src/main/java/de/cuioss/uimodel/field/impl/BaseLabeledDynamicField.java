@@ -15,9 +15,6 @@
  */
 package de.cuioss.uimodel.field.impl;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 import de.cuioss.uimodel.field.DynamicField;
 import de.cuioss.uimodel.field.DynamicFieldType;
 import de.cuioss.uimodel.field.LabeledDynamicField;
@@ -26,6 +23,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author Matthias Walliczek

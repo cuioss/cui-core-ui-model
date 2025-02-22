@@ -15,17 +15,17 @@
  */
 package de.cuioss.uimodel.field.impl;
 
-import static java.util.Objects.requireNonNull;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Objects;
-
 import de.cuioss.uimodel.field.DynamicField;
 import de.cuioss.uimodel.field.DynamicFieldType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Base implementation for {@link DynamicField}

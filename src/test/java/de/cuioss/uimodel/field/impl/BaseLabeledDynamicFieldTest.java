@@ -20,7 +20,9 @@ import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
 import de.cuioss.test.valueobjects.api.property.PropertyConfig;
 import de.cuioss.uimodel.field.DynamicField;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Base Labeled Dynamic Field Tests")
 @PropertyGenerator(BaseDynamicFieldGenerator.class)
 @PropertyConfig(name = "delegate", propertyClass = DynamicField.class)
 @VerifyConstructor(of = {"delegate", "identifier", "labelKey", "advisoryKey"}, writeOnly = "delegate", required = {

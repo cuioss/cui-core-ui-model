@@ -18,6 +18,8 @@ package de.cuioss.uimodel.field.impl;
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.uimodel.field.DynamicFieldType;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -27,126 +29,213 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DisplayName("Base Dynamic Field Tests")
 @VerifyConstructor(of = {"editable"})
 @VerifyConstructor(of = {"value", "editable"})
 class BaseDynamicFieldTest extends ValueObjectTest<StringEditableField> {
 
-    @Test
-    void shouldConstructIntegerField() {
-        var editableField = new IntegerEditableField(true);
-        assertEquals(DynamicFieldType.INTEGER, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue(5);
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
-        // Different constructor
-        assertDoesNotThrow(() -> new IntegerEditableField(1, false));
+    @Nested
+    @DisplayName("Field Type Construction Tests")
+    class FieldTypeConstructionTests {
+
+        @Test
+        @DisplayName("Should construct Integer field")
+        void shouldConstructIntegerField() {
+            // Arrange & Act
+            var editableField = new IntegerEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.INTEGER, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue(5);
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new IntegerEditableField(1, false));
+        }
+
+        @Test
+        @DisplayName("Should construct String field")
+        void shouldConstructStringField() {
+            // Arrange & Act
+            var editableField = new StringEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.STRING, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue("5");
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new StringEditableField("1", false));
+        }
+
+        @Test
+        @DisplayName("Should construct Boolean field")
+        void shouldConstructBooleanField() {
+            // Arrange & Act
+            var editableField = new BooleanEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.BOOLEAN, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue(Boolean.TRUE);
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new BooleanEditableField(Boolean.TRUE, false));
+        }
+
+        @Test
+        @DisplayName("Should construct Double field")
+        void shouldConstructDoubleField() {
+            // Arrange & Act
+            var editableField = new DoubleEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.DOUBLE, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue(12.6664287277627762);
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new DoubleEditableField(2d, false));
+        }
+
+        @Test
+        @DisplayName("Should construct Float field")
+        void shouldConstructFloatField() {
+            // Arrange & Act
+            var editableField = new FloatEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.FLOAT, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue(3.6f);
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new FloatEditableField(1f, false));
+        }
+
+        @Test
+        @DisplayName("Should construct Long field")
+        void shouldConstructLongField() {
+            // Arrange & Act
+            var editableField = new LongEditableField(true);
+
+            // Assert
+            assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+
+            // Act
+            editableField.setValue(12345678910L);
+
+            // Assert
+            assertTrue(editableField.isAvailable());
+            assertTrue(editableField.isChanged());
+
+            // Assert alternative constructor
+            assertDoesNotThrow(() -> new LongEditableField(1L, false));
+        }
     }
 
-    @Test
-    void shouldConstructStringField() {
-        var editableField = new StringEditableField(true);
-        assertEquals(DynamicFieldType.STRING, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue("5");
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
+    @Nested
+    @DisplayName("Value Management Tests")
+    class ValueManagementTests {
 
-        // Different constructor
-        assertDoesNotThrow(() -> new StringEditableField("1", false));
+        @Test
+        @DisplayName("Should handle null value")
+        void shouldEnterFalseValue() {
+            // Arrange
+            final var editableField = new LongEditableField(true);
+
+            // Act
+            editableField.setValue(null);
+
+            // Assert
+            assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
+            assertFalse(editableField.isAvailable());
+        }
+
+        @Test
+        @DisplayName("Should reset value")
+        void shouldResetValue() {
+            // Arrange
+            final var editableField = new LongEditableField(true);
+            final var serialVersionUID = 7865845990018198224L;
+
+            // Act
+            editableField.setValue(serialVersionUID);
+
+            // Assert
+            assertNull(editableField.resetValue());
+        }
+
+        @Test
+        @DisplayName("Should set same value")
+        void shouldSetValue() {
+            // Arrange
+            final var editableField = new LongEditableField(true);
+            final var oldValue = 7865845990018198224L;
+            final var newValue = 7865845990018198224L;
+
+            // Act
+            editableField.setValue(oldValue);
+
+            // Assert
+            assertDoesNotThrow(() -> editableField.setValue(newValue));
+        }
+
+        @Test
+        @DisplayName("Should set different value")
+        void shouldSetValue2() {
+            // Arrange
+            final var editableField = new LongEditableField(true);
+            final var oldValue = 7865845990018198224L;
+            final var newValue = 7865845990018198324L;
+
+            // Act
+            editableField.setValue(oldValue);
+
+            // Assert
+            assertDoesNotThrow(() -> editableField.setValue(newValue));
+        }
+
+        @Test
+        @DisplayName("Should throw exception for non-editable field")
+        void shouldThrowException() {
+            // Arrange
+            final var editableField = new LongEditableField(false);
+            final var serialVersionUID = 7865845990018198224L;
+
+            // Act & Assert
+            assertThrows(IllegalStateException.class, () -> editableField.setValue(serialVersionUID));
+        }
     }
-
-    @Test
-    void shouldConstructBooleanField() {
-        var editableField = new BooleanEditableField(true);
-        assertEquals(DynamicFieldType.BOOLEAN, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue(Boolean.TRUE);
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
-
-        // Different constructor
-        assertDoesNotThrow(() -> new BooleanEditableField(Boolean.TRUE, false));
-    }
-
-    @Test
-    void shouldConstructDoubleField() {
-        var editableField = new DoubleEditableField(true);
-        assertEquals(DynamicFieldType.DOUBLE, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue(12.6664287277627762);
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
-
-        // Different constructor
-        assertDoesNotThrow(() -> new DoubleEditableField(2d, false));
-    }
-
-    @Test
-    void shouldConstructFloatField() {
-        var editableField = new FloatEditableField(true);
-        assertEquals(DynamicFieldType.FLOAT, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue(3.6f);
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
-
-        // Different constructor
-        assertDoesNotThrow(() -> new FloatEditableField(1f, false));
-    }
-
-    @Test
-    void shouldConstructLongField() {
-        var editableField = new LongEditableField(true);
-        assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-        editableField.setValue(12345678910L);
-        assertTrue(editableField.isAvailable());
-        assertTrue(editableField.isChanged());
-
-        // Different constructor
-        assertDoesNotThrow(() -> new LongEditableField(1L, false));
-    }
-
-    @Test
-    void shouldEnterFalseValue() {
-        final var editableField = new LongEditableField(true);
-        editableField.setValue(null);
-        assertEquals(DynamicFieldType.LONG, editableField.getFieldType());
-        assertFalse(editableField.isAvailable());
-    }
-
-    @Test
-    void shouldResetValue() {
-        final var editableField = new LongEditableField(true);
-        final var serialVersionUID = 7865845990018198224L;
-        editableField.setValue(serialVersionUID);
-        assertNull(editableField.resetValue());
-    }
-
-    @Test
-    void shouldSetValue() {
-        final var editableField = new LongEditableField(true);
-        final var oldValue = 7865845990018198224L;
-        final var newValue = 7865845990018198224L;
-        editableField.setValue(oldValue);
-        assertDoesNotThrow(() -> editableField.setValue(newValue));
-    }
-
-    @Test
-    void shouldSetValue2() {
-        final var editableField = new LongEditableField(true);
-        final var oldValue = 7865845990018198224L;
-        final var newValue = 7865845990018198324L;
-        editableField.setValue(oldValue);
-        assertDoesNotThrow(() -> editableField.setValue(newValue));
-    }
-
-    @Test
-    void shouldThrowException() {
-        final var editableField = new LongEditableField(false);
-        final var serialVersionUID = 7865845990018198224L;
-        assertThrows(IllegalStateException.class, () -> editableField.setValue(serialVersionUID));
-    }
-
 }

@@ -15,15 +15,15 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import static java.util.Objects.requireNonNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import static java.util.Objects.requireNonNull;
 
 /**
  * DisplayMessageProvider provide {@linkplain DisplayMessageFormat} to be able

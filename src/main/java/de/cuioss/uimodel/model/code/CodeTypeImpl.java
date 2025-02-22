@@ -15,14 +15,14 @@
  */
 package de.cuioss.uimodel.model.code;
 
-import static java.util.Objects.requireNonNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.util.Locale;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Simple implementation of {@link CodeType} that ignores the {@link Locale}

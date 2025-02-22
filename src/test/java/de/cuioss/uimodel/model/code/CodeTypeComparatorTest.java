@@ -15,25 +15,36 @@
  */
 package de.cuioss.uimodel.model.code;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Locale;
 
-
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Oliver Wolff FIXME owolff -> Replace with VerifyComparable
  */
+@DisplayName("Tests CodeType Comparator")
 class CodeTypeComparatorTest {
 
-    @Test
-    void shouldCompare() {
+    @ParameterizedTest(name = "Compare ''{0}'' with ''{1}'' should return {2}")
+    @DisplayName("Should compare code types correctly")
+    @CsvSource({
+        "'', '', 0",
+        "1, '', 1",
+        "'', 1, -1",
+        "a, b, -1",
+        "b, a, 1"
+    })
+    void shouldCompare(String first, String second, int expected) {
+        // Arrange
         final var comparator = new CodeTypeComparator(Locale.ENGLISH);
+        final var firstCode = new CodeTypeImpl(first);
+        final var secondCode = new CodeTypeImpl(second);
 
-        assertEquals(0, comparator.compare(new CodeTypeImpl(""), new CodeTypeImpl("")));
-        assertEquals(1, comparator.compare(new CodeTypeImpl("1"), new CodeTypeImpl("")));
-        assertEquals(-1, comparator.compare(new CodeTypeImpl(""), new CodeTypeImpl("1")));
+        // Act & Assert
+        assertEquals(expected, comparator.compare(firstCode, secondCode));
     }
-
 }

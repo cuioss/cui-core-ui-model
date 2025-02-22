@@ -17,7 +17,9 @@ package de.cuioss.uimodel.nameprovider;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Tests LabeledKey Value Object")
 @VerifyConstructor(of = "content", required = "content")
 class LabeledKeyTest extends ValueObjectTest<LabeledKey> {
 

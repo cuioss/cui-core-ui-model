@@ -15,13 +15,13 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import java.io.Serial;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
 
 /**
  * Instance of IDisplayNameProvider which indicates to provide display name

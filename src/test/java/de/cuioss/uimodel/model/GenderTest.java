@@ -15,54 +15,76 @@
  */
 package de.cuioss.uimodel.model;
 
-import static de.cuioss.test.generator.Generators.letterStrings;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.generator.junit.EnableGeneratorController;
+import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.generator.junit.EnableGeneratorController;
-import lombok.RequiredArgsConstructor;
+import static de.cuioss.test.generator.Generators.letterStrings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @EnableGeneratorController
+@DisplayName("Tests Gender Enumeration")
 class GenderTest {
 
     private static final Collection<Entry<String, Gender>> TEST_VALUES = initTestValues();
 
-    @Test
-    final void shouldDetermineEnumFromString() {
-        final var testItem = anyTestItem();
+    @Nested
+    @DisplayName("String to Gender Conversion Tests")
+    class ConversionTests {
 
-        final var genderString = testItem.getKey();
-        final var expected = testItem.getValue();
-        assertEquals(expected, Gender.fromString(genderString));
-    }
+        @Test
+        @DisplayName("Should convert valid strings to Gender")
+        final void shouldDetermineEnumFromString() {
+            // Arrange
+            final var testItem = anyTestItem();
+            final var genderString = testItem.getKey();
+            final var expected = testItem.getValue();
 
-    @Test
-    final void shouldHandleUndifinedValues() {
-        final var expected = Gender.UNKNOWN;
-        assertEquals(expected, Gender.fromString(null));
-        assertEquals(expected, Gender.fromString(""));
-        assertEquals(expected, Gender.fromString(letterStrings(2, 10).next()));
-    }
+            // Act & Assert
+            assertEquals(expected, Gender.fromString(genderString));
+        }
 
-    @Test
-    final void shouldProvideMsgKey() {
-        for (final Gender entry : Gender.values()) {
-            assertNotNull(entry.getLabelKey(), entry + " has no valid title info");
+        @Test
+        @DisplayName("Should handle undefined values")
+        final void shouldHandleUndefinedValues() {
+            // Arrange
+            final var expected = Gender.UNKNOWN;
+
+            // Act & Assert
+            assertEquals(expected, Gender.fromString(null));
+            assertEquals(expected, Gender.fromString(""));
+            assertEquals(expected, Gender.fromString(letterStrings(2, 10).next()));
         }
     }
 
-    @Test
-    final void shouldBeLabelKeyProvider() {
-        assertEquals("cui.model.gender.male.title", Gender.MALE.getLabelKey());
+    @Nested
+    @DisplayName("Label Key Tests")
+    class LabelKeyTests {
+
+        @Test
+        @DisplayName("Should provide message key for all values")
+        final void shouldProvideMsgKey() {
+            // Act & Assert
+            for (final Gender entry : Gender.values()) {
+                assertNotNull(entry.getLabelKey(), entry + " has no valid title info");
+            }
+        }
+
+        @Test
+        @DisplayName("Should provide correct label key")
+        final void shouldBeLabelKeyProvider() {
+            // Act & Assert
+            assertEquals("cui.model.gender.male.title", Gender.MALE.getLabelKey());
+        }
     }
 
     private static Entry<String, Gender> anyTestItem() {
@@ -84,11 +106,10 @@ class GenderTest {
         return result;
     }
 
-    @RequiredArgsConstructor
+    @AllArgsConstructor
     private static class TestEntry implements java.util.Map.Entry<String, Gender> {
 
         private final String key;
-
         private final Gender value;
 
         @Override
@@ -102,10 +123,8 @@ class GenderTest {
         }
 
         @Override
-        public Gender setValue(final Gender value) {
-            throw new UnsupportedOperationException("not supported");
+        public Gender setValue(Gender value) {
+            throw new UnsupportedOperationException();
         }
-
     }
-
 }

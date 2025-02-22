@@ -15,9 +15,9 @@
  */
 package de.cuioss.uimodel.result;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-
 import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
 
 /**
  * Request result state, signaled if something special was happen on request.

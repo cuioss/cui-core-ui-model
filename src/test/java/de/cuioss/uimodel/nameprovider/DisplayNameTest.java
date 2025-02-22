@@ -17,8 +17,12 @@ package de.cuioss.uimodel.nameprovider;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Tests DisplayName Value Object")
+@PropertyConfig(name = "content", propertyClass = String.class)
 @VerifyConstructor(of = "content", required = "content")
-class DisplayNameTest extends ValueObjectTest<DisplayName> {
+class DisplayNameTest extends ValueObjectTest<de.cuioss.uimodel.nameprovider.DisplayName> {
 
 }

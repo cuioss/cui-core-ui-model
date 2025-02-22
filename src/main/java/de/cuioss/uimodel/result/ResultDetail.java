@@ -15,17 +15,17 @@
  */
 package de.cuioss.uimodel.result;
 
-import static java.util.Objects.requireNonNull;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Optional;
-
 import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Optional;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Request Result Detail

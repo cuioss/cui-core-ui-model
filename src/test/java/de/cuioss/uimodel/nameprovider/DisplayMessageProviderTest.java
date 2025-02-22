@@ -15,10 +15,11 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import de.cuioss.test.generator.Generators;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -26,46 +27,73 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-
+@DisplayName("Tests DisplayMessageProvider Implementation")
 class DisplayMessageProviderTest {
 
     private DisplayMessageProvider target;
 
-    @Test
-    void shouldVerifyMandatoryParameter() {
-        assertThrows(NullPointerException.class, () -> {
-            new DisplayMessageProvider(null);
-        });
+    @Nested
+    @DisplayName("Constructor Tests")
+    class ConstructorTests {
+
+        @Test
+        @DisplayName("Should verify mandatory parameter")
+        void shouldVerifyMandatoryParameter() {
+            // Act & Assert
+            assertThrows(NullPointerException.class, () -> new DisplayMessageProvider(null));
+        }
+
+        @Test
+        @DisplayName("Should provide content")
+        void shouldProvideContent() {
+            // Arrange
+            final var displayMessageFormat = anyDisplayMessageFormat();
+
+            // Act
+            target = new DisplayMessageProvider(displayMessageFormat);
+
+            // Assert
+            assertThat(target.getContent(), is(equalTo(displayMessageFormat)));
+        }
     }
 
-    @Test
-    void shouldProvideContent() {
-        final var displayMessageFormat = anyDisplayMessageFormat();
-        target = new DisplayMessageProvider(displayMessageFormat);
+    @Nested
+    @DisplayName("Message Resolution Tests")
+    class MessageResolutionTests {
 
-        assertThat(target.getContent(), is(equalTo(displayMessageFormat)));
-    }
+        private MockResourceBundle bundle;
 
-    @Test
-    void shouldProvideResolving() {
+        @BeforeEach
+        void setUp() {
+            bundle = new MockResourceBundle();
+        }
 
-        final var bundle = new MockResourceBundle();
-        final var key = "some.error.key";
-        final var value = "Error occurs on {0}";
-        bundle.add(key, value);
+        @Test
+        @DisplayName("Should resolve message with parameter")
+        void shouldProvideResolving() {
+            // Arrange
+            final var key = "some.error.key";
+            final var value = "Error occurs on {0}";
+            bundle.add(key, value);
 
-        final var displayMessageFormat = new DisplayMessageFormat(key, "optional service");
-        target = new DisplayMessageProvider(displayMessageFormat);
+            final var displayMessageFormat = new DisplayMessageFormat(key, "optional service");
+            target = new DisplayMessageProvider(displayMessageFormat);
 
-        assertThat(target.getMessageFormated(bundle), is(equalTo("Error occurs on optional service")));
+            // Act & Assert
+            assertThat(target.getMessageFormated(bundle), is(equalTo("Error occurs on optional service")));
+        }
     }
 
     private static DisplayMessageFormat anyDisplayMessageFormat() {
-        return new DisplayMessageFormat(Generators.letterStrings(1, 10).next(), Generators.letterStrings(1, 10).next());
+        return new DisplayMessageFormat(
+            Generators.letterStrings(1, 10).next(),
+            Generators.letterStrings(1, 10).next()
+        );
     }
 
     private static class MockResourceBundle extends ResourceBundle {
@@ -94,5 +122,4 @@ class DisplayMessageProviderTest {
             return null;
         }
     }
-
 }

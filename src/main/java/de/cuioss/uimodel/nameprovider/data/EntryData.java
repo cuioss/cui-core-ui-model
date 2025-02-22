@@ -15,14 +15,14 @@
  */
 package de.cuioss.uimodel.nameprovider.data;
 
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Entry data implements {@linkplain Entry} interface which can be used for

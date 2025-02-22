@@ -15,13 +15,13 @@
  */
 package de.cuioss.uimodel.field.impl;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Objects;
-
 import de.cuioss.uimodel.field.TracedDynamicField;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Default implementation of the {@linkplain TracedDynamicField} interface.

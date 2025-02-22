@@ -15,14 +15,14 @@
  */
 package de.cuioss.uimodel.model.code;
 
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Locale;
 
-import lombok.RequiredArgsConstructor;
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
 /**
  * Helper class comparing to {@link CodeType} regarding their label. It needs a

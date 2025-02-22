@@ -15,22 +15,21 @@
  */
 package de.cuioss.uimodel.application;
 
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.util.stream.Stream;
-
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
+import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
-import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import java.util.stream.Stream;
+
+import static de.cuioss.test.generator.Generators.nonEmptyStrings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @DisplayName("Login Credentials Tests")
 @VerifyBuilder

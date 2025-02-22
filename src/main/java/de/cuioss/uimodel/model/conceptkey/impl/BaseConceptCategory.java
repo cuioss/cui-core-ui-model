@@ -15,8 +15,6 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
-import java.io.Serial;
-
 import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstants;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
@@ -24,6 +22,8 @@ import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.io.Serial;
 
 /**
  * Base implementation of {@link ConceptCategory}, using

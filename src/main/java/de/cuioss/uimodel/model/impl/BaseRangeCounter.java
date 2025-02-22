@@ -15,13 +15,13 @@
  */
 package de.cuioss.uimodel.model.impl;
 
-import java.io.Serial;
-
 import de.cuioss.uimodel.model.RangeCounter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.io.Serial;
 
 /**
  * Simple Implementation for {@link RangeCounter}

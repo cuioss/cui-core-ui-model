@@ -15,11 +15,6 @@
  */
 package de.cuioss.uimodel.application;
 
-import static de.cuioss.tools.string.MoreStrings.isEmpty;
-
-import java.io.Serial;
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -27,6 +22,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+import static de.cuioss.tools.string.MoreStrings.isEmpty;
 
 /**
  * Simple class providing credentials for form-based login

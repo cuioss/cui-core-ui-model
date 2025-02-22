@@ -15,15 +15,15 @@
  */
 package de.cuioss.uimodel.model;
 
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import de.cuioss.uimodel.nameprovider.LabelKeyProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
 /**
  * Represents a gender icon to be consumed by GenderIcon. The factory method is

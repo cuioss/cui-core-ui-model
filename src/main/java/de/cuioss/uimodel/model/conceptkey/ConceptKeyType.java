@@ -15,11 +15,11 @@
  */
 package de.cuioss.uimodel.model.conceptkey;
 
+import de.cuioss.uimodel.model.code.CodeType;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-
-import de.cuioss.uimodel.model.code.CodeType;
 
 /**
  * An extension to {@link CodeType} providing additional information like

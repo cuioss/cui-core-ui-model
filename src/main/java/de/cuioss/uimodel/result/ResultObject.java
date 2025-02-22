@@ -15,19 +15,19 @@
  */
 package de.cuioss.uimodel.result;
 
-import static de.cuioss.tools.collect.MoreCollections.isEmpty;
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
-import static java.util.Objects.requireNonNull;
+import de.cuioss.tools.logging.CuiLogger;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.function.Function;
 
-import de.cuioss.tools.logging.CuiLogger;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import static de.cuioss.tools.collect.MoreCollections.isEmpty;
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
+import static java.util.Objects.requireNonNull;
 
 /**
  * <h2>Generic ResultObject</h2> ResultObject provide Builder which supports a

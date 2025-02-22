@@ -15,12 +15,12 @@
  */
 package de.cuioss.uimodel.nameprovider.testdata;
 
+import de.cuioss.test.generator.TypedGenerator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
-
-import de.cuioss.test.generator.TypedGenerator;
 
 @SuppressWarnings({"rawtypes"})
 public class ConfiguredDataGenerator implements TypedGenerator<Stream> {
