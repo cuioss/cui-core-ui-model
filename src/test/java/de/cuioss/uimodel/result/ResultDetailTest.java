@@ -16,16 +16,18 @@
 package de.cuioss.uimodel.result;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-import de.cuioss.uimodel.nameprovider.DisplayName;
 import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
 
 @PropertyReflectionConfig(skip = true)
+@DisplayName("ResultDetail Tests")
 class ResultDetailTest extends ValueObjectTest<ResultDetail> {
 
     private final ResultDetailGenerator generator = new ResultDetailGenerator();
@@ -35,14 +37,60 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
         return generator.next();
     }
 
-    @Test
-    void shouldBuildWithConstructors() {
-        final IDisplayNameProvider<String> dnProvider = new DisplayName("test");
-        final Throwable ex = new Exception("b00m");
+    @Nested
+    @DisplayName("Constructor Tests")
+    class ConstructorTests {
+        @Test
+        @DisplayName("should build with IDisplayNameProvider")
+        void shouldBuildWithDisplayNameProvider() {
+            // Arrange
+            final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
+            
+            // Act & Assert
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider), 
+                "Constructor call with IDisplayNameProvider failed");
+        }
 
-        assertDoesNotThrow(() -> new ResultDetail(dnProvider), "Constructor call with IDisplayNameProvider failed");
+        @Test
+        @DisplayName("should build with IDisplayNameProvider and Throwable")
+        void shouldBuildWithDisplayNameProviderAndThrowable() {
+            // Arrange
+            final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
+            final Throwable throwable = new RuntimeException("test");
+            
+            // Act & Assert
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider, throwable), 
+                "Constructor call with IDisplayNameProvider and Throwable failed");
+        }
 
-        assertDoesNotThrow(() -> new ResultDetail(dnProvider, ex), "Constructor call with Throwable failed");
+        @Test
+        @DisplayName("should build with builder")
+        void shouldBuildWithBuilder() {
+            // Arrange
+            final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
+            final Throwable throwable = new RuntimeException("test");
+            
+            // Act
+            ResultDetail detail = ResultDetail.builder()
+                .detail(dnProvider)
+                .cause(throwable)
+                .build();
+            
+            // Assert
+            assertNotNull(detail);
+            assertNotNull(detail.getDetail());
+            assertNotNull(detail.getCause());
+        }
 
+        @Test
+        @DisplayName("should build with message")
+        void shouldBuildWithMessage() {
+            // Arrange
+            final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test message");
+            
+            // Act & Assert
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider), 
+                "Constructor call with message failed");
+        }
     }
 }
