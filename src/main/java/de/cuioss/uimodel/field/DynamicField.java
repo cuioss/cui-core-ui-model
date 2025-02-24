@@ -25,17 +25,17 @@ import java.io.Serializable;
  * <p>Usage Examples:
  * <pre>
  * // Create a string field
- * DynamicField<String> stringField = DynamicFieldType.STRING.createDynamicField("value", true);
+ * DynamicField&lt;String&gt; stringField = DynamicFieldType.STRING.createDynamicField("value", true);
  * assertEquals(DynamicFieldType.STRING, stringField.getFieldType());
  * assertTrue(stringField.isEditable());
  * 
  * // Create an integer field
- * DynamicField<Integer> intField = DynamicFieldType.INTEGER.createDynamicField(42, true);
+ * DynamicField&lt;Integer&gt; intField = DynamicFieldType.INTEGER.createDynamicField(42, true);
  * assertEquals(DynamicFieldType.INTEGER, intField.getFieldType());
  * assertEquals(42, intField.getValue());
  * 
  * // Create a boolean field
- * DynamicField<Boolean> boolField = DynamicFieldType.BOOLEAN.createDynamicField(true, false);
+ * DynamicField&lt;Boolean&gt; boolField = DynamicFieldType.BOOLEAN.createDynamicField(true, false);
  * assertEquals(DynamicFieldType.BOOLEAN, boolField.getFieldType());
  * assertFalse(boolField.isEditable());
  * </pre>

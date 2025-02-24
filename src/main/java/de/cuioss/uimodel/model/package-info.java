@@ -53,7 +53,7 @@
  * <h3>Selections</h3>
  * <pre>
  * // Create a type-safe selection
- * TypedSelection<String> selection = new TypedSelection<>();
+ * TypedSelection&lt;String&gt; selection = new TypedSelection&lt;&gt;();
  * selection.setItems(Arrays.asList("A", "B", "C"));
  * selection.setSelectedItem("B");
  * </pre>

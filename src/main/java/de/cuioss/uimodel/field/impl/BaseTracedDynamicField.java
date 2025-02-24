@@ -47,7 +47,7 @@ import java.util.Objects;
  * <p>Usage Examples:
  * <pre>
  * // Create a traced field with initial value
- * BaseTracedDynamicField<String> field = new BaseTracedDynamicField<>("initial", true);
+ * BaseTracedDynamicField&lt;String&gt; field = new BaseTracedDynamicField&lt;&gt;("initial", true);
  * assertTrue(field.isAvailable());
  * assertFalse(field.isChanged());
  * 
@@ -62,7 +62,7 @@ import java.util.Objects;
  * assertEquals("initial", field.getValue());
  * 
  * // Create a read-only field
- * field = new BaseTracedDynamicField<>(null, false);
+ * field = new BaseTracedDynamicField&lt;&gt;(null, false);
  * assertFalse(field.isEditable());
  * assertThrows(IllegalStateException.class, () -> field.setValue("new"));
  * </pre>

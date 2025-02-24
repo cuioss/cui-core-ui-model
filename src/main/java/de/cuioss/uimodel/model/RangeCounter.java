@@ -57,7 +57,8 @@ import java.io.Serializable;
  *
  *     &#64;Override
  *     public boolean isComplete() {
- *         return currentPage != null && totalPages != null;
+ *         return currentPage != null
+ *             &amp;&amp; totalPages != null;
  *     }
  *
  *     public String getDisplayText() {

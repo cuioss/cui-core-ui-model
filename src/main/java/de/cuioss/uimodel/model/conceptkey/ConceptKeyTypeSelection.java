@@ -49,8 +49,8 @@ import de.cuioss.uimodel.model.TypedSelection;
  *     }
  *
  *     public void setSelectedValue(ConceptKeyType diagnosis) {
- *         if (diagnosis != null &&
- *             diagnosis.getCategory() == MedicalCategory.DIAGNOSIS) {
+ *         if (diagnosis != null
+ *             &amp;&amp; diagnosis.getCategory() == MedicalCategory.DIAGNOSIS) {
  *             this.selectedDiagnosis = diagnosis;
  *         }
  *     }

@@ -41,7 +41,7 @@ import java.io.Serializable;
  * <p>Usage Examples:
  * <pre>
  * // Create an editable string field
- * TracedDynamicField<String> field = new StringEditableField(true);
+ * TracedDynamicField&lt;String&gt; field = new StringEditableField(true);
  * 
  * // Set and track value changes
  * field.setValue("Initial value");

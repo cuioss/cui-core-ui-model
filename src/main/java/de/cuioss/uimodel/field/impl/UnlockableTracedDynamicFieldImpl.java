@@ -46,7 +46,7 @@ import java.io.Serializable;
  * <p>Usage Example:
  * <pre>
  * // Create a protected field with initial value
- * UnlockableTracedDynamicField<String> field = new UnlockableTracedDynamicFieldImpl<>(
+ * UnlockableTracedDynamicField&lt;String&gt; field = new UnlockableTracedDynamicFieldImpl&lt;&gt;(
  *     "Protected Value",  // Initial value
  *     false              // Initially read-only
  * );

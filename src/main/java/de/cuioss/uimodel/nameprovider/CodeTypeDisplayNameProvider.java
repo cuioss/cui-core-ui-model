@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serial;
+import java.util.Locale;
 
 /**
  * An implementation of {@link IDisplayNameProvider} designed to handle
@@ -48,17 +49,17 @@ import java.io.Serial;
  * public enum UserStatus implements CodeType {
  *     ACTIVE("user.status.active"),
  *     INACTIVE("user.status.inactive");
- *     
+ *
  *     private final String labelKey;
- *     
+ *
  *     UserStatus(String labelKey) {
  *         this.labelKey = labelKey;
  *     }
- *     
+ *
  *     public String getIdentifier() {
  *         return name();
  *     }
- *     
+ *
  *     public String getLabelKey() {
  *         return labelKey;
  *     }
@@ -72,6 +73,13 @@ import java.io.Serial;
  *   <li>Delegates display logic to the CodeType implementation</li>
  *   <li>Thread-safe due to immutability</li>
  *   <li>Suitable for use with enums and classes</li>
+ * </ul>
+ *
+ * <p>Content Requirements:
+ * <ul>
+ *   <li>An identifier (via {@link CodeType#getIdentifier()})</li>
+ *   <li>A resolved display value (via {@link CodeType#getResolved(Locale)}})</li>
+ *   <li>Optional sorting information</li>
  * </ul>
  *
  * <p>Common Use Cases:
@@ -112,8 +120,7 @@ public class CodeTypeDisplayNameProvider implements IDisplayNameProvider<CodeTyp
      * which typically provides:
      * <ul>
      *   <li>An identifier (via {@link CodeType#getIdentifier()})</li>
-     *   <li>A label key (via {@link CodeType#getLabelKey()})</li>
-     *   <li>Optional sorting information</li>
+     *   <li>A resolved display value (via {@link CodeType#getResolved(Locale)})</li>
      * </ul>
      */
     @Getter
