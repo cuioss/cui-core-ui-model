@@ -37,13 +37,13 @@ class DynamicFieldTypeTest {
     class TypeResolutionTests {
         @ParameterizedTest(name = "Type {0} should resolve to {1}")
         @CsvSource({
-            "notdefined, STRING",
-            "java.lang.Object, STRING",
-            "java.lang.String, STRING",
-            "java.lang.Integer, INTEGER",
-            "java.lang.Boolean, BOOLEAN",
-            "java.lang.Double, DOUBLE",
-            "java.lang.Float, FLOAT"
+                "notdefined, STRING",
+                "java.lang.Object, STRING",
+                "java.lang.String, STRING",
+                "java.lang.Integer, INTEGER",
+                "java.lang.Boolean, BOOLEAN",
+                "java.lang.Double, DOUBLE",
+                "java.lang.Float, FLOAT"
         })
         void shouldDetermineByClassName(String className, DynamicFieldType expected) {
             assertEquals(expected, DynamicFieldType.getByTypeString(className));
@@ -51,11 +51,11 @@ class DynamicFieldTypeTest {
 
         @ParameterizedTest(name = "Primitive type {0} should resolve to {1}")
         @CsvSource({
-            "string, STRING",
-            "int, INTEGER",
-            "boolean, BOOLEAN",
-            "double, DOUBLE",
-            "float, FLOAT"
+                "string, STRING",
+                "int, INTEGER",
+                "boolean, BOOLEAN",
+                "double, DOUBLE",
+                "float, FLOAT"
         })
         void shouldDetermineByPrimitiveName(String primitiveName, DynamicFieldType expected) {
             assertEquals(expected, DynamicFieldType.getByTypeString(expected.getPrimitiveName()));
@@ -65,13 +65,13 @@ class DynamicFieldTypeTest {
     @Nested
     @DisplayName("Dynamic Field Creation Tests")
     class DynamicFieldCreationTests {
-        
+
         @Test
         @DisplayName("Should create String field")
         void shouldCreateStringField() {
             // Arrange & Act
             DynamicField<? extends Serializable> stringField = DynamicFieldType.STRING.createDynamicField("value", true);
-            
+
             // Assert
             assertNotNull(stringField);
             assertEquals(DynamicFieldType.STRING, stringField.getFieldType());
@@ -94,7 +94,7 @@ class DynamicFieldTypeTest {
         void shouldCreateIntegerField() {
             // Arrange & Act
             DynamicField<? extends Serializable> integerField = DynamicFieldType.INTEGER.createDynamicField(2, true);
-            
+
             // Assert
             assertNotNull(integerField);
             assertEquals(DynamicFieldType.INTEGER, integerField.getFieldType());
@@ -117,7 +117,7 @@ class DynamicFieldTypeTest {
         void shouldCreateBooleanField() {
             // Arrange & Act
             DynamicField<? extends Serializable> booleanField = DynamicFieldType.BOOLEAN.createDynamicField(Boolean.TRUE, true);
-            
+
             // Assert
             assertNotNull(booleanField);
             assertEquals(DynamicFieldType.BOOLEAN, booleanField.getFieldType());
@@ -140,7 +140,7 @@ class DynamicFieldTypeTest {
         void shouldCreateLongField() {
             // Arrange & Act
             DynamicField<? extends Serializable> longField = DynamicFieldType.LONG.createDynamicField(1L, true);
-            
+
             // Assert
             assertNotNull(longField);
             assertEquals(DynamicFieldType.LONG, longField.getFieldType());

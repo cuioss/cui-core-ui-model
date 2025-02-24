@@ -144,7 +144,7 @@ public class ResultOptional<T extends Serializable> extends ResultObject<Optiona
      * @throws IllegalArgumentException if required parameters are invalid
      */
     public ResultOptional(final T result, final ResultState state, final ResultDetail resultDetail,
-                          final Enum<?> errorCode) {
+            final Enum<?> errorCode) {
         super(state, resultDetail, errorCode);
         this.result = result;
     }

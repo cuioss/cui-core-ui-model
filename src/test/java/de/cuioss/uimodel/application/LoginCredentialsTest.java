@@ -50,29 +50,29 @@ class LoginCredentialsTest extends ValueObjectTest<LoginCredentials> {
 
         static Stream<Arguments> shouldDetectCompleteness() {
             return Stream.of(
-                arguments(
-                    LoginCredentials.builder()
-                        .username(nonEmptyStrings().next())
-                        .password(nonEmptyStrings().next())
-                        .build(), 
-                    true
-                ),
-                arguments(
-                    LoginCredentials.builder()
-                        .password(nonEmptyStrings().next())
-                        .build(), 
-                    false
-                ),
-                arguments(
-                    LoginCredentials.builder()
-                        .username(nonEmptyStrings().next())
-                        .build(), 
-                    false
-                ),
-                arguments(
-                    LoginCredentials.builder().build(), 
-                    false
-                )
+                    arguments(
+                            LoginCredentials.builder()
+                                    .username(nonEmptyStrings().next())
+                                    .password(nonEmptyStrings().next())
+                                    .build(),
+                            true
+                    ),
+                    arguments(
+                            LoginCredentials.builder()
+                                    .password(nonEmptyStrings().next())
+                                    .build(),
+                            false
+                    ),
+                    arguments(
+                            LoginCredentials.builder()
+                                    .username(nonEmptyStrings().next())
+                                    .build(),
+                            false
+                    ),
+                    arguments(
+                            LoginCredentials.builder().build(),
+                            false
+                    )
             );
         }
     }

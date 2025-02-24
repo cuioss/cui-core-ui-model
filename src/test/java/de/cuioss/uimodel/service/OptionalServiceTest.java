@@ -15,18 +15,15 @@
  */
 package de.cuioss.uimodel.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.Serializable;
-
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.uimodel.nameprovider.DisplayName;
 import de.cuioss.uimodel.result.ResultDetail;
 import de.cuioss.uimodel.result.ResultObject;
 import de.cuioss.uimodel.result.ResultState;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @org.junit.jupiter.api.DisplayName("OptionalService Tests")
 class OptionalServiceTest {
@@ -60,17 +57,17 @@ class OptionalServiceTest {
         public ResultObject<String> storeFile(String content) {
             if (!isServiceAvailable()) {
                 return new ResultObject.Builder<String>()
-                    .state(ResultState.ERROR)
-                    .result("")  // Empty string as result for error case
-                    .resultDetail(new ResultDetail(
-                        new DisplayName("Storage service not available: " + getServiceState())))
-                    .build();
+                        .state(ResultState.ERROR)
+                        .result("")  // Empty string as result for error case
+                        .resultDetail(new ResultDetail(
+                                new DisplayName("Storage service not available: " + getServiceState())))
+                        .build();
             }
-            
+
             return new ResultObject.Builder<String>()
-                .result("Stored: " + content)
-                .state(ResultState.VALID)
-                .build();
+                    .result("Stored: " + content)
+                    .state(ResultState.VALID)
+                    .build();
         }
     }
 
@@ -83,7 +80,7 @@ class OptionalServiceTest {
         // Act & Assert
         assertEquals(ServiceState.ACTIVE, service.getServiceState());
         assertTrue(service.isServiceAvailable());
-        
+
         var result = service.storeFile("test");
         assertTrue(result.isValid());
         assertEquals("Stored: test", result.getResult());
@@ -98,11 +95,11 @@ class OptionalServiceTest {
         // Act & Assert
         assertEquals(ServiceState.NOT_CONFIGURED, service.getServiceState());
         assertFalse(service.isServiceAvailable());
-        
+
         var result = service.storeFile("test");
         assertFalse(result.isValid());
         assertEquals("Storage service not available: NOT_CONFIGURED",
-            result.getResultDetail().get().getDetail().getContent());
+                result.getResultDetail().get().getDetail().getContent());
     }
 
     @Test
@@ -114,11 +111,11 @@ class OptionalServiceTest {
         // Act & Assert
         assertEquals(ServiceState.TEMPORARILY_UNAVAILABLE, service.getServiceState());
         assertFalse(service.isServiceAvailable());
-        
+
         var result = service.storeFile("test");
         assertFalse(result.isValid());
         assertEquals("Storage service not available: TEMPORARILY_UNAVAILABLE",
-            result.getResultDetail().get().getDetail().getContent());
+                result.getResultDetail().get().getDetail().getContent());
     }
 
     @Test
@@ -130,10 +127,10 @@ class OptionalServiceTest {
         // Act & Assert
         assertEquals(ServiceState.NOT_AVAILABLE_FOR_USER, service.getServiceState());
         assertFalse(service.isServiceAvailable());
-        
+
         var result = service.storeFile("test");
         assertFalse(result.isValid());
         assertEquals("Storage service not available: NOT_AVAILABLE_FOR_USER",
-            result.getResultDetail().get().getDetail().getContent());
+                result.getResultDetail().get().getDetail().getContent());
     }
 }

@@ -15,7 +15,6 @@
  */
 package de.cuioss.uimodel.field.impl;
 
-import de.cuioss.uimodel.field.TracedDynamicField;
 import de.cuioss.uimodel.field.UnlockableTracedDynamicField;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

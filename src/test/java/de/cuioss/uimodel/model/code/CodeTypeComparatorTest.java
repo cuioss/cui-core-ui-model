@@ -32,11 +32,11 @@ class CodeTypeComparatorTest {
     @ParameterizedTest(name = "Compare ''{0}'' with ''{1}'' should return {2}")
     @DisplayName("Should compare code types correctly")
     @CsvSource({
-        "'', '', 0",
-        "1, '', 1",
-        "'', 1, -1",
-        "a, b, -1",
-        "b, a, 1"
+            "'', '', 0",
+            "1, '', 1",
+            "'', 1, -1",
+            "a, b, -1",
+            "b, a, 1"
     })
     void shouldCompare(String first, String second, int expected) {
         // Arrange

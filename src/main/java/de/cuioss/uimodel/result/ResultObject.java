@@ -245,7 +245,7 @@ public class ResultObject<T> implements Serializable {
      * @throws IllegalArgumentException if any condition is violated
      */
     public ResultObject(final T result, final ResultState state, final ResultDetail resultDetail,
-                        final Enum<?> errorCode) {
+            final Enum<?> errorCode) {
 
         this.result = checkArgumentNotNull(result, RESULT_MESSAGE);
         this.state = checkArgumentNotNull(state, STATE_MESSAGE);
@@ -384,7 +384,7 @@ public class ResultObject<T> implements Serializable {
     }
 
     protected static void logDetail(final String logPrefix, final ResultState state, final ResultDetail detail,
-                                    final CuiLogger log) {
+            final CuiLogger log) {
         if (null != detail) {
             final var msg = nullToEmpty(logPrefix) + detail.getDetail();
             if (null != state) {

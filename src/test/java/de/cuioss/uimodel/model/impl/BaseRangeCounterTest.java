@@ -95,14 +95,14 @@ class BaseRangeCounterTest extends ValueObjectTest<BaseRangeCounter> {
         @ParameterizedTest(name = "count={0}, totalCount={1}")
         @DisplayName("Should detect single value cases")
         @CsvSource({
-            "1, ''",
-            "'', 0"
+                "1, ''",
+                "'', 0"
         })
         void shouldDetectSingleValue(String count, String totalCount) {
             // Arrange & Act
             final var baseRangeCounter = new BaseRangeCounter(
-                count.isEmpty() ? null : Integer.parseInt(count),
-                totalCount.isEmpty() ? null : Integer.parseInt(totalCount)
+                    count.isEmpty() ? null : Integer.parseInt(count),
+                    totalCount.isEmpty() ? null : Integer.parseInt(totalCount)
             );
 
             // Assert

@@ -89,8 +89,8 @@ class DisplayMessageProviderTest {
 
     private static DisplayMessageFormat anyDisplayMessageFormat() {
         return new DisplayMessageFormat(
-            Generators.letterStrings(1, 10).next(),
-            Generators.letterStrings(1, 10).next()
+                Generators.letterStrings(1, 10).next(),
+                Generators.letterStrings(1, 10).next()
         );
     }
 

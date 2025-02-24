@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @PropertyReflectionConfig(skip = true)
@@ -47,10 +47,10 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
         void shouldBuildWithDisplayNameProvider() {
             // Arrange
             final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
-            
+
             // Act & Assert
-            assertDoesNotThrow(() -> new ResultDetail(dnProvider), 
-                "Constructor call with IDisplayNameProvider failed");
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider),
+                    "Constructor call with IDisplayNameProvider failed");
         }
 
         @Test
@@ -59,10 +59,10 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
             // Arrange
             final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
             final Throwable throwable = new RuntimeException("test");
-            
+
             // Act & Assert
-            assertDoesNotThrow(() -> new ResultDetail(dnProvider, throwable), 
-                "Constructor call with IDisplayNameProvider and Throwable failed");
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider, throwable),
+                    "Constructor call with IDisplayNameProvider and Throwable failed");
         }
 
         @Test
@@ -71,13 +71,13 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
             // Arrange
             final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test");
             final Throwable throwable = new RuntimeException("test");
-            
+
             // Act
             ResultDetail detail = ResultDetail.builder()
-                .detail(dnProvider)
-                .cause(throwable)
-                .build();
-            
+                    .detail(dnProvider)
+                    .cause(throwable)
+                    .build();
+
             // Assert
             assertNotNull(detail);
             assertNotNull(detail.getDetail());
@@ -89,83 +89,83 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
         void shouldBuildWithMessage() {
             // Arrange
             final IDisplayNameProvider<String> dnProvider = new de.cuioss.uimodel.nameprovider.DisplayName("test message");
-            
+
             // Act & Assert
-            assertDoesNotThrow(() -> new ResultDetail(dnProvider), 
-                "Constructor call with message failed");
+            assertDoesNotThrow(() -> new ResultDetail(dnProvider),
+                    "Constructor call with message failed");
         }
     }
 
     @Nested
     @DisplayName("Javadoc example tests")
     class JavadocExampleTests {
-        
+
         @Test
         @DisplayName("Should demonstrate basic error detail")
         void shouldDemonstrateBasicErrorDetail() {
             // When: Creating basic error detail
             var detail = new ResultDetail(
-                new de.cuioss.uimodel.nameprovider.DisplayName("Operation failed")
+                    new de.cuioss.uimodel.nameprovider.DisplayName("Operation failed")
             );
-            
+
             // Then: Detail is properly set
             assertNotNull(detail.getDetail());
             assertEquals("Operation failed", detail.getDetail().getContent());
             assertFalse(detail.getCause().isPresent());
         }
-        
+
         @Test
         @DisplayName("Should demonstrate error with cause")
         void shouldDemonstrateErrorWithCause() {
             // Given: A service exception
             var serviceException = new RuntimeException("Database connection failed");
-            
+
             // When: Creating error detail with cause
             var detail = new ResultDetail(
-                new de.cuioss.uimodel.nameprovider.DisplayName("Database connection failed"),
-                serviceException
+                    new de.cuioss.uimodel.nameprovider.DisplayName("Database connection failed"),
+                    serviceException
             );
-            
+
             // Then: Both message and cause are set
             assertEquals("Database connection failed", detail.getDetail().getContent());
             assertTrue(detail.getCause().isPresent());
             assertEquals(serviceException, detail.getCause().get());
         }
-        
+
         @Test
         @DisplayName("Should demonstrate builder pattern")
         void shouldDemonstrateBuilderPattern() {
             // Given: A validation exception
             var validationException = new IllegalArgumentException("Invalid input");
-            
+
             // When: Using builder to create detail
             var detail = ResultDetail.builder()
-                .detail(new de.cuioss.uimodel.nameprovider.DisplayName("Validation failed"))
-                .cause(validationException)
-                .build();
-                
+                    .detail(new de.cuioss.uimodel.nameprovider.DisplayName("Validation failed"))
+                    .cause(validationException)
+                    .build();
+
             // Then: Detail is properly constructed
             assertEquals("Validation failed", detail.getDetail().getContent());
             assertTrue(detail.getCause().isPresent());
             assertEquals(validationException, detail.getCause().get());
         }
-        
+
         @Test
         @DisplayName("Should demonstrate internationalized messages")
         void shouldDemonstrateInternationalizedMessages() {
             // When: Creating detail with message provider
             var messageFormat = new de.cuioss.uimodel.nameprovider.DisplayMessageFormat(
-                "error.notfound",
-                "User", "123"
+                    "error.notfound",
+                    "User", "123"
             );
             var detail = new ResultDetail(
-                new de.cuioss.uimodel.nameprovider.DisplayMessageProvider(messageFormat)
+                    new de.cuioss.uimodel.nameprovider.DisplayMessageProvider(messageFormat)
             );
-            
+
             // Then: Message format is properly set
             assertNotNull(detail.getDetail());
-            assertEquals("error.notfound", 
-                ((de.cuioss.uimodel.nameprovider.DisplayMessageFormat)detail.getDetail().getContent()).getMsgKey());
+            assertEquals("error.notfound",
+                    ((de.cuioss.uimodel.nameprovider.DisplayMessageFormat) detail.getDetail().getContent()).getMsgKey());
         }
     }
 }

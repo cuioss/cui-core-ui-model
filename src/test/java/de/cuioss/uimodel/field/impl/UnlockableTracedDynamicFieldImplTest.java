@@ -39,16 +39,16 @@ class UnlockableTracedDynamicFieldImplTest {
         void shouldReset() {
             // Arrange
             UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
-            
+
             // Act
             underTest.setValue(SOME_VALUE);
-            
+
             // Assert
             assertEquals(SOME_VALUE, underTest.getValue());
-            
+
             // Act
             underTest.resetValue();
-            
+
             // Assert
             assertEquals(DEFAULT_VALUE, underTest.getValue());
         }
@@ -58,16 +58,16 @@ class UnlockableTracedDynamicFieldImplTest {
         void shouldServeChangedState() {
             // Arrange
             UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(DEFAULT_VALUE, true);
-            
+
             // Act
             underTest.setValue(SOME_VALUE);
-            
+
             // Assert
             assertTrue(underTest.isChanged());
-            
+
             // Act
             underTest.resetValue();
-            
+
             // Assert
             assertFalse(underTest.isChanged());
         }
@@ -82,19 +82,19 @@ class UnlockableTracedDynamicFieldImplTest {
         void shouldBeAvailableOnValue() {
             // Arrange & Act
             UnlockableTracedDynamicField<String> underTest = new UnlockableTracedDynamicFieldImpl<>(null, true);
-            
+
             // Assert
             assertFalse(underTest.isAvailable());
-            
+
             // Act
             underTest.setValue(SOME_VALUE);
-            
+
             // Assert
             assertTrue(underTest.isAvailable());
 
             // Arrange & Act
             underTest = new UnlockableTracedDynamicFieldImpl<>(SOME_VALUE, true);
-            
+
             // Assert
             assertTrue(underTest.isAvailable());
         }

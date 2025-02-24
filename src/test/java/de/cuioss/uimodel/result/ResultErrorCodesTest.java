@@ -32,13 +32,13 @@ class ResultErrorCodesTest {
 
         @ParameterizedTest(name = "HTTP code {0} should map to {1}")
         @CsvSource({
-            "400, BAD_REQUEST",
-            "401, NOT_AUTHENTICATED",
-            "403, NOT_AUTHORIZED",
-            "404, NOT_FOUND",
-            "503, SERVICE_NOT_AVAILABLE",
-            "500, RUNTIME_ERROR",
-            "0, RUNTIME_ERROR"
+                "400, BAD_REQUEST",
+                "401, NOT_AUTHENTICATED",
+                "403, NOT_AUTHORIZED",
+                "404, NOT_FOUND",
+                "503, SERVICE_NOT_AVAILABLE",
+                "500, RUNTIME_ERROR",
+                "0, RUNTIME_ERROR"
         })
         void parseHttpCode(int httpCode, ResultErrorCodes expected) {
             // Act
@@ -52,76 +52,60 @@ class ResultErrorCodesTest {
     @Nested
     @DisplayName("Javadoc example tests")
     class JavadocExampleTests {
-        
+
         @org.junit.jupiter.api.Test
         @DisplayName("Should demonstrate basic error code usage")
         void shouldDemonstrateBasicErrorCodeUsage() {
             // Given: A repository result
             var user = new TestUser("123", "John Doe");
-            
+
             // When: User is not found
             var notFoundResult = findUser("456");
-            
+
             // Then: Not found error is returned
             assertEquals(ResultErrorCodes.NOT_FOUND, notFoundResult.getErrorCode().get());
             assertEquals("User not found", notFoundResult.getResultDetail().get().getDetail().getContent());
-            
+
             // When: Security exception occurs
-            var securityResult = findUserWithSecurityException("123");
-            
+            var securityResult = findUserWithSecurityException();
+
             // Then: Not authorized error is returned
             assertEquals(ResultErrorCodes.NOT_AUTHORIZED, securityResult.getErrorCode().get());
             assertEquals("Access denied", securityResult.getResultDetail().get().getDetail().getContent());
-            
+
             // When: User is found
             var foundResult = findUser("123");
-            
+
             // Then: Success result is returned
             assertTrue(foundResult.isValid());
-            assertEquals(user.getId(), ((TestUser)foundResult.getResult()).getId());
+            assertEquals(user.id(), ((TestUser) foundResult.getResult()).id());
         }
-        
+
         private ResultObject<?> findUser(String id) {
             if ("123".equals(id)) {
                 return ResultObject.builder()
-                    .result(new TestUser("123", "John Doe"))
-                    .state(ResultState.VALID)
+                        .result(new TestUser("123", "John Doe"))
+                        .state(ResultState.VALID)
+                        .build();
+            }
+            return ResultObject.builder()
+                    .validDefaultResult(new TestUser("", ""))
+                    .state(ResultState.ERROR)
+                    .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("User not found")))
+                    .errorCode(ResultErrorCodes.NOT_FOUND)
                     .build();
-            }
-            return ResultObject.builder()
-                .validDefaultResult(new TestUser("", ""))
-                .state(ResultState.ERROR)
-                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("User not found")))
-                .errorCode(ResultErrorCodes.NOT_FOUND)
-                .build();
         }
-        
-        private ResultObject<?> findUserWithSecurityException(String id) {
+
+        private ResultObject<?> findUserWithSecurityException() {
             return ResultObject.builder()
-                .validDefaultResult(new TestUser("", ""))
-                .state(ResultState.ERROR)
-                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Access denied")))
-                .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
-                .build();
+                    .validDefaultResult(new TestUser("", ""))
+                    .state(ResultState.ERROR)
+                    .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Access denied")))
+                    .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+                    .build();
         }
-        
-        private static class TestUser implements java.io.Serializable {
-            private static final long serialVersionUID = 1L;
-            private final String id;
-            private final String name;
-            
-            TestUser(String id, String name) {
-                this.id = id;
-                this.name = name;
-            }
-            
-            String getId() {
-                return id;
-            }
-            
-            String getName() {
-                return name;
-            }
+
+        private record TestUser(String id, String name) implements java.io.Serializable {
         }
     }
 }

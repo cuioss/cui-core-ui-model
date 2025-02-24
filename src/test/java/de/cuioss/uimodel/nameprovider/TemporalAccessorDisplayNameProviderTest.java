@@ -15,8 +15,12 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
+import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -24,14 +28,8 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
-import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
-import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Tests TemporalAccessorDisplayNameProvider")
 @PropertyConfig(name = "content", propertyClass = TemporalAccessor.class)
@@ -68,7 +66,7 @@ class TemporalAccessorDisplayNameProviderTest extends ValueObjectTest<TemporalAc
     }
 
     @Test
-    @DisplayName("Should handle ZonedDateTime as shown in Javadoc") 
+    @DisplayName("Should handle ZonedDateTime as shown in Javadoc")
     void shouldHandleZonedDateTime() {
         ZonedDateTime zoned = ZonedDateTime.now();
         var provider = new TemporalAccessorDisplayNameProvider(zoned);
@@ -87,8 +85,8 @@ class TemporalAccessorDisplayNameProviderTest extends ValueObjectTest<TemporalAc
     @DisplayName("Should reject null content")
     void shouldRejectNullContent() {
         var exception = assertThrows(NullPointerException.class,
-            () -> new TemporalAccessorDisplayNameProvider(null),
-            "Should throw NullPointerException for null content");
+                () -> new TemporalAccessorDisplayNameProvider(null),
+                "Should throw NullPointerException for null content");
         assertEquals("content is marked non-null but is null", exception.getMessage(), "Exception message should match");
     }
 }

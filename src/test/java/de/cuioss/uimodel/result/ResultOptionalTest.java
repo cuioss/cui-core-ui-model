@@ -192,89 +192,89 @@ class ResultOptionalTest {
     @Nested
     @org.junit.jupiter.api.DisplayName("Javadoc example tests")
     class JavadocExampleTests {
-        
+
         @Test
         @org.junit.jupiter.api.DisplayName("Should demonstrate basic optional result usage")
         void shouldDemonstrateBasicOptionalResult() {
             // Given: A service result
             var result = ResultOptional.<String>optionalBuilder()
-                .result("John Doe")
-                .state(ResultState.VALID)
-                .build();
-            
+                    .result("John Doe")
+                    .state(ResultState.VALID)
+                    .build();
+
             // When/Then: Result is present and can be processed
             assertTrue(result.isValid());
-            result.getResult().ifPresent(name -> 
-                assertEquals("John Doe", name)
+            result.getResult().ifPresent(name ->
+                    assertEquals("John Doe", name)
             );
         }
-        
+
         @Test
         @org.junit.jupiter.api.DisplayName("Should demonstrate builder pattern usage")
         void shouldDemonstrateBuilderPattern() {
             // When: Building a result with document
             var result = ResultOptional.<String>optionalBuilder()
-                .result("document content")
-                .state(ResultState.VALID)
-                .build();
-                
+                    .result("document content")
+                    .state(ResultState.VALID)
+                    .build();
+
             // Then: Result is valid and contains content
             assertTrue(result.isValid());
             assertTrue(result.getResult().isPresent());
             assertEquals("document content", result.getResult().get());
         }
-        
+
         @Test
         @org.junit.jupiter.api.DisplayName("Should demonstrate result transformation")
         void shouldDemonstrateResultTransformation() {
             // Given: A user result
             var userResult = ResultOptional.<TestUser>optionalBuilder()
-                .result(new TestUser("John Doe"))
-                .state(ResultState.VALID)
-                .build();
-                
+                    .result(new TestUser("John Doe"))
+                    .state(ResultState.VALID)
+                    .build();
+
             // When: Transforming to name result
             var nameResult = new ResultOptional<>(userResult, TestUser::getName);
-                
+
             // Then: Transformation preserves value and state
             assertTrue(nameResult.isValid());
             assertTrue(nameResult.getResult().isPresent());
             assertEquals("John Doe", nameResult.getResult().get());
         }
-        
+
         @Test
         @org.junit.jupiter.api.DisplayName("Should demonstrate error handling")
         void shouldDemonstrateErrorHandling() {
             // Given: A service result with error
             var result = ResultOptional.<String>optionalBuilder()
-                .state(ResultState.ERROR)
-                .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Resource not found")))
-                .build();
-                
+                    .state(ResultState.ERROR)
+                    .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Resource not found")))
+                    .build();
+
             // When/Then: Error case
             assertFalse(result.isValid());
             assertTrue(result.getResultDetail().isPresent());
             assertEquals("Resource not found", result.getResultDetail().get().getDetail().getContent());
-            
+
             // Given: A valid but empty result
             var emptyResult = ResultOptional.<String>optionalBuilder()
-                .result(null)
-                .state(ResultState.VALID)
-                .build();
-                
+                    .result(null)
+                    .state(ResultState.VALID)
+                    .build();
+
             // When/Then: Empty case
             assertTrue(emptyResult.isValid());
             assertFalse(emptyResult.getResult().isPresent());
         }
-        
+
         private static class TestUser implements java.io.Serializable {
             private static final long serialVersionUID = 1L;
             private final String name;
-            
+
             TestUser(String name) {
                 this.name = name;
             }
-            
+
             String getName() {
                 return name;
             }

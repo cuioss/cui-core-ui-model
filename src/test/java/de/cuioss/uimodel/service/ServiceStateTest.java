@@ -15,16 +15,15 @@
  */
 package de.cuioss.uimodel.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.uimodel.nameprovider.DisplayName;
 import de.cuioss.uimodel.result.ResultDetail;
 import de.cuioss.uimodel.result.ResultObject;
 import de.cuioss.uimodel.result.ResultState;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @org.junit.jupiter.api.DisplayName("ServiceState Tests")
 class ServiceStateTest {
@@ -38,40 +37,31 @@ class ServiceStateTest {
         }
 
         ResultObject<String> getData(String id) {
-            switch (serviceState) {
-                case ACTIVE:
-                    return new ResultObject.Builder<String>()
+            return switch (serviceState) {
+                case ACTIVE -> new ResultObject.Builder<String>()
                         .result("Data for " + id)
                         .state(ResultState.VALID)
                         .build();
-                        
-                case TEMPORARILY_UNAVAILABLE:
-                    return new ResultObject.Builder<String>()
+                case TEMPORARILY_UNAVAILABLE -> new ResultObject.Builder<String>()
                         .state(ResultState.ERROR)
-                        .result("")  
+                        .result("")
                         .resultDetail(new ResultDetail(
-                            new DisplayName("Service temporarily unavailable")))
+                                new DisplayName("Service temporarily unavailable")))
                         .build();
-                        
-                case NOT_CONFIGURED:
-                    return new ResultObject.Builder<String>()
+                case NOT_CONFIGURED -> new ResultObject.Builder<String>()
                         .state(ResultState.ERROR)
-                        .result("")  
+                        .result("")
                         .resultDetail(new ResultDetail(
-                            new DisplayName("Service not properly configured")))
+                                new DisplayName("Service not properly configured")))
                         .build();
-                        
-                case NOT_AVAILABLE_FOR_USER:
-                    return new ResultObject.Builder<String>()
+                case NOT_AVAILABLE_FOR_USER -> new ResultObject.Builder<String>()
                         .state(ResultState.ERROR)
-                        .result("")  
+                        .result("")
                         .resultDetail(new ResultDetail(
-                            new DisplayName("Not authorized to access this service")))
+                                new DisplayName("Not authorized to access this service")))
                         .build();
-                        
-                default:
-                    throw new IllegalStateException("Unknown service state");
-            }
+                default -> throw new IllegalStateException("Unknown service state");
+            };
         }
     }
 
@@ -100,8 +90,8 @@ class ServiceStateTest {
 
         // Assert
         assertFalse(result.isValid());
-        assertEquals("Service temporarily unavailable", 
-            result.getResultDetail().get().getDetail().getContent());
+        assertEquals("Service temporarily unavailable",
+                result.getResultDetail().get().getDetail().getContent());
     }
 
     @Test
@@ -115,8 +105,8 @@ class ServiceStateTest {
 
         // Assert
         assertFalse(result.isValid());
-        assertEquals("Service not properly configured", 
-            result.getResultDetail().get().getDetail().getContent());
+        assertEquals("Service not properly configured",
+                result.getResultDetail().get().getDetail().getContent());
     }
 
     @Test
@@ -130,7 +120,7 @@ class ServiceStateTest {
 
         // Assert
         assertFalse(result.isValid());
-        assertEquals("Not authorized to access this service", 
-            result.getResultDetail().get().getDetail().getContent());
+        assertEquals("Not authorized to access this service",
+                result.getResultDetail().get().getDetail().getContent());
     }
 }
