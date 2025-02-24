@@ -177,18 +177,18 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
     @Test
     void shouldFailOnMissingResolver() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
     void shouldFailOnMissingIdentifier() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
     void shouldFailOnEmptyIdentifier() {
         var builder = ConceptKeyTypeImpl.builder().identifier("").category(categories.next()).labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 }

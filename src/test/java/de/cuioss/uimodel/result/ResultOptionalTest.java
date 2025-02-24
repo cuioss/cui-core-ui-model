@@ -111,7 +111,7 @@ class ResultOptionalTest {
             var resultBuilder = ResultOptional.optionalBuilder().result("Test");
 
             // Act & Assert
-            assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
+            assertThrows(UnsupportedOperationException.class, resultBuilder::build);
         }
 
         @Test
@@ -121,7 +121,7 @@ class ResultOptionalTest {
             var resultBuilder = ResultOptional.optionalBuilder().result("Test").state(ResultState.ERROR);
 
             // Act & Assert
-            assertThrows(UnsupportedOperationException.class, () -> resultBuilder.build());
+            assertThrows(UnsupportedOperationException.class, resultBuilder::build);
         }
 
         @Test
@@ -234,7 +234,7 @@ class ResultOptionalTest {
                     .build();
 
             // When: Transforming to name result
-            var nameResult = new ResultOptional<>(userResult, TestUser::getName);
+            var nameResult = new ResultOptional<>(userResult, TestUser::name);
 
             // Then: Transformation preserves value and state
             assertTrue(nameResult.isValid());
@@ -267,17 +267,7 @@ class ResultOptionalTest {
             assertFalse(emptyResult.getResult().isPresent());
         }
 
-        private static class TestUser implements java.io.Serializable {
-            private static final long serialVersionUID = 1L;
-            private final String name;
-
-            TestUser(String name) {
-                this.name = name;
-            }
-
-            String getName() {
-                return name;
-            }
+        private record TestUser(String name) implements java.io.Serializable {
         }
     }
 }
