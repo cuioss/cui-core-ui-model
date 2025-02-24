@@ -34,10 +34,10 @@ import java.io.Serial;
  * <p>Usage Example:
  * <pre>
  * // Create an editable field with initial value using factory
- * DynamicField<Integer> field = DynamicFieldType.INTEGER.createDynamicField(42, true);
+ * {@code DynamicField<Integer>} field = DynamicFieldType.INTEGER.createDynamicField(42, true);
  *
  * // Create an empty editable field using factory
- * DynamicField<Integer> emptyField = DynamicFieldType.INTEGER.createDynamicField(null, true);
+ * {@code DynamicField<Integer>} emptyField = DynamicFieldType.INTEGER.createDynamicField(null, true);
  * </pre>
  *
  * @author Oliver Wolff

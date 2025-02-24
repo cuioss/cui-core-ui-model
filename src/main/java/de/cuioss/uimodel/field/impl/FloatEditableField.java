@@ -35,10 +35,10 @@ import java.io.Serial;
  * <p>Usage Example:
  * <pre>
  * // Create an editable field with initial value using factory
- * DynamicField<Float> field = DynamicFieldType.FLOAT.createDynamicField(3.14f, true);
+ * {@code DynamicField<Float>} field = DynamicFieldType.FLOAT.createDynamicField(3.14f, true);
  *
  * // Create an empty editable field using factory
- * DynamicField<Float> emptyField = DynamicFieldType.FLOAT.createDynamicField(null, true);
+ * {@code DynamicField<Float>} emptyField = DynamicFieldType.FLOAT.createDynamicField(null, true);
  * </pre>
  *
  * @author Oliver Wolff
