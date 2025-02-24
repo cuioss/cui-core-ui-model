@@ -27,9 +27,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Tests DisplayMessageProvider Implementation")
@@ -58,7 +56,7 @@ class DisplayMessageProviderTest {
             target = new DisplayMessageProvider(displayMessageFormat);
 
             // Assert
-            assertThat(target.getContent(), is(equalTo(displayMessageFormat)));
+            assertEquals(displayMessageFormat, target.getContent());
         }
     }
 
@@ -85,7 +83,7 @@ class DisplayMessageProviderTest {
             target = new DisplayMessageProvider(displayMessageFormat);
 
             // Act & Assert
-            assertThat(target.getMessageFormated(bundle), is(equalTo("Error occurs on optional service")));
+            assertEquals("Error occurs on optional service", target.getMessageFormated(bundle));
         }
     }
 

@@ -16,9 +16,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("Tests I18nDisplayNameProvider Implementation")
@@ -61,14 +60,14 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
             final var provider = builder.build();
 
             // Assert - IDisplayNameProvider API usage
-            assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
-            assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
-            assertThat(provider.getContent().get(Locale.GERMANY), is(nullValue()));
+            assertEquals("[en] text", provider.getContent().get(Locale.ENGLISH));
+            assertEquals("[de] text", provider.getContent().get(Locale.GERMAN));
+            assertNull(provider.getContent().get(Locale.GERMANY));
 
             // Assert - shortcut method usage
-            assertThat(provider.lookupTextFor(Locale.ENGLISH), is("[en] text"));
-            assertThat(provider.lookupTextFor(Locale.GERMAN), is("[de] text"));
-            assertThat(provider.lookupTextFor(Locale.GERMANY), is(nullValue()));
+            assertEquals("[en] text", provider.lookupTextFor(Locale.ENGLISH));
+            assertEquals("[de] text", provider.lookupTextFor(Locale.GERMAN));
+            assertNull(provider.lookupTextFor(Locale.GERMANY));
         }
 
         @Test
@@ -84,10 +83,10 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
                 .build();
 
             // Assert
-            assertThat(provider.getContent().get(Locale.ENGLISH), is("[en] text"));
-            assertThat(provider.getContent().get(Locale.UK), is("[en_GB] text"));
-            assertThat(provider.getContent().get(Locale.GERMAN), is("[de] text"));
-            assertThat(provider.getContent().get(Locale.GERMANY), is("[de_DE] text"));
+            assertEquals("[en] text", provider.getContent().get(Locale.ENGLISH));
+            assertEquals("[en_GB] text", provider.getContent().get(Locale.UK));
+            assertEquals("[de] text", provider.getContent().get(Locale.GERMAN));
+            assertEquals("[de_DE] text", provider.getContent().get(Locale.GERMANY));
         }
     }
 
@@ -105,15 +104,15 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
             final var provider = builder.build();
 
             // Assert - shortcut method usage
-            assertThat(provider.lookupTextFor(Locale.GERMANY), is("[de_DE] text"));
-            assertThat(provider.lookupTextFor(Locale.UK), is("[en_GB] text"));
-            assertThat(provider.lookupTextFor(Locale.ENGLISH), is(nullValue()));
-            assertThat(provider.lookupTextFor(Locale.GERMAN), is(nullValue()));
+            assertEquals("[de_DE] text", provider.lookupTextFor(Locale.GERMANY));
+            assertEquals("[en_GB] text", provider.lookupTextFor(Locale.UK));
+            assertNull(provider.lookupTextFor(Locale.ENGLISH));
+            assertNull(provider.lookupTextFor(Locale.GERMAN));
 
             // Assert - shortcut method with fallback
-            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
-            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
-            assertThat(provider.lookupTextFor(Locale.CHINESE), is(nullValue()));
+            assertEquals("[en_GB] text", provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH));
+            assertEquals("[de_DE] text", provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN));
+            assertNull(provider.lookupTextFor(Locale.CHINESE));
         }
 
         @Test
@@ -127,9 +126,9 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
             final var provider = builder.build();
 
             // Assert
-            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH), is("[en_GB] text"));
-            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN), is("[de_DE] text"));
-            assertThat(provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.CHINESE), is("default"));
+            assertEquals("[en_GB] text", provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.ENGLISH));
+            assertEquals("[de_DE] text", provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.GERMAN));
+            assertEquals("default", provider.lookupTextWithFallbackFirstFittingLanguageOnly(Locale.CHINESE));
         }
     }
 

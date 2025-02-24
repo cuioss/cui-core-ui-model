@@ -32,11 +32,6 @@ import java.util.function.Function;
 
 import static de.cuioss.uimodel.result.ResultState.VALID;
 import static de.cuioss.uimodel.result.ResultState.WARNING;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -95,7 +90,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             final ResultObject<?> target = new ResultObject<>(Generators.nonEmptyStrings().next(), VALID);
 
             // Assert
-            assertThat(target.getResultDetail().isPresent(), is(Boolean.FALSE));
+            assertFalse(target.getResultDetail().isPresent());
         }
 
         @Test
@@ -138,7 +133,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
             // Act & Assert
             assertThrows(UnsupportedOperationException.class, target::getResult);
-            assertThat(target.getResultDetail(), is(notNullValue()));
+            assertNotNull(target.getResultDetail());
         }
     }
 
@@ -184,7 +179,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
             // Act & Assert
             var exception = assertThrows(UnsupportedOperationException.class, builder::build);
-            assertThat(exception.getMessage(), containsString("Use setResult or setValidDefaultResult as fallback"));
+            assertTrue(exception.getMessage().contains("Use setResult or setValidDefaultResult as fallback"));
         }
 
         @Test
@@ -212,8 +207,8 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             final var buildResult = builder.build();
 
             // Assert
-            assertThat(buildResult.getState(), is(ResultState.WARNING));
-            assertThat(buildResult.getResultDetail().get(), is(equalTo(anyResultDetail)));
+            assertEquals(ResultState.WARNING, buildResult.getState());
+            assertEquals(anyResultDetail, buildResult.getResultDetail().get());
         }
 
         @Test
@@ -229,7 +224,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             final var buildResult = builder.state(VALID).build();
 
             // Assert
-            assertThat(buildResult.getResultDetail().get(), is(equalTo(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test2")))));
+            assertEquals(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test2")), buildResult.getResultDetail().get());
         }
 
         @Test
@@ -246,7 +241,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
             // Assert
             LogAsserts.assertLogMessagePresentContaining(TestLogLevel.ERROR, "Already failed");
-            assertThat(buildResult.getResultDetail().get(), is(equalTo(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test2")))));
+            assertEquals(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test2")), buildResult.getResultDetail().get());
         }
     }
 
