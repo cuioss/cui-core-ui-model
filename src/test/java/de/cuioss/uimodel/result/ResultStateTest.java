@@ -19,8 +19,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("ResultState Tests")
 class ResultStateTest {
@@ -102,40 +105,34 @@ class ResultStateTest {
                     assertEquals("123", user.id());
                     break;
                 case ERROR:
-                    assertTrue(false, "Should not reach error state");
+                    fail("Should not reach error state");
                     break;
                 default:
-                    assertTrue(false, "Should not reach default state");
+                    fail("Should not reach default state");
             }
 
-            switch (errorResult.getState()) {
-                case ERROR:
-                    assertTrue(errorResult.getResultDetail().isPresent());
-                    assertEquals("User not found",
-                            errorResult.getResultDetail().get().getDetail().getContent());
-                    break;
-                default:
-                    assertTrue(false, "Should not reach default state");
+            if (Objects.requireNonNull(errorResult.getState()) == ResultState.ERROR) {
+                assertTrue(errorResult.getResultDetail().isPresent());
+                assertEquals("User not found",
+                        errorResult.getResultDetail().get().getDetail().getContent());
+            } else {
+                fail("Should not reach default state");
             }
 
-            switch (warningResult.getState()) {
-                case WARNING:
-                    assertTrue(warningResult.getResultDetail().isPresent());
-                    assertEquals("User account will expire soon",
-                            warningResult.getResultDetail().get().getDetail().getContent());
-                    break;
-                default:
-                    assertTrue(false, "Should not reach default state");
+            if (Objects.requireNonNull(warningResult.getState()) == ResultState.WARNING) {
+                assertTrue(warningResult.getResultDetail().isPresent());
+                assertEquals("User account will expire soon",
+                        warningResult.getResultDetail().get().getDetail().getContent());
+            } else {
+                fail("Should not reach default state");
             }
 
-            switch (infoResult.getState()) {
-                case INFO:
-                    assertTrue(infoResult.getResultDetail().isPresent());
-                    assertEquals("User last login: yesterday",
-                            infoResult.getResultDetail().get().getDetail().getContent());
-                    break;
-                default:
-                    assertTrue(false, "Should not reach default state");
+            if (Objects.requireNonNull(infoResult.getState()) == ResultState.INFO) {
+                assertTrue(infoResult.getResultDetail().isPresent());
+                assertEquals("User last login: yesterday",
+                        infoResult.getResultDetail().get().getDetail().getContent());
+            } else {
+                fail("Should not reach default state");
             }
         }
 
