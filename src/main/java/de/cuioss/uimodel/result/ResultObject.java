@@ -15,61 +15,164 @@
  */
 package de.cuioss.uimodel.result;
 
-import static de.cuioss.tools.collect.MoreCollections.isEmpty;
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
-import static java.util.Objects.requireNonNull;
-
-import java.io.Serializable;
-import java.util.Optional;
-import java.util.function.Function;
-
 import de.cuioss.tools.logging.CuiLogger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Optional;
+import java.util.function.Function;
+
+import static de.cuioss.tools.collect.MoreCollections.isEmpty;
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
+import static de.cuioss.uimodel.UiModelLogMessages.INFO;
+import static de.cuioss.uimodel.UiModelLogMessages.WARN;
+import static java.util.Objects.requireNonNull;
+
 /**
- * <h2>Generic ResultObject</h2> ResultObject provide Builder which supports a
- * handy object creation.
+ * A type-safe wrapper for service operation results that elegantly handles both
+ * successful outcomes and error cases. This class is the cornerstone of the result
+ * handling framework, providing a robust alternative to exception-based error handling.
  *
- * See example implementation for provider:
+ * <h2>Key Features</h2>
+ * <ul>
+ *   <li>Type-safe result wrapping</li>
+ *   <li>Built-in error handling</li>
+ *   <li>Fluent builder API</li>
+ *   <li>Default result support</li>
+ *   <li>Immutable design</li>
+ *   <li>Optional integration</li>
+ * </ul>
  *
+ * <h2>Usage Patterns</h2>
+ *
+ * <h3>1. Service Provider Implementation</h3>
  * <pre>
+ * public ResultObject&lt;Patient&gt; retrievePatient(SearchParameter param) {
+ *     // Initialize builder with default result
+ *     ResultObject.Builder&lt;Patient&gt; builder = new ResultObject.Builder&lt;&gt;()
+ *         .validDefaultResult(new Patient());
  *
- * public ResultObject&lt;Patient&gt; retrievePatient(final SearchParameter param) {
- *
- *     final Builder&lt;Patient&gt; builder = new ResultObject.Builder<>();
- *     builder.validDefaultResult(new Patient());
- *
- *     try {
- *         builder.result(service.lookupPatient(param)).state(ResultState.VALID);
- *     } catch (final NoSuchPatientException e) {
- *         private IDisplayNameProvider&lt;?&gt; detail = new DisplayName("No patient found");
- *         builder.resultDetail(new ResultDetail(detail, e)).state(ResultState.ERROR);
+ *     // Validate input
+ *     if (!param.isValid()) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Invalid search parameters")))
+ *             .errorCode(ResultErrorCodes.BAD_REQUEST)
+ *             .build();
  *     }
  *
- *     return builder.build();
+ *     // Check authorization
+ *     if (!securityContext.isAuthorized("PATIENT_READ")) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Not authorized to view patient data")))
+ *             .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+ *             .build();
+ *     }
+ *
+ *     // Perform lookup
+ *     Patient patient = patientRepository.findByParam(param);
+ *     if (patient == null) {
+ *         return builder
+ *             .state(ResultState.ERROR)
+ *             .resultDetail(new ResultDetail(
+ *                 new DisplayName("Patient not found")))
+ *             .errorCode(ResultErrorCodes.NOT_FOUND)
+ *             .build();
+ *     }
+ *
+ *     // Handle success case
+ *     return builder
+ *         .result(patient)
+ *         .state(ResultState.VALID)
+ *         .build();
  * }
  * </pre>
  *
- * See example implementation for consumer:
- *
+ * <h3>2. Consumer Implementation</h3>
  * <pre>
+ * public void processPatient() {
+ *     ResultObject&lt;Patient&gt; result = service.retrievePatient(searchParam);
  *
- * public void buttonClicked() {
- *
- *     final ResultObject&lt;Patient&gt; result = service.getPatient();
+ *     // Check result validity
  *     if (!result.isValid()) {
- *         new MessageProducerAccessor().getValue().addGlobalMessage(resolve(content), FacesMessage.SEVERITY_WARN);
- *     } else {
- *         this.patient = result.getResult();
+ *         // Handle error with appropriate UI feedback
+ *         result.getResultDetail().ifPresent(detail ->
+ *             messageProducer.addError(detail));
+ *
+ *         // Handle specific error cases
+ *         result.getErrorCode().ifPresent(code -> {
+ *             switch (code) {
+ *                 case NOT_FOUND:
+ *                     showNotFoundMessage();
+ *                     break;
+ *                 case NOT_AUTHORIZED:
+ *                     redirectToLogin();
+ *                     break;
+ *                 case BAD_REQUEST:
+ *                     highlightInvalidFields();
+ *                     break;
+ *                 default:
+ *                     showGeneralError();
+ *             }
+ *         });
+ *         return;
  *     }
+ *
+ *     // Process valid result
+ *     Patient patient = result.getResult();
+ *     displayPatient(patient);
  * }
  * </pre>
  *
- * @param <T> bounded result type, should implement {@link Serializable}
+ * <h3>3. Builder Usage</h3>
+ * <pre>
+ * // Success case
+ * ResultObject&lt;User&gt; success = new ResultObject.Builder&lt;User&gt;()
+ *     .result(user)
+ *     .state(ResultState.VALID)
+ *     .build();
  *
+ * // Error case with default result
+ * ResultObject&lt;User&gt; error = new ResultObject.Builder&lt;User&gt;()
+ *     .validDefaultResult(new User())
+ *     .state(ResultState.ERROR)
+ *     .resultDetail(new ResultDetail(
+ *         new DisplayName("User creation failed")))
+ *     .errorCode(ResultErrorCodes.BAD_REQUEST)
+ *     .build();
+ * </pre>
+ *
+ * <h2>Implementation Notes</h2>
+ * <ul>
+ *   <li>Thread-safe due to immutable design</li>
+ *   <li>Serializable when T implements Serializable</li>
+ *   <li>Null-safe operations with proper validation</li>
+ *   <li>Integrates with JSF message handling</li>
+ *   <li>Supports Java 8 Optional API</li>
+ * </ul>
+ *
+ * <h2>Error Handling</h2>
+ * <ul>
+ *   <li>Invalid state prevents result access</li>
+ *   <li>Detailed error information available via ResultDetail</li>
+ *   <li>Support for multiple error details</li>
+ *   <li>Integration with message bundles</li>
+ *   <li>Exception context preservation</li>
+ * </ul>
+ *
+ * @param <T> The type of the result value. Should implement {@link Serializable}
+ *            for proper serialization support.
  * @author Eugen Fischer
+ * @see ResultDetail
+ * @see ResultState
+ * @see ResultOptional
+ * @since 1.0
  */
 @ToString(doNotUseGetters = true)
 @EqualsAndHashCode(doNotUseGetters = true)
@@ -79,41 +182,46 @@ public class ResultObject<T> implements Serializable {
 
     private static final String RESULT_MESSAGE = "result";
 
+    @Serial
     private static final long serialVersionUID = -80595591786771138L;
 
     private static final String HANDLE_EXCEPTION_FIRST = "ResultObject include error which you must handle first. See";
 
     private static final String REQUEST_RESULT_DETAIL_IS_MANDATORY = "Result state is [%s], so request result detail is mandatory";
 
+    private static final CuiLogger LOGGER = new CuiLogger(ResultObject.class);
+
     /**
-     * provide non null result
+     * The wrapped result value. Never null, defaults to validDefaultResult if
+     * an error occurs.
      */
     @SuppressWarnings("squid:S1948") // T should implement {@link Serializable}
     private final T result;
 
     /**
-     * Represents the state of result
+     * The current state of the result, indicating whether it represents a
+     * valid value or an error condition.
      */
     @Getter
     private final ResultState state;
 
     /**
-     * optional additional details
+     * Optional additional details
      */
     private final ResultDetail resultDetail;
 
     /**
-     * optional error code
+     * Optional error code
      */
     private final Enum<?> errorCode;
 
     /**
-     * flag remember at least one time access to stateDetail
+     * Flag to remember at least one time access to stateDetail
      */
     private boolean resultDetailPrompted = false;
 
     /**
-     * flag remember at least one time access to errorCode
+     * Flag to remember at least one time access to errorCode
      */
     private boolean errorCodePrompted = false;
 
@@ -122,7 +230,6 @@ public class ResultObject<T> implements Serializable {
      * @param state        {@linkplain ResultState} is mandatory
      * @param resultDetail is mandatory if state is not
      *                     {@linkplain ResultState#VALID}
-     *
      * @throws IllegalArgumentException if any condition is violated
      */
     public ResultObject(final T result, final ResultState state, final ResultDetail resultDetail) {
@@ -135,7 +242,6 @@ public class ResultObject<T> implements Serializable {
      * @param resultDetail is mandatory if state is not
      *                     {@linkplain ResultState#VALID}
      * @param errorCode    optional errorCode for backend calls
-     *
      * @throws IllegalArgumentException if any condition is violated
      */
     public ResultObject(final T result, final ResultState state, final ResultDetail resultDetail,
@@ -147,6 +253,7 @@ public class ResultObject<T> implements Serializable {
         this.errorCode = errorCode;
 
         if (!isValid() && null == resultDetail) {
+            LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(this.state));
             throw new IllegalArgumentException(REQUEST_RESULT_DETAIL_IS_MANDATORY.formatted(this.state));
         }
     }
@@ -173,8 +280,11 @@ public class ResultObject<T> implements Serializable {
     public <R> ResultObject(final ResultObject<R> previousResult, final Function<R, T> mapper, final T validDefault) {
         if (previousResult.isValid()) {
             result = mapper.apply(previousResult.result);
+            LOGGER.info(INFO.RESULT_MAPPED.format(previousResult.result.getClass().getSimpleName(),
+                    result.getClass().getSimpleName()));
         } else {
             result = validDefault;
+            LOGGER.debug("Using valid default result: %s", validDefault);
         }
         state = previousResult.state;
         resultDetail = previousResult.resultDetail;
@@ -184,7 +294,6 @@ public class ResultObject<T> implements Serializable {
     /**
      * @param result is mandatory
      * @param state  {@linkplain ResultState} is mandatory
-     *
      * @throws IllegalArgumentException if any condition is violated
      */
     public ResultObject(final T result, final ResultState state) {
@@ -213,6 +322,7 @@ public class ResultObject<T> implements Serializable {
         this.state = checkArgumentNotNull(state, STATE_MESSAGE);
 
         if (ResultState.VALID != this.state && null == resultDetail) {
+            LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(this.state));
             throw new IllegalArgumentException(REQUEST_RESULT_DETAIL_IS_MANDATORY.formatted(this.state));
         }
 
@@ -238,16 +348,15 @@ public class ResultObject<T> implements Serializable {
      */
     public T getResult() {
         if (ResultState.MUST_BE_HANDLED.contains(state) && !resultDetailPrompted && !errorCodePrompted) {
+            LOGGER.warn(WARN.INVALID_RESULT_ACCESS.format(state));
             throw new UnsupportedOperationException(HANDLE_EXCEPTION_FIRST, resultDetail.getCause().orElse(null));
         }
-
         return result;
     }
 
     /**
-     *
      * @return {@linkplain Optional} containing a {@linkplain ResultDetail} if
-     *         available, {@linkplain Optional#empty()} otherwise
+     * available, {@linkplain Optional#empty()} otherwise
      */
     public Optional<ResultDetail> getResultDetail() {
         resultDetailPrompted = true;
@@ -256,7 +365,7 @@ public class ResultObject<T> implements Serializable {
 
     /**
      * @return {@linkplain Optional} containing a {@linkplain Enum} as error code if
-     *         available, {@linkplain Optional#empty()} otherwise
+     * available, {@linkplain Optional#empty()} otherwise
      */
     @SuppressWarnings("java:S1452") // owolff: currently we allow any enum here
     public Optional<Enum<?>> getErrorCode() {
@@ -281,18 +390,18 @@ public class ResultObject<T> implements Serializable {
             if (null != state) {
                 final var throwable = detail.getCause().orElse(null);
                 switch (state) {
-                case VALID:
-                    log.debug(msg, throwable);
-                    break;
-                case INFO:
-                    log.info(msg, throwable);
-                    break;
-                case WARNING:
-                    log.warn(msg, throwable);
-                    break;
-                case ERROR:
-                    log.error(msg, throwable);
-                    break;
+                    case VALID:
+                        log.debug(msg, throwable);
+                        break;
+                    case INFO:
+                        log.info(msg, throwable);
+                        break;
+                    case WARNING:
+                        log.warn(msg, throwable);
+                        break;
+                    case ERROR:
+                        log.error(msg, throwable);
+                        break;
                 }
             } else {
                 log.debug(msg, detail.getCause());
@@ -305,9 +414,8 @@ public class ResultObject<T> implements Serializable {
      * given strategy
      *
      * @param errorCode to be checked
-     *
      * @return an Boolean indicating whether the given requestResultObject contains
-     *         the given strategy
+     * the given strategy
      */
     public boolean containsErrorCode(final Enum<?>... errorCode) {
         if (isEmpty((Object[]) errorCode)) {
@@ -325,7 +433,6 @@ public class ResultObject<T> implements Serializable {
      * Builder factory method
      *
      * @param <R> the result type
-     *
      * @return new created typed builder
      */
     public static <R> ResultObject.Builder<R> builder() {
@@ -339,7 +446,7 @@ public class ResultObject<T> implements Serializable {
      */
     public static class Builder<S> {
 
-        private static final CuiLogger log = new CuiLogger(ResultObject.Builder.class);
+        private static final CuiLogger LOGGER = new CuiLogger(ResultObject.Builder.class.getName());
 
         private static final String ALREADY_FAILED = "Already failed: ";
 
@@ -363,7 +470,6 @@ public class ResultObject<T> implements Serializable {
          * Valid default result will be automatically used if no result exists
          *
          * @param result is mandatory
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> validDefaultResult(final S result) {
@@ -373,7 +479,6 @@ public class ResultObject<T> implements Serializable {
 
         /**
          * @param result is mandatory
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> result(final S result) {
@@ -383,7 +488,6 @@ public class ResultObject<T> implements Serializable {
 
         /**
          * @param state is mandatory
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> state(final ResultState state) {
@@ -393,18 +497,16 @@ public class ResultObject<T> implements Serializable {
 
         /**
          * @param resultDetail is optional if state is {@linkplain ResultState#VALID}
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> resultDetail(final ResultDetail resultDetail) {
-            logDetail(ALREADY_FAILED, tempState, tempRequestResultDetail, log);
+            logDetail(ALREADY_FAILED, tempState, tempRequestResultDetail, LOGGER);
             tempRequestResultDetail = resultDetail;
             return this;
         }
 
         /**
          * @param errorCode is optional if state is {@linkplain ResultState#VALID}
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> errorCode(final Enum<?> errorCode) {
@@ -417,7 +519,6 @@ public class ResultObject<T> implements Serializable {
          * {@linkplain ResultObject}
          *
          * @param previousResult {@linkplain ResultObject} must not be {@code null}
-         *
          * @return {@linkplain ResultObject.Builder} in fluent api style
          */
         public ResultObject.Builder<S> extractStateAndDetailsAndErrorCodeFrom(final ResultObject<?> previousResult) {
@@ -441,14 +542,17 @@ public class ResultObject<T> implements Serializable {
         public ResultObject<S> build() {
 
             if (null == tempResult && null == tempValidDefaultResult) {
+                LOGGER.warn(WARN.RESULT_CREATION_FAILED.format(NO_RESULTS_AVAILABLE));
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(NO_RESULTS_AVAILABLE);
             }
 
             if (null == tempState) {
+                LOGGER.warn(WARN.RESULT_CREATION_FAILED.format(STATE_IS_NOT_AVAILABLE));
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(STATE_IS_NOT_AVAILABLE);
             }
 
             if (!ResultState.VALID.equals(tempState) && null == tempRequestResultDetail) {
+                LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(tempState));
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(THE_RESULT_DETAIL_IS_MANDATORY);
             }
 
@@ -456,12 +560,12 @@ public class ResultObject<T> implements Serializable {
             if (null == tempResult) {
 
                 if (ResultState.VALID.equals(tempState)) {
-                    log.debug("Are you really sure you want to use fallback value as result for valid response?");
+                    LOGGER.debug("Using fallback value as result for valid response: %s", tempValidDefaultResult);
                 }
 
                 return new ResultObject<>(tempValidDefaultResult, tempState, tempRequestResultDetail, tempErrorCode);
             }
-
+            LOGGER.info(INFO.RESULT_CREATED.format(tempState));
             return new ResultObject<>(tempResult, tempState, tempRequestResultDetail, tempErrorCode);
 
         }

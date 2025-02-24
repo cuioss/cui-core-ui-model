@@ -15,29 +15,96 @@
  */
 package de.cuioss.uimodel.model.code;
 
-import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
+import lombok.RequiredArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Locale;
 
-import lombok.RequiredArgsConstructor;
+import static de.cuioss.tools.string.MoreStrings.nullToEmpty;
 
 /**
- * Helper class comparing to {@link CodeType} regarding their label. It needs a
- * Locale, in order to call. {@link CodeType#getResolved(Locale)}. In case you
- * know if the concrete {@link CodeType} ignore the {@link Locale} attribute,
- * <code>null</code> is permitted.
+ * A serializable comparator for {@link CodeType} instances that compares them based
+ * on their resolved values in a specified locale. This comparator provides a consistent
+ * ordering for code types, particularly useful for sorting and organizing codes in
+ * user interfaces.
+ *
+ * <p>Features:
+ * <ul>
+ *   <li>Locale-aware comparison</li>
+ *   <li>Null-safe operation</li>
+ *   <li>Serializable for distributed systems</li>
+ *   <li>Thread-safe implementation</li>
+ * </ul>
+ *
+ * <p>The comparison process:
+ * <ol>
+ *   <li>Resolves both code types using the specified locale</li>
+ *   <li>Handles null values by converting them to empty strings</li>
+ *   <li>Performs a natural string comparison of the resolved values</li>
+ * </ol>
+ *
+ * <p>Usage Examples:
+ * <pre>
+ * // Create a comparator for German locale
+ * CodeTypeComparator germanComparator = new CodeTypeComparator(Locale.GERMAN);
+ *
+ * // Sort a list of code types
+ * List&lt;CodeType&gt; codes = new ArrayList&lt;&gt;();
+ * codes.add(new CodeTypeImpl("Beta"));
+ * codes.add(new CodeTypeImpl("Alpha"));
+ * Collections.sort(codes, germanComparator);
+ *
+ * // Use in a TreeSet
+ * Set&lt;CodeType&gt; sortedCodes = new TreeSet&lt;&gt;(germanComparator);
+ * sortedCodes.addAll(codes);
+ *
+ * // For non-localized CodeTypes, null locale is acceptable
+ * CodeTypeComparator simpleComparator = new CodeTypeComparator(null);
+ * </pre>
+ *
+ * <p>Implementation Notes:
+ * <ul>
+ *   <li>The comparator is immutable and thread-safe</li>
+ *   <li>Null values in resolved strings are converted to empty strings</li>
+ *   <li>The comparison is case-sensitive</li>
+ *   <li>The locale parameter can be null for non-localized comparisons</li>
+ * </ul>
  *
  * @author Oliver Wolff
+ * @since 1.0
+ * @see CodeType
+ * @see Comparator
+ * @see Serializable
  */
 @RequiredArgsConstructor
 public class CodeTypeComparator implements Comparator<CodeType>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7747878519156301042L;
 
+    /** The locale to use for resolving code type values. May be null. */
     private final Locale locale;
 
+    /**
+     * Compares two {@link CodeType} instances based on their resolved values.
+     * The comparison is performed using the following steps:
+     * <ol>
+     *   <li>Resolve both code types using the configured locale</li>
+     *   <li>Convert any null results to empty strings</li>
+     *   <li>Perform a natural string comparison</li>
+     * </ol>
+     *
+     * <p>This method is null-safe for both the code types and their resolved values.
+     * Null resolved values are treated as empty strings for comparison purposes.
+     *
+     * @param type1 the first CodeType to compare
+     * @param type2 the second CodeType to compare
+     * @return a negative integer if type1 is less than type2,
+     *         zero if they are equal,
+     *         a positive integer if type1 is greater than type2
+     */
     @Override
     public int compare(final CodeType type1, final CodeType type2) {
         final var type1Name = nullToEmpty(type1.getResolved(locale));
@@ -45,5 +112,4 @@ public class CodeTypeComparator implements Comparator<CodeType>, Serializable {
 
         return type1Name.compareTo(type2Name);
     }
-
 }

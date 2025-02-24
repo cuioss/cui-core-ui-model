@@ -15,6 +15,24 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.generator.TypedGenerator;
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
+import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyBuilderConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import de.cuioss.test.valueobjects.property.util.CollectionType;
+import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
+import de.cuioss.uimodel.model.conceptkey.impl.ConceptCategoryGenerator.TestCodeCategory;
+import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
+import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import static de.cuioss.test.valueobjects.property.util.PropertyAccessStrategy.BUILDER_COLLECTION_AND_SINGLE_ELEMENT;
 import static de.cuioss.tools.collect.CollectionLiterals.mutableSet;
 import static de.cuioss.tools.property.PropertyReadWrite.WRITE_ONLY;
@@ -31,33 +49,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.generator.TypedGenerator;
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
-import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyBuilderConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyConfig;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-import de.cuioss.test.valueobjects.property.util.CollectionType;
-import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
-import de.cuioss.uimodel.model.conceptkey.impl.ConceptCategoryGenerator.TestCodeCategory;
-import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
-
 @PropertyConfig(name = "identifier", propertyClass = String.class)
 @PropertyConfig(name = "category", propertyClass = ConceptCategory.class, generator = ConceptCategoryGenerator.class)
 @PropertyConfig(name = "labelResolver", propertyClass = I18nDisplayNameProvider.class)
 @PropertyConfig(name = "augmentation", propertyClass = Map.class, generator = AugmentationMapGenerator.class, propertyReadWrite = WRITE_ONLY)
 @PropertyConfig(name = "aliases", propertyClass = String.class, collectionType = CollectionType.SET)
 @PropertyBuilderConfig(name = "aliases", builderMethodName = "alias", builderSingleAddMethodName = "alias", propertyAccessStrategy = BUILDER_COLLECTION_AND_SINGLE_ELEMENT)
-@VerifyBuilder(of = { "identifier", "category", "labelResolver", "augmentation", "aliases" }, required = { "identifier",
-        "labelResolver" })
+@VerifyBuilder(of = {"identifier", "category", "labelResolver", "augmentation", "aliases"}, required = {"identifier",
+        "labelResolver"})
 @ObjectTestConfig(equalsAndHashCodeBasicOnly = true)
 @PropertyReflectionConfig(skip = true)
 class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
@@ -178,18 +177,18 @@ class ConceptKeyTypeImplTest extends ValueObjectTest<ConceptKeyTypeImpl> {
     @Test
     void shouldFailOnMissingResolver() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).identifier(IDENTIFIER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
     void shouldFailOnMissingIdentifier() {
         var builder = ConceptKeyTypeImpl.builder().category(categories.next()).labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 
     @Test
     void shouldFailOnEmptyIdentifier() {
         var builder = ConceptKeyTypeImpl.builder().identifier("").category(categories.next()).labelResolver(RESOLVER);
-        assertThrows(NullPointerException.class, () -> builder.build());
+        assertThrows(NullPointerException.class, builder::build);
     }
 }

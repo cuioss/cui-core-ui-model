@@ -15,28 +15,65 @@
  */
 package de.cuioss.uimodel.application;
 
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyBuilder;
 import de.cuioss.test.valueobjects.api.object.ObjectTestConfig;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.stream.Stream;
+
+import static de.cuioss.test.generator.Generators.nonEmptyStrings;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+@DisplayName("Login Credentials Tests")
 @VerifyBuilder
-@PropertyReflectionConfig(of = { "username", "password", "userStore", "rememberLoginCredentials" })
+@PropertyReflectionConfig(of = {"username", "password", "userStore", "rememberLoginCredentials"})
 @ObjectTestConfig(equalsAndHashCodeExclude = "password")
 class LoginCredentialsTest extends ValueObjectTest<LoginCredentials> {
 
-    @Test
-    void shouldDetectCompletness() {
-        assertTrue(LoginCredentials.builder().username(nonEmptyStrings().next()).password(nonEmptyStrings().next())
-                .build().isComplete());
-        assertFalse(LoginCredentials.builder().password(nonEmptyStrings().next()).build().isComplete());
-        assertFalse(LoginCredentials.builder().username(nonEmptyStrings().next()).build().isComplete());
-        assertFalse(LoginCredentials.builder().build().isComplete());
+    @Nested
+    @DisplayName("Completeness checks")
+    class CompletenessTests {
+
+        @ParameterizedTest
+        @MethodSource
+        @DisplayName("should detect completeness based on credentials")
+        void shouldDetectCompleteness(LoginCredentials credentials, boolean expected) {
+            assertEquals(expected, credentials.isComplete());
+        }
+
+        static Stream<Arguments> shouldDetectCompleteness() {
+            return Stream.of(
+                    arguments(
+                            LoginCredentials.builder()
+                                    .username(nonEmptyStrings().next())
+                                    .password(nonEmptyStrings().next())
+                                    .build(),
+                            true
+                    ),
+                    arguments(
+                            LoginCredentials.builder()
+                                    .password(nonEmptyStrings().next())
+                                    .build(),
+                            false
+                    ),
+                    arguments(
+                            LoginCredentials.builder()
+                                    .username(nonEmptyStrings().next())
+                                    .build(),
+                            false
+                    ),
+                    arguments(
+                            LoginCredentials.builder().build(),
+                            false
+                    )
+            );
+        }
     }
 }

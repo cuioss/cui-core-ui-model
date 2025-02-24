@@ -15,9 +15,11 @@
  */
 package de.cuioss.uimodel.nameprovider.testdata;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ConfiguredData {
 
     private final String language;

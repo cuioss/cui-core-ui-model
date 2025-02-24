@@ -17,8 +17,38 @@ package de.cuioss.uimodel.nameprovider;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import de.cuioss.test.valueobjects.api.property.PropertyConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@DisplayName("Tests DisplayName Value Object")
+@PropertyConfig(name = "content", propertyClass = String.class)
 @VerifyConstructor(of = "content", required = "content")
-class DisplayNameTest extends ValueObjectTest<DisplayName> {
+class DisplayNameTest extends ValueObjectTest<de.cuioss.uimodel.nameprovider.DisplayName> {
 
+    @Test
+    @DisplayName("Should match Javadoc examples")
+    void shouldMatchJavadocExamples() {
+        // Basic usage example
+        var name = new de.cuioss.uimodel.nameprovider.DisplayName("John Doe");
+        assertEquals("John Doe", name.getContent(), "Basic content should match");
+
+        // Collection usage example
+        List<IDisplayNameProvider<String>> names = Arrays.asList(
+                new de.cuioss.uimodel.nameprovider.DisplayName("First"),
+                new de.cuioss.uimodel.nameprovider.DisplayName("Second")
+        );
+        assertEquals("First", names.get(0).getContent(), "First item content should match");
+        assertEquals("Second", names.get(1).getContent(), "Second item content should match");
+
+        // Equality example
+        var name1 = new de.cuioss.uimodel.nameprovider.DisplayName("Test");
+        var name2 = new de.cuioss.uimodel.nameprovider.DisplayName("Test");
+        assertEquals(name1, name2, "Objects with same content should be equal");
+    }
 }

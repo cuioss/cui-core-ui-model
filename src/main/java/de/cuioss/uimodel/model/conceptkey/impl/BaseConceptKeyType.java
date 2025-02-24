@@ -15,12 +15,6 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
-
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
 import lombok.AccessLevel;
@@ -29,17 +23,25 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Base abstract implementation of {@link ConceptKeyType}, implementing aliases,
  * augmentationMap and category handling.
  *
  * @author Matthias Walliczek
  */
-@EqualsAndHashCode(of = { "category" })
+@EqualsAndHashCode(of = {"category"})
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseConceptKeyType implements ConceptKeyType {
 
+    @Serial
     private static final long serialVersionUID = 3314726756126201321L;
 
     @Getter

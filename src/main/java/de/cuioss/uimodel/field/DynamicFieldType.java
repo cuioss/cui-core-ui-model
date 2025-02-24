@@ -15,11 +15,6 @@
  */
 package de.cuioss.uimodel.field;
 
-import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
-
-import java.io.Serializable;
-import java.util.Set;
-
 import de.cuioss.uimodel.field.impl.BooleanEditableField;
 import de.cuioss.uimodel.field.impl.DoubleEditableField;
 import de.cuioss.uimodel.field.impl.FloatEditableField;
@@ -30,28 +25,58 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import static de.cuioss.tools.collect.CollectionLiterals.immutableSet;
+
 /**
- * Runtime information of {@link DynamicField} regarding the concrete wrapped
- * type
+ * Defines the supported field types for {@link DynamicField} implementations with factory
+ * capabilities for creating type-specific instances. This enum provides a type-safe way to
+ * handle different field types and their corresponding implementations.
+ *
+ * <p>Supported field types:
+ * <ul>
+ *   <li>{@link #BOOLEAN} - For boolean values</li>
+ *   <li>{@link #STRING} - For text values</li>
+ *   <li>{@link #INTEGER} - For integer values</li>
+ *   <li>{@link #LONG} - For long integer values</li>
+ *   <li>{@link #FLOAT} - For floating-point values</li>
+ *   <li>{@link #DOUBLE} - For double-precision values</li>
+ * </ul>
+ *
+ * <p>Each field type provides:
+ * <ul>
+ *   <li>Type-safe factory methods for creating corresponding {@link DynamicField} instances</li>
+ *   <li>Type information for UI rendering and validation</li>
+ *   <li>Proper value conversion and handling</li>
+ * </ul>
  *
  * @author Oliver Wolff
+ * @since 1.0
+ * @see DynamicField
+ * @see TracedDynamicField
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings("unchecked") // owolff: We need to find a better way for implementing the factory
 public enum DynamicFieldType {
 
-    /** Represents a {@link DynamicField} for {@link Boolean}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link Boolean} values.
+     * Suitable for checkboxes, toggles, and yes/no selections.
+     */
     BOOLEAN(Boolean.class, "boolean") {
-
         @Override
         public DynamicField<Boolean> createDynamicField(final Serializable value, final boolean editable) {
             return new BooleanEditableField((Boolean) value, editable);
         }
     },
 
-    /** Represents a {@link DynamicField} for {@link String}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link String} values.
+     * Suitable for text input, text areas, and rich text editors.
+     */
     STRING(String.class, "String") {
-
         @Override
         public DynamicField<String> createDynamicField(final Serializable value, final boolean editable) {
             String stringValue = null;
@@ -62,45 +87,52 @@ public enum DynamicFieldType {
         }
     },
 
-    /** Represents a {@link DynamicField} for {@link Integer}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link Integer} values.
+     * Suitable for whole number inputs within the integer range.
+     */
     INTEGER(Integer.class, "int") {
-
         @Override
         public DynamicField<Integer> createDynamicField(final Serializable value, final boolean editable) {
             return new IntegerEditableField((Integer) value, editable);
         }
     },
 
-    /** Represents a {@link DynamicField} for {@link Long}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link Long} values.
+     * Suitable for large whole numbers exceeding integer range.
+     */
     LONG(Long.class, "long") {
-
         @Override
         public DynamicField<Long> createDynamicField(final Serializable value, final boolean editable) {
             return new LongEditableField((Long) value, editable);
         }
     },
 
-    /** Represents a {@link DynamicField} for {@link Long}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link Float} values.
+     * Suitable for decimal numbers with single precision.
+     */
     FLOAT(Float.class, "float") {
-
         @Override
         public DynamicField<Float> createDynamicField(final Serializable value, final boolean editable) {
             return new FloatEditableField((Float) value, editable);
         }
     },
 
-    /** Represents a {@link DynamicField} for {@link Double}. */
+    /** 
+     * Represents a {@link DynamicField} for {@link Double} values.
+     * Suitable for decimal numbers requiring high precision.
+     */
     DOUBLE(Double.class, "double") {
-
         @Override
         public DynamicField<Double> createDynamicField(final Serializable value, final boolean editable) {
             return new DoubleEditableField((Double) value, editable);
         }
     };
 
-    /** This set defines all elements that are a number. */
-    @SuppressWarnings("java:S2386") // owolff: False Positive -> immutable
-    public static final Set<DynamicFieldType> NUMBER_SET = immutableSet(INTEGER, LONG, FLOAT, DOUBLE);
+    /** This set defines all elements that are numeric types. */
+    public static final Set<DynamicFieldType> NUMBER_TYPES = immutableSet(INTEGER, LONG, FLOAT, DOUBLE);
 
     @Getter
     private final Class<? extends Serializable> wrapperType;
@@ -109,31 +141,48 @@ public enum DynamicFieldType {
     private final String primitiveName;
 
     /**
-     * @return boolean indicating whether the types represents a boolean field
+     * Determines if this field type represents a boolean value.
+     * This is useful for UI components that need to render appropriate
+     * boolean controls like checkboxes or toggles.
+     *
+     * @return {@code true} if this type represents a boolean field,
+     *         {@code false} otherwise
      */
     public boolean isBooleanField() {
         return BOOLEAN.equals(this);
     }
 
     /**
-     * Factory method for creating a corresponding instance of {@link DynamicField}.
+     * Creates a new {@link DynamicField} instance for this field type.
+     * The created field will be initialized with the given value and
+     * editability state.
      *
-     * @param value    may be null
-     * @param editable indicates whether the field is editable.
-     * @return corresponding instance of {@link DynamicField}.
+     * <p>Each field type implementation ensures proper type conversion
+     * and validation of the input value.
+     *
+     * @param value The initial value for the field. May be null.
+     * @param editable Whether the field should be editable.
+     * @return A new {@link DynamicField} instance configured with the
+     *         specified parameters
+     * @throws IllegalArgumentException if the value type doesn't match
+     *         the field type
      */
     public abstract <T extends Serializable> DynamicField<T> createDynamicField(T value, boolean editable);
 
     /**
-     * Factory method for creating an {@link DynamicFieldType} identified by the
-     * given type. In case there is no fitting type it will return
-     * {@link DynamicFieldType#STRING}
+     * Resolves a {@link DynamicFieldType} from its string representation.
+     * This is particularly useful when working with configuration or
+     * serialized data.
      *
-     * @param type must not be null
-     * @return {@link DynamicFieldType} identified by the given type. In case there
-     *         is no fitting type it will return {@link DynamicFieldType#STRING}
+     * <p>The method performs a case-insensitive search for a matching type.
+     * If no matching type is found, returns {@link #STRING} as a safe default.
+     *
+     * @param type The string representation of the type. Must not be null.
+     * @return The corresponding {@link DynamicFieldType}, or {@link #STRING}
+     *         if no match is found
+     * @throws NullPointerException if type is null
      */
-    public static final DynamicFieldType getByTypeString(final String type) {
+    public static DynamicFieldType getByTypeString(final String type) {
         var fieldType = DynamicFieldType.STRING;
 
         for (final DynamicFieldType dynamicFieldType : DynamicFieldType.values()) {
@@ -146,5 +195,4 @@ public enum DynamicFieldType {
 
         return fieldType;
     }
-
 }

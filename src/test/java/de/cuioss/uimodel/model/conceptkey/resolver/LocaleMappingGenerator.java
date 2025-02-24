@@ -15,17 +15,17 @@
  */
 package de.cuioss.uimodel.model.conceptkey.resolver;
 
-import static de.cuioss.test.generator.Generators.integers;
-import static de.cuioss.test.generator.Generators.locales;
-import static de.cuioss.test.generator.Generators.nonEmptyStrings;
+import de.cuioss.test.generator.TypedGenerator;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import de.cuioss.test.generator.TypedGenerator;
+import static de.cuioss.test.generator.Generators.integers;
+import static de.cuioss.test.generator.Generators.locales;
+import static de.cuioss.test.generator.Generators.nonEmptyStrings;
 
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({"rawtypes"})
 public class LocaleMappingGenerator implements TypedGenerator<Map> {
 
     private final TypedGenerator<String> labels = nonEmptyStrings();

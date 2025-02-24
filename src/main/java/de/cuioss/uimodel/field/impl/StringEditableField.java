@@ -17,29 +17,53 @@ package de.cuioss.uimodel.field.impl;
 
 import de.cuioss.uimodel.field.DynamicFieldType;
 
+import java.io.Serial;
+
 /**
- * An input field where the user can type in a String.
+ * Concrete implementation of {@link BaseDynamicField} for string values, designed
+ * for text input scenarios. This field is suitable for single-line text inputs,
+ * text areas, and rich text editors.
+ *
+ * <p>Features:
+ * <ul>
+ *   <li>Handles text input of any length</li>
+ *   <li>Supports null values for optional fields</li>
+ *   <li>Automatically uses {@link DynamicFieldType#STRING}</li>
+ *   <li>Maintains all change tracking capabilities</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * // Create an editable field with initial text using factory
+ * DynamicField<String> field = DynamicFieldType.STRING.createDynamicField("Initial text", true);
+ *
+ * // Create an empty editable field using factory
+ * DynamicField<String> emptyField = DynamicFieldType.STRING.createDynamicField(null, true);
+ * </pre>
  *
  * @author Oliver Wolff
+ * @since 1.0
  */
 public class StringEditableField extends BaseDynamicField<String> {
 
+    @Serial
     private static final long serialVersionUID = 1576605569211546203L;
 
     /**
-     * C'tor.
+     * Constructs a new string field with the specified editability.
+     * The initial value will be null.
      *
-     * @param editable If the content of the field is editable.
+     * @param editable Whether the field should be editable
      */
     public StringEditableField(final boolean editable) {
         super(editable, DynamicFieldType.STRING);
     }
 
     /**
-     * C'tor.
+     * Constructs a new string field with the specified value and editability.
      *
-     * @param value    The value of the input field
-     * @param editable If the input field is editable.
+     * @param value    The initial string value, may be null
+     * @param editable Whether the field should be editable
      */
     public StringEditableField(final String value, final boolean editable) {
         super(value, editable, DynamicFieldType.STRING);

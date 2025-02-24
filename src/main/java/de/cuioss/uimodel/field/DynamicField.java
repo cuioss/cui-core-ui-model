@@ -18,8 +18,27 @@ package de.cuioss.uimodel.field;
 import java.io.Serializable;
 
 /**
- * Extends {@linkplain TracedDynamicField} and include
- * {@linkplain DynamicFieldType} information
+ * Extends {@linkplain TracedDynamicField} by adding type information through
+ * {@linkplain DynamicFieldType}. This interface combines value tracking with
+ * type-safe field operations, making it suitable for strongly-typed form handling.
+ *
+ * <p>Usage Examples:
+ * <pre>
+ * // Create a string field
+ * DynamicField&lt;String&gt; stringField = DynamicFieldType.STRING.createDynamicField("value", true);
+ * assertEquals(DynamicFieldType.STRING, stringField.getFieldType());
+ * assertTrue(stringField.isEditable());
+ * 
+ * // Create an integer field
+ * DynamicField&lt;Integer&gt; intField = DynamicFieldType.INTEGER.createDynamicField(42, true);
+ * assertEquals(DynamicFieldType.INTEGER, intField.getFieldType());
+ * assertEquals(42, intField.getValue());
+ * 
+ * // Create a boolean field
+ * DynamicField&lt;Boolean&gt; boolField = DynamicFieldType.BOOLEAN.createDynamicField(true, false);
+ * assertEquals(DynamicFieldType.BOOLEAN, boolField.getFieldType());
+ * assertFalse(boolField.isEditable());
+ * </pre>
  *
  * @author Eugen Fischer
  * @author Oliver Wolff

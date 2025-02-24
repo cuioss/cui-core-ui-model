@@ -15,6 +15,19 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
+import de.cuioss.test.generator.Generators;
+import de.cuioss.test.juli.LogAsserts;
+import de.cuioss.test.juli.TestLogLevel;
+import de.cuioss.test.juli.junit5.EnableTestLogger;
+import de.cuioss.test.valueobjects.ValueObjectTest;
+import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+
 import static de.cuioss.test.generator.Generators.integerObjects;
 import static de.cuioss.test.generator.Generators.nonEmptyStrings;
 import static de.cuioss.test.generator.Generators.strings;
@@ -23,56 +36,73 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.Serializable;
-
-import org.junit.jupiter.api.Test;
-
-import de.cuioss.test.generator.Generators;
-import de.cuioss.test.juli.LogAsserts;
-import de.cuioss.test.juli.TestLogLevel;
-import de.cuioss.test.juli.junit5.EnableTestLogger;
-import de.cuioss.test.valueobjects.ValueObjectTest;
-import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
-import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
-
+@DisplayName("Tests DisplayMessageFormat Implementation")
 @PropertyReflectionConfig(required = "msgKey")
 // FIXME efischer: The structure seems to be problematic
 // @PropertyBuilderConfig(name = "arguments", builderMethodName = "addAll")
 // @VerifyBuilder(of = { "msgKey", "arguments" })
-@VerifyConstructor(of = { "msgKey", "arguments" }, required = { "msgKey", "arguments" })
+@VerifyConstructor(of = {"msgKey", "arguments"}, required = {"msgKey", "arguments"})
 @EnableTestLogger
 class DisplayMessageFormatTest extends ValueObjectTest<DisplayMessageFormat> {
 
-    @Test
-    void shouldFailOnEmptyBuilder() {
-        var builder = DisplayMessageFormat.builder();
-        assertThrows(NullPointerException.class, () -> builder.build());
+    @Nested
+    @DisplayName("Builder Tests")
+    class BuilderTests {
+
+        @Test
+        @DisplayName("Should fail on empty builder")
+        void shouldFailOnEmptyBuilder() {
+            // Arrange
+            var builder = DisplayMessageFormat.builder();
+
+            // Act & Assert
+            assertThrows(NullPointerException.class, builder::build);
+        }
+
+        @Test
+        @DisplayName("Should warn on missing arguments")
+        void shouldWarnOnMissingArguments() {
+            // Arrange
+            var builder = DisplayMessageFormat.builder().msgKey(nonEmptyStrings().next());
+
+            // Act
+            builder.build();
+
+            // Assert
+            LogAsserts.assertSingleLogMessagePresentContaining(TestLogLevel.WARN, "No message format arguments provided");
+        }
     }
 
-    @Test
-    void shouldWarnOnMissingArguments() {
-        var builder = DisplayMessageFormat.builder().msgKey(nonEmptyStrings().next());
-        builder.build();
-        LogAsserts.assertSingleLogMessagePresentContaining(TestLogLevel.WARN, "LabeledKey instead?");
-    }
+    @Nested
+    @DisplayName("Argument Handling Tests")
+    class ArgumentTests {
 
-    @Test
-    void shouldHandleArguments() {
-        var builder = new DisplayMessageFormat.Builder(nonEmptyStrings().next());
-        var ints = Generators.integerObjects();
-        builder.add((Serializable[]) null);
-        builder.add();
-        builder.add(ints.next());
-        builder.add(ints.next(), ints.next());
-        builder.addAll(immutableList(ints.next(), ints.next()));
-        builder.addAll(null);
-        var result = builder.build();
-        assertEquals(5, result.getContent().getArguments().size());
-    }
+        @Test
+        @DisplayName("Should handle various argument scenarios")
+        void shouldHandleArguments() {
+            // Arrange
+            var builder = new DisplayMessageFormat.Builder(nonEmptyStrings().next());
+            var ints = Generators.integerObjects();
 
-    @Test
-    void shhouldHandleVarArgsConstuctor() {
-        assertDoesNotThrow(
-                () -> new DisplayMessageFormat(nonEmptyStrings().next(), integerObjects().next(), strings().next()));
+            // Act
+            builder.add((Serializable[]) null);
+            builder.add();
+            builder.add(ints.next());
+            builder.add(ints.next(), ints.next());
+            builder.addAll(immutableList(ints.next(), ints.next()));
+            builder.addAll(null);
+            var result = builder.build();
+
+            // Assert
+            assertEquals(5, result.getContent().getArguments().size());
+        }
+
+        @Test
+        @DisplayName("Should handle varargs constructor")
+        void shouldHandleVarArgsConstructor() {
+            // Act & Assert
+            assertDoesNotThrow(
+                    () -> new DisplayMessageFormat(nonEmptyStrings().next(), integerObjects().next(), strings().next()));
+        }
     }
 }

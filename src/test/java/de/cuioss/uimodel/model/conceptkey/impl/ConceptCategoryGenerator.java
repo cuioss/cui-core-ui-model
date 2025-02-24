@@ -17,7 +17,7 @@ package de.cuioss.uimodel.model.conceptkey.impl;
 
 import de.cuioss.test.generator.Generators;
 import de.cuioss.test.generator.TypedGenerator;
-import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstans;
+import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstants;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
 
@@ -42,7 +42,7 @@ public class ConceptCategoryGenerator implements TypedGenerator<ConceptCategory>
         @Override
         public ConceptKeyType createUndefinedConceptKey(final String value) {
             return ConceptKeyTypeImpl.builder().category(this).identifier(value)
-                    .augmentation(AugmentationKeyConstans.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
+                    .augmentation(AugmentationKeyConstants.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
         }
 
         @Override

@@ -5,16 +5,16 @@
     <parent>
         <groupId>de.cuioss</groupId>
         <artifactId>cui-java-parent</artifactId>
-        <version>0.8.6</version>
+        <version>0.9.0</version>
         <relativePath/>
     </parent>
     <artifactId>cui-core-ui-model</artifactId>
-    <name>cui core UI-Model</name>
     <version>2.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>cui core UI-Model</name>
     <description>Defines types and structures simplifying the integration of
         server-side ui.
     </description>
-    <packaging>jar</packaging>
     <url>https://github.com/cuioss/cui-core-ui-model/</url>
     <scm>
         <url>https://github.com/cuioss/cui-core-ui-model/</url>
@@ -56,12 +56,13 @@
             <artifactId>cui-test-value-objects</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

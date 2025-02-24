@@ -15,13 +15,15 @@
  */
 package de.cuioss.uimodel.model.conceptkey.impl;
 
-import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstans;
+import de.cuioss.uimodel.model.conceptkey.AugmentationKeyConstants;
 import de.cuioss.uimodel.model.conceptkey.ConceptCategory;
 import de.cuioss.uimodel.model.conceptkey.ConceptKeyType;
 import de.cuioss.uimodel.nameprovider.I18nDisplayNameProvider;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.io.Serial;
 
 /**
  * Base implementation of {@link ConceptCategory}, using
@@ -33,6 +35,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "name")
 public class BaseConceptCategory implements ConceptCategory {
 
+    @Serial
     private static final long serialVersionUID = 8937041650695445812L;
 
     /**
@@ -57,7 +60,7 @@ public class BaseConceptCategory implements ConceptCategory {
     @Override
     public ConceptKeyType createUndefinedConceptKey(final String value) {
         return ConceptKeyTypeImpl.builder().identifier(value).labelResolver(new I18nDisplayNameProvider(value))
-                .category(this).augmentation(AugmentationKeyConstans.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
+                .category(this).augmentation(AugmentationKeyConstants.UNDEFINED_VALUE, Boolean.TRUE.toString()).build();
     }
 
 }

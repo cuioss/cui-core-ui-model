@@ -15,11 +15,11 @@
  */
 package de.cuioss.uimodel.nameprovider.testdata;
 
+import de.cuioss.uimodel.nameprovider.data.EntryData;
+
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.function.Function;
-
-import de.cuioss.uimodel.nameprovider.data.EntryData;
 
 /**
  * Example for data tranformation

@@ -17,30 +17,54 @@ package de.cuioss.uimodel.field.impl;
 
 import de.cuioss.uimodel.field.DynamicFieldType;
 
+import java.io.Serial;
+
 /**
- * An input field where the user can type in a {@link Double}.
+ * Concrete implementation of {@link BaseDynamicField} for double-precision values,
+ * designed for numeric input scenarios requiring high decimal precision with
+ * double-precision floating-point format.
+ *
+ * <p>Features:
+ * <ul>
+ *   <li>Handles double values from {@link Double#MIN_VALUE} to {@link Double#MAX_VALUE}</li>
+ *   <li>Supports null values for optional numeric fields</li>
+ *   <li>Automatically uses {@link DynamicFieldType#DOUBLE}</li>
+ *   <li>Suitable for high-precision calculations and financial data</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * // Create an editable field with initial value using factory
+ * DynamicField<Double> field = DynamicFieldType.DOUBLE.createDynamicField(3.14159265359, true);
+ *
+ * // Create an empty editable field using factory
+ * DynamicField<Double> emptyField = DynamicFieldType.DOUBLE.createDynamicField(null, true);
+ * </pre>
  *
  * @author Oliver Wolff
+ * @since 1.0
  */
 public class DoubleEditableField extends BaseDynamicField<Double> {
 
     /** */
-    private static final long serialVersionUID = 4466539654104251395L;
+    @Serial
+    private static final long serialVersionUID = 1576605569211546203L;
 
     /**
-     * C'tor.
+     * Constructs a new double field with the specified editability.
+     * The initial value will be null.
      *
-     * @param editable If the input field is editable.
+     * @param editable Whether the field should be editable
      */
     public DoubleEditableField(final boolean editable) {
         super(editable, DynamicFieldType.DOUBLE);
     }
 
     /**
-     * C'tor.
+     * Constructs a new double field with the specified value and editability.
      *
-     * @param value    The value of the input field
-     * @param editable If the value is editable
+     * @param value    The initial double value, may be null
+     * @param editable Whether the field should be editable
      */
     public DoubleEditableField(final Double value, final boolean editable) {
         super(value, editable, DynamicFieldType.DOUBLE);

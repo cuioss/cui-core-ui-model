@@ -17,32 +17,54 @@ package de.cuioss.uimodel.field.impl;
 
 import de.cuioss.uimodel.field.DynamicFieldType;
 
+import java.io.Serial;
+
 /**
- * An input field where the user can type in a number.
+ * Concrete implementation of {@link BaseDynamicField} for integer values, designed
+ * for numeric input scenarios requiring whole numbers within the {@link Integer} range.
+ *
+ * <p>Features:
+ * <ul>
+ *   <li>Handles integer values from {@link Integer#MIN_VALUE} to {@link Integer#MAX_VALUE}</li>
+ *   <li>Supports null values for optional numeric fields</li>
+ *   <li>Automatically uses {@link DynamicFieldType#INTEGER}</li>
+ *   <li>Suitable for spinners, number inputs, and numeric form fields</li>
+ * </ul>
+ *
+ * <p>Usage Example:
+ * <pre>
+ * // Create an editable field with initial value using factory
+ * DynamicField<Integer> field = DynamicFieldType.INTEGER.createDynamicField(42, true);
+ *
+ * // Create an empty editable field using factory
+ * DynamicField<Integer> emptyField = DynamicFieldType.INTEGER.createDynamicField(null, true);
+ * </pre>
  *
  * @author Oliver Wolff
+ * @since 1.0
  */
 public class IntegerEditableField extends BaseDynamicField<Integer> {
 
+    @Serial
     private static final long serialVersionUID = 1576605569211546203L;
 
     /**
-     * C'tor.
+     * Constructs a new integer field with the specified editability.
+     * The initial value will be null.
      *
-     * @param editable If the input field is editable.
+     * @param editable Whether the field should be editable
      */
     public IntegerEditableField(final boolean editable) {
         super(editable, DynamicFieldType.INTEGER);
     }
 
     /**
-     * C'tor.
+     * Constructs a new integer field with the specified value and editability.
      *
-     * @param value    The value of the input field
-     * @param editable If the value is editable
+     * @param value    The initial integer value, may be null
+     * @param editable Whether the field should be editable
      */
     public IntegerEditableField(final Integer value, final boolean editable) {
         super(value, editable, DynamicFieldType.INTEGER);
     }
-
 }

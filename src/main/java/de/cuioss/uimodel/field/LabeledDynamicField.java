@@ -18,23 +18,56 @@ package de.cuioss.uimodel.field;
 import java.io.Serializable;
 
 /**
+ * Extends {@link DynamicField} to add labeling and identification capabilities.
+ * This interface is particularly useful for form fields that need to display
+ * labels, advisory information, and maintain unique identifiers.
+ *
+ * <p>The interface provides:
+ * <ul>
+ *   <li>Localization keys for labels and advisory text</li>
+ *   <li>Unique field identification</li>
+ *   <li>All capabilities of {@link DynamicField}</li>
+ * </ul>
+ *
+ * <p>This is commonly used for:
+ * <ul>
+ *   <li>Form input fields requiring labels</li>
+ *   <li>Fields with help or advisory text</li>
+ *   <li>Components needing unique identification for DOM manipulation</li>
+ * </ul>
+ *
  * @author Matthias Walliczek
- * @param <T>
+ * @param <T> The type of value managed by this field. Must be {@link Serializable}
+ *           to support persistence and distribution.
+ * @since 1.0
  */
 public interface LabeledDynamicField<T extends Serializable> extends DynamicField<T> {
 
     /**
-     * @return the labelKey
+     * Retrieves the key used for looking up the field's label text in a
+     * resource bundle or message source.
+     *
+     * @return The key for label text lookup. May be null if no label
+     *         is associated with this field.
      */
     String getLabelKey();
 
     /**
-     * @return the key for looking up advisory information
+     * Retrieves the key used for looking up advisory or help text in a
+     * resource bundle or message source. This text typically provides
+     * additional guidance to users about the field's purpose or requirements.
+     *
+     * @return The key for advisory text lookup. May be null if no advisory
+     *         text is associated with this field.
      */
     String getAdvisoryKey();
 
     /**
-     * @return the identifier for this field.
+     * Retrieves the unique identifier for this field. This identifier can
+     * be used for DOM element IDs, form field names, or other scenarios
+     * requiring unique field identification.
+     *
+     * @return The unique identifier for this field. Should not be null.
      */
     String getIdentifier();
 }

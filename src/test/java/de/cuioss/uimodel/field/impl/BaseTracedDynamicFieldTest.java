@@ -17,8 +17,10 @@ package de.cuioss.uimodel.field.impl;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
+import org.junit.jupiter.api.DisplayName;
 
-@VerifyConstructor(of = { "value", "editable" })
+@DisplayName("Base Traced Dynamic Field Tests")
+@VerifyConstructor(of = {"value", "editable"})
 class BaseTracedDynamicFieldTest extends ValueObjectTest<BaseTracedDynamicField<String>> {
 
     // tests defined in ValueObjectTest

@@ -15,33 +15,97 @@
  */
 package de.cuioss.uimodel.result;
 
-import static de.cuioss.uimodel.result.ResultErrorCodes.BAD_REQUEST;
-import static de.cuioss.uimodel.result.ResultErrorCodes.NOT_AUTHENTICATED;
-import static de.cuioss.uimodel.result.ResultErrorCodes.NOT_AUTHORIZED;
-import static de.cuioss.uimodel.result.ResultErrorCodes.NOT_FOUND;
-import static de.cuioss.uimodel.result.ResultErrorCodes.RUNTIME_ERROR;
-import static de.cuioss.uimodel.result.ResultErrorCodes.SERVICE_NOT_AVAILABLE;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
-
+@DisplayName("ResultErrorCodes Tests")
 class ResultErrorCodesTest {
 
-    /**
-     * Test method for
-     * {@link de.cuioss.uimodel.result.ResultErrorCodes#parseHttpCode(int)}.
-     */
-    @Test
-    void testParseHttpCode() {
-        assertEquals(RUNTIME_ERROR, ResultErrorCodes.parseHttpCode(0));
-        assertEquals(RUNTIME_ERROR, ResultErrorCodes.parseHttpCode(500));
+    @Nested
+    @DisplayName("HTTP Code Parsing Tests")
+    class ParseHttpCodeTest {
 
-        assertEquals(BAD_REQUEST, ResultErrorCodes.parseHttpCode(400));
-        assertEquals(NOT_AUTHENTICATED, ResultErrorCodes.parseHttpCode(401));
-        assertEquals(NOT_AUTHORIZED, ResultErrorCodes.parseHttpCode(403));
+        @ParameterizedTest(name = "HTTP code {0} should map to {1}")
+        @CsvSource({
+                "400, BAD_REQUEST",
+                "401, NOT_AUTHENTICATED",
+                "403, NOT_AUTHORIZED",
+                "404, NOT_FOUND",
+                "503, SERVICE_NOT_AVAILABLE",
+                "500, RUNTIME_ERROR",
+                "0, RUNTIME_ERROR"
+        })
+        void parseHttpCode(int httpCode, ResultErrorCodes expected) {
+            // Act
+            ResultErrorCodes actual = ResultErrorCodes.parseHttpCode(httpCode);
 
-        assertEquals(NOT_FOUND, ResultErrorCodes.parseHttpCode(404));
-        assertEquals(SERVICE_NOT_AVAILABLE, ResultErrorCodes.parseHttpCode(503));
+            // Assert
+            assertEquals(expected, actual);
+        }
     }
 
+    @Nested
+    @DisplayName("Javadoc example tests")
+    class JavadocExampleTests {
+
+        @org.junit.jupiter.api.Test
+        @DisplayName("Should demonstrate basic error code usage")
+        void shouldDemonstrateBasicErrorCodeUsage() {
+            // Given: A repository result
+            var user = new TestUser("123", "John Doe");
+
+            // When: User is not found
+            var notFoundResult = findUser("456");
+
+            // Then: Not found error is returned
+            assertEquals(ResultErrorCodes.NOT_FOUND, notFoundResult.getErrorCode().get());
+            assertEquals("User not found", notFoundResult.getResultDetail().get().getDetail().getContent());
+
+            // When: Security exception occurs
+            var securityResult = findUserWithSecurityException();
+
+            // Then: Not authorized error is returned
+            assertEquals(ResultErrorCodes.NOT_AUTHORIZED, securityResult.getErrorCode().get());
+            assertEquals("Access denied", securityResult.getResultDetail().get().getDetail().getContent());
+
+            // When: User is found
+            var foundResult = findUser("123");
+
+            // Then: Success result is returned
+            assertTrue(foundResult.isValid());
+            assertEquals(user.id(), ((TestUser) foundResult.getResult()).id());
+        }
+
+        private ResultObject<?> findUser(String id) {
+            if ("123".equals(id)) {
+                return ResultObject.builder()
+                        .result(new TestUser("123", "John Doe"))
+                        .state(ResultState.VALID)
+                        .build();
+            }
+            return ResultObject.builder()
+                    .validDefaultResult(new TestUser("", ""))
+                    .state(ResultState.ERROR)
+                    .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("User not found")))
+                    .errorCode(ResultErrorCodes.NOT_FOUND)
+                    .build();
+        }
+
+        private ResultObject<?> findUserWithSecurityException() {
+            return ResultObject.builder()
+                    .validDefaultResult(new TestUser("", ""))
+                    .state(ResultState.ERROR)
+                    .resultDetail(new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Access denied")))
+                    .errorCode(ResultErrorCodes.NOT_AUTHORIZED)
+                    .build();
+        }
+
+        private record TestUser(String id, String name) implements java.io.Serializable {
+        }
+    }
 }
