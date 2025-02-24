@@ -139,7 +139,6 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             // Act & Assert
             assertThrows(UnsupportedOperationException.class, target::getResult);
             assertThat(target.getResultDetail(), is(notNullValue()));
-            assertThat(target.getResult(), is(notNullValue()));
         }
     }
 

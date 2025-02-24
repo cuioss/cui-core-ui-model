@@ -30,6 +30,7 @@ import java.util.List;
 import static de.cuioss.tools.collect.CollectionLiterals.immutableList;
 import static de.cuioss.tools.string.MoreStrings.emptyToNull;
 import static de.cuioss.tools.string.MoreStrings.requireNotEmpty;
+import static de.cuioss.uimodel.UiModelLogMessages.WARN;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -156,7 +157,7 @@ public class DisplayMessageFormat implements Serializable {
     @NoArgsConstructor
     public static class Builder {
 
-        private static final CuiLogger log = new CuiLogger(DisplayMessageFormat.Builder.class);
+        private static final CuiLogger LOGGER = new CuiLogger(DisplayMessageFormat.Builder.class);
 
         private String tempMsgKey;
 
@@ -224,8 +225,7 @@ public class DisplayMessageFormat implements Serializable {
         public DisplayMessageProvider build() {
             requireNonNull(tempMsgKey);
             if (tempArguments.isEmpty()) {
-                log.warn("{}\n{}", "Are you really sure there are no message format arguments needed?",
-                        "May it's better idea to use LabeledKey instead?");
+                LOGGER.warn(WARN.EMPTY_MESSAGE_ARGS::format);
             }
             return new DisplayMessageProvider(new DisplayMessageFormat(tempMsgKey, tempArguments));
         }

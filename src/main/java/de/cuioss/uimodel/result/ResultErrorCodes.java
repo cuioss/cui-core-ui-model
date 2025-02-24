@@ -188,7 +188,7 @@ public enum ResultErrorCodes {
      */
     RUNTIME_ERROR;
 
-    private static final CuiLogger log = new CuiLogger(ResultErrorCodes.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ResultErrorCodes.class);
 
     /**
      * Maps an HTTP status code to the corresponding {@link ResultErrorCodes}.
@@ -209,7 +209,7 @@ public enum ResultErrorCodes {
      * @return The corresponding ResultErrorCode
      */
     public static ResultErrorCodes parseHttpCode(int httpCode) {
-        log.trace("Parsing ResultErrorCode from httpCode '{}'", httpCode);
+        LOGGER.trace("Parsing ResultErrorCode from httpCode '%s'", httpCode);
 
         return switch (httpCode) {
             case 400 -> BAD_REQUEST;

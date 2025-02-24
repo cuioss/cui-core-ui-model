@@ -69,7 +69,7 @@ class DisplayMessageFormatTest extends ValueObjectTest<DisplayMessageFormat> {
             builder.build();
 
             // Assert
-            LogAsserts.assertSingleLogMessagePresentContaining(TestLogLevel.WARN, "LabeledKey instead?");
+            LogAsserts.assertSingleLogMessagePresentContaining(TestLogLevel.WARN, "No message format arguments provided");
         }
     }
 
