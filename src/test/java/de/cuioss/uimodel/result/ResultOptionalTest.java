@@ -16,9 +16,11 @@
 package de.cuioss.uimodel.result;
 
 import de.cuioss.test.valueobjects.contract.SerializableContractImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,14 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@org.junit.jupiter.api.DisplayName("ResultOptional Tests")
+@DisplayName("ResultOptional Tests")
 class ResultOptionalTest {
 
     @Nested
-    @org.junit.jupiter.api.DisplayName("Basic functionality tests")
+    @DisplayName("Basic functionality tests")
     class BasicFunctionalityTests {
         @Test
-        @org.junit.jupiter.api.DisplayName("should create empty optional result")
+        @DisplayName("should create empty optional result")
         void empty() {
             // Arrange & Act
             var result = new ResultOptional<String>(null, ResultState.VALID);
@@ -47,7 +49,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should handle copy constructor for valid result")
+        @DisplayName("should handle copy constructor for valid result")
         void shouldHandleCopyConstructorForValid() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -64,7 +66,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should handle copy constructor for error result")
+        @DisplayName("should handle copy constructor for error result")
         void shouldHandleCopyConstructorForError() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -84,10 +86,10 @@ class ResultOptionalTest {
     }
 
     @Nested
-    @org.junit.jupiter.api.DisplayName("Builder tests")
+    @DisplayName("Builder tests")
     class BuilderTests {
         @Test
-        @org.junit.jupiter.api.DisplayName("should build valid result")
+        @DisplayName("should build valid result")
         void builder() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -105,7 +107,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should fail without state")
+        @DisplayName("should fail without state")
         void builderWithoutState() {
             // Arrange
             var resultBuilder = ResultOptional.optionalBuilder().result("Test");
@@ -115,7 +117,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should fail with error state but without detail")
+        @DisplayName("should fail with error state but without detail")
         void builderWithErrorAndWithoutDetail() {
             // Arrange
             var resultBuilder = ResultOptional.optionalBuilder().result("Test").state(ResultState.ERROR);
@@ -125,7 +127,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should build result with detail and error code")
+        @DisplayName("should build result with detail and error code")
         void builderWithDetailAndErrorCode() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -147,7 +149,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should handle multiple result details")
+        @DisplayName("should handle multiple result details")
         void builderWithTwoDetails() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -169,7 +171,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("should handle copy builder for valid result")
+        @DisplayName("should handle copy builder for valid result")
         void shouldHandleCopyBuilderForValid() {
             // Arrange
             ResultOptional.Builder<String> resultBuilder = ResultOptional.optionalBuilder();
@@ -190,11 +192,11 @@ class ResultOptionalTest {
     }
 
     @Nested
-    @org.junit.jupiter.api.DisplayName("Javadoc example tests")
+    @DisplayName("Javadoc example tests")
     class JavadocExampleTests {
 
         @Test
-        @org.junit.jupiter.api.DisplayName("Should demonstrate basic optional result usage")
+        @DisplayName("Should demonstrate basic optional result usage")
         void shouldDemonstrateBasicOptionalResult() {
             // Given: A service result
             var result = ResultOptional.<String>optionalBuilder()
@@ -210,7 +212,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("Should demonstrate builder pattern usage")
+        @DisplayName("Should demonstrate builder pattern usage")
         void shouldDemonstrateBuilderPattern() {
             // When: Building a result with document
             var result = ResultOptional.<String>optionalBuilder()
@@ -225,7 +227,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("Should demonstrate result transformation")
+        @DisplayName("Should demonstrate result transformation")
         void shouldDemonstrateResultTransformation() {
             // Given: A user result
             var userResult = ResultOptional.<TestUser>optionalBuilder()
@@ -243,7 +245,7 @@ class ResultOptionalTest {
         }
 
         @Test
-        @org.junit.jupiter.api.DisplayName("Should demonstrate error handling")
+        @DisplayName("Should demonstrate error handling")
         void shouldDemonstrateErrorHandling() {
             // Given: A service result with error
             var result = ResultOptional.<String>optionalBuilder()
@@ -267,7 +269,7 @@ class ResultOptionalTest {
             assertFalse(emptyResult.getResult().isPresent());
         }
 
-        private record TestUser(String name) implements java.io.Serializable {
+        private record TestUser(String name) implements Serializable {
         }
     }
 }

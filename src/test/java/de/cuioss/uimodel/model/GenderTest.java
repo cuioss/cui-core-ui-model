@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -107,7 +108,7 @@ class GenderTest {
     }
 
     @AllArgsConstructor
-    private static class TestEntry implements java.util.Map.Entry<String, Gender> {
+    private static class TestEntry implements Map.Entry<String, Gender> {
 
         private final String key;
         private final Gender value;

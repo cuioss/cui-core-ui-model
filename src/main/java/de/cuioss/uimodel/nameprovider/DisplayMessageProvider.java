@@ -165,7 +165,7 @@ public class DisplayMessageProvider implements IDisplayNameProvider<DisplayMessa
          * @return a new DisplayMessageFormat builder
          * @throws IllegalArgumentException if messageKey is null or empty
          */
-        public de.cuioss.uimodel.nameprovider.DisplayMessageFormat.Builder messageKey(final String messageKey) {
+        public DisplayMessageFormat.Builder messageKey(final String messageKey) {
             return new DisplayMessageFormat.Builder(messageKey);
         }
     }

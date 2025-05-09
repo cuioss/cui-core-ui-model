@@ -15,6 +15,7 @@
  */
 package de.cuioss.uimodel.nameprovider;
 
+import de.cuioss.test.generator.TypedGenerator;
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.contracts.VerifyConstructor;
 import de.cuioss.test.valueobjects.api.generator.PropertyGenerator;
@@ -37,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @VerifyConstructor(of = "content", required = "content")
 class TemporalAccessorDisplayNameProviderTest extends ValueObjectTest<TemporalAccessorDisplayNameProvider> {
 
-    public static class TemporalAccessorGenerator implements de.cuioss.test.generator.TypedGenerator<TemporalAccessor> {
+    public static class TemporalAccessorGenerator implements TypedGenerator<TemporalAccessor> {
         @Override
         public TemporalAccessor next() {
             return LocalDateTime.now();

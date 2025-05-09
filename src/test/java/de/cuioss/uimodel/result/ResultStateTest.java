@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -168,7 +169,7 @@ class ResultStateTest {
                     .build();
         }
 
-        private record TestUser(String id, String name) implements java.io.Serializable {
+        private record TestUser(String id, String name) implements Serializable {
 
         }
     }

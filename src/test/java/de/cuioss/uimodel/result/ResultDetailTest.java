@@ -17,6 +17,8 @@ package de.cuioss.uimodel.result;
 
 import de.cuioss.test.valueobjects.ValueObjectTest;
 import de.cuioss.test.valueobjects.api.property.PropertyReflectionConfig;
+import de.cuioss.uimodel.nameprovider.DisplayMessageFormat;
+import de.cuioss.uimodel.nameprovider.DisplayMessageProvider;
 import de.cuioss.uimodel.nameprovider.IDisplayNameProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -154,18 +156,18 @@ class ResultDetailTest extends ValueObjectTest<ResultDetail> {
         @DisplayName("Should demonstrate internationalized messages")
         void shouldDemonstrateInternationalizedMessages() {
             // When: Creating detail with message provider
-            var messageFormat = new de.cuioss.uimodel.nameprovider.DisplayMessageFormat(
+            var messageFormat = new DisplayMessageFormat(
                     "error.notfound",
                     "User", "123"
             );
             var detail = new ResultDetail(
-                    new de.cuioss.uimodel.nameprovider.DisplayMessageProvider(messageFormat)
+                    new DisplayMessageProvider(messageFormat)
             );
 
             // Then: Message format is properly set
             assertNotNull(detail.getDetail());
             assertEquals("error.notfound",
-                    ((de.cuioss.uimodel.nameprovider.DisplayMessageFormat) detail.getDetail().getContent()).getMsgKey());
+                    ((DisplayMessageFormat) detail.getDetail().getContent()).getMsgKey());
         }
     }
 }

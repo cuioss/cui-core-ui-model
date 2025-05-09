@@ -17,8 +17,11 @@ package de.cuioss.uimodel.result;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.io.Serializable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,7 +56,7 @@ class ResultErrorCodesTest {
     @DisplayName("Javadoc example tests")
     class JavadocExampleTests {
 
-        @org.junit.jupiter.api.Test
+        @Test
         @DisplayName("Should demonstrate basic error code usage")
         void shouldDemonstrateBasicErrorCodeUsage() {
             // Given: A repository result
@@ -105,7 +108,7 @@ class ResultErrorCodesTest {
                     .build();
         }
 
-        private record TestUser(String id, String name) implements java.io.Serializable {
+        private record TestUser(String id, String name) implements Serializable {
         }
     }
 }
