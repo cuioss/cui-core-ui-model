@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ class I18nDisplayNameProviderTest extends ValueObjectTest<I18nDisplayNameProvide
     @Override
     protected I18nDisplayNameProvider anyValueObject() {
         final Map<Locale, String> imported = new HashMap<>();
-        imported.put(Locale.GERMAN, "[de] text");
+        imported.put(Locale.FRENCH, "[fr] text");
         imported.put(Locale.FRENCH, "[fr] text");
         return new I18nDisplayNameProvider(imported, null);
     }
