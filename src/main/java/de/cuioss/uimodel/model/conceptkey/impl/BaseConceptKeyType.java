@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serial;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Base abstract implementation of {@link ConceptKeyType}, implementing aliases,
@@ -51,10 +49,6 @@ public abstract class BaseConceptKeyType implements ConceptKeyType {
 
     @Getter
     private final ConceptCategory category;
-
-    protected BaseConceptKeyType(final ConceptCategory category) {
-        this(new TreeSet<>(), new HashMap<>(), category);
-    }
 
     @Override
     public String get(final String key, final String defaultValue) {
