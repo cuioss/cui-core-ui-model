@@ -14,6 +14,50 @@
  * limitations under the License.
  */
 /**
+ * <strong>DEPRECATED:</strong> This package is deprecated in favor of the modern
+ * {@code de.cuioss.http.client.result.HttpResult} pattern in the {@code cui-http} library.
+ * For HTTP-based operations, use the new sealed interface design which provides:
+ * <ul>
+ *   <li>Java 21+ sealed types with pattern matching</li>
+ *   <li>Immutable records instead of mutable builders</li>
+ *   <li>No dependency on i18n frameworks</li>
+ *   <li>Native HTTP semantics (ETag, status codes)</li>
+ * </ul>
+ *
+ * <h2>Migration Guide</h2>
+ * <p>
+ * For HTTP operations, migrate to {@code de.cuioss.http.client.result.HttpResult}:
+ * <pre>
+ * // Old (cui-core-ui-model):
+ * HttpResultObject&lt;Jwks&gt; result = handler.load();
+ * if (result.isValid()) {
+ *     Jwks jwks = result.getResult();
+ *     result.getETag().ifPresent(cache::store);
+ * }
+ *
+ * // New (cui-http):
+ * HttpResult&lt;Jwks&gt; result = handler.load();
+ * if (result.isSuccess()) {
+ *     result.getContent().ifPresent(jwks -> {
+ *         processKeys(jwks);
+ *         result.getETag().ifPresent(cache::store);
+ *     });
+ * }
+ * </pre>
+ *
+ * <p>
+ * See: <a href="https://github.com/cuioss/cui-http">cui-http documentation</a>
+ * for complete migration guide and usage patterns.
+ *
+ * <p>
+ * <strong>For non-HTTP use cases</strong>, this package remains available but is no longer
+ * actively developed. Consider using standard Java {@code Optional}, {@code Either}-style
+ * patterns, or modern result types from libraries like Vavr.
+ *
+ * <hr>
+ *
+ * <h2>Original Documentation (Deprecated)</h2>
+ * <p>
  * Provides a comprehensive framework for handling service results and errors in a type-safe
  * and user-interface-friendly manner. This package offers an alternative to traditional
  * exception-based error handling, making it particularly suitable for UI applications.
