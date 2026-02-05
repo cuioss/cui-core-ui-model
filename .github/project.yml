@@ -1,6 +1,28 @@
 name: cui-core-ui-model
-pages-reference: cui-core-ui-model
-sonar-project-key: cuioss_cui-core-ui-model
+description: Defines types and structures simplifying the integration of server-side ui.
+
 release:
-  current-version: 2.2.0
-  next-version: 2.2-SNAPSHOT
+  current-version: 2.4.0
+  next-version: 2.5.0-SNAPSHOT
+  create-github-release: true
+
+maven-build:
+  java-versions: '["21","25"]'
+  java-version: '21'
+  enable-snapshot-deploy: true
+  maven-profiles-snapshot: 'release-snapshot,javadoc'
+  maven-profiles-release: 'release,javadoc'
+  npm-cache: false
+
+sonar:
+  project-key: cuioss_cui-core-ui-model
+  enabled: true
+  skip-on-dependabot: true
+
+pages:
+  reference: cui-core-ui-model
+  deploy-at-release: true
+
+github-automation:
+  auto-merge-build-versions: true
+  auto-merge-build-timeout: 300

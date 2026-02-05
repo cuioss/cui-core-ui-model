@@ -1,12 +1,12 @@
 /*
- * Copyright 2023 the original author or authors.
- * <p>
+ * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,43 @@ import static java.util.Objects.requireNonNull;
  * successful outcomes and error cases. This class is the cornerstone of the result
  * handling framework, providing a robust alternative to exception-based error handling.
  *
- * <h2>Key Features</h2>
+ * <p><strong>DEPRECATED for HTTP operations:</strong> For HTTP-based services, migrate to
+ * {@code de.cuioss.http.client.result.HttpResult} in the {@code cui-http} library, which provides:
+ * <ul>
+ *   <li>Java 21+ sealed types with exhaustive pattern matching</li>
+ *   <li>Immutable records (no mutable builders)</li>
+ *   <li>No i18n coupling (plain string error messages)</li>
+ *   <li>Native HTTP semantics (ETag, status codes, retry classification)</li>
+ *   <li>Optional pattern for explicit content absence</li>
+ * </ul>
+ *
+ * <h2>Migration Example</h2>
+ * <pre>
+ * // Old (cui-core-ui-model):
+ * ResultObject.Builder&lt;Config&gt; builder = new ResultObject.Builder&lt;&gt;()
+ *     .validDefaultResult(new Config());
+ * ResultObject&lt;Config&gt; result = builder
+ *     .result(loadedConfig)
+ *     .state(ResultState.VALID)
+ *     .build();
+ *
+ * if (result.isValid()) {
+ *     Config config = result.getResult();
+ * }
+ *
+ * // New (cui-http):
+ * HttpResult&lt;Config&gt; result = HttpResult.success(loadedConfig, etag, 200);
+ *
+ * if (result.isSuccess()) {
+ *     result.getContent().ifPresent(config -> processConfig(config));
+ * }
+ * </pre>
+ *
+ * <p>See {@code de.cuioss.http.client.result} package documentation for complete migration guide.
+ *
+ * <hr>
+ *
+ * <h2>Key Features (Deprecated)</h2>
  * <ul>
  *   <li>Type-safe result wrapping</li>
  *   <li>Built-in error handling</li>
@@ -173,7 +209,12 @@ import static java.util.Objects.requireNonNull;
  * @see ResultState
  * @see ResultOptional
  * @since 1.0
+ * @deprecated For HTTP operations, use {@code de.cuioss.http.client.result.HttpResult} from cui-http library.
+ *             This provides modern Java 21+ sealed types, immutable records, and native HTTP semantics.
+ *             For non-HTTP use cases, consider using standard {@code Optional} or result types from
+ *             libraries like Vavr.
  */
+@Deprecated(since = "2.0", forRemoval = false)
 @ToString(doNotUseGetters = true)
 @EqualsAndHashCode(doNotUseGetters = true)
 public class ResultObject<T> implements Serializable {
