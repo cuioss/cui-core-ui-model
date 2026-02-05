@@ -8,7 +8,7 @@
         <relativePath />
     </parent>
     <artifactId>cui-core-ui-model</artifactId>
-    <version>2.4.0</version>
+    <version>2.5.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>cui core UI-Model</name>
     <description>Defines types and structures simplifying the integration of
@@ -21,7 +21,7 @@
         <developerConnection>
             scm:git:https://github.com/cuioss/cui-core-ui-model/
         </developerConnection>
-        <tag>2.4.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <url>https://github.com/cuioss/cui-core-ui-model/issues</url>
