@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -294,7 +294,7 @@ public class ResultObject<T> implements Serializable {
         this.errorCode = errorCode;
 
         if (!isValid() && null == resultDetail) {
-            LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(this.state));
+            LOGGER.warn(WARN.MISSING_RESULT_DETAIL, this.state);
             throw new IllegalArgumentException(REQUEST_RESULT_DETAIL_IS_MANDATORY.formatted(this.state));
         }
     }
@@ -321,8 +321,8 @@ public class ResultObject<T> implements Serializable {
     public <R> ResultObject(final ResultObject<R> previousResult, final Function<R, T> mapper, final T validDefault) {
         if (previousResult.isValid()) {
             result = mapper.apply(previousResult.result);
-            LOGGER.info(INFO.RESULT_MAPPED.format(previousResult.result.getClass().getSimpleName(),
-                    result.getClass().getSimpleName()));
+            LOGGER.info(INFO.RESULT_MAPPED, previousResult.result.getClass().getSimpleName(),
+                    result.getClass().getSimpleName());
         } else {
             result = validDefault;
             LOGGER.debug("Using valid default result: %s", validDefault);
@@ -363,7 +363,7 @@ public class ResultObject<T> implements Serializable {
         this.state = checkArgumentNotNull(state, STATE_MESSAGE);
 
         if (ResultState.VALID != this.state && null == resultDetail) {
-            LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(this.state));
+            LOGGER.warn(WARN.MISSING_RESULT_DETAIL, this.state);
             throw new IllegalArgumentException(REQUEST_RESULT_DETAIL_IS_MANDATORY.formatted(this.state));
         }
 
@@ -389,7 +389,7 @@ public class ResultObject<T> implements Serializable {
      */
     public T getResult() {
         if (ResultState.MUST_BE_HANDLED.contains(state) && !resultDetailPrompted && !errorCodePrompted) {
-            LOGGER.warn(WARN.INVALID_RESULT_ACCESS.format(state));
+            LOGGER.warn(WARN.INVALID_RESULT_ACCESS, state);
             throw new UnsupportedOperationException(HANDLE_EXCEPTION_FIRST, resultDetail.getCause().orElse(null));
         }
         return result;
@@ -435,13 +435,28 @@ public class ResultObject<T> implements Serializable {
                         log.debug(msg, throwable);
                         break;
                     case INFO:
-                        log.info(msg, throwable);
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: INFO needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/log.info(msg, throwable);
                         break;
                     case WARNING:
-                        log.warn(msg, throwable);
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: WARN needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/log.warn(throwable, msg);
                         break;
                     case ERROR:
-                        log.error(msg, throwable);
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/
+                        /*~~(TODO: ERROR needs LogRecord. Suppress: // cui-rewrite:disable CuiLogRecordPatternRecipe)~~>*/log.error(throwable, msg);
                         break;
                 }
             } else {
@@ -583,17 +598,17 @@ public class ResultObject<T> implements Serializable {
         public ResultObject<S> build() {
 
             if (null == tempResult && null == tempValidDefaultResult) {
-                LOGGER.warn(WARN.RESULT_CREATION_FAILED.format(NO_RESULTS_AVAILABLE));
+                LOGGER.warn(WARN.RESULT_CREATION_FAILED, NO_RESULTS_AVAILABLE);
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(NO_RESULTS_AVAILABLE);
             }
 
             if (null == tempState) {
-                LOGGER.warn(WARN.RESULT_CREATION_FAILED.format(STATE_IS_NOT_AVAILABLE));
+                LOGGER.warn(WARN.RESULT_CREATION_FAILED, STATE_IS_NOT_AVAILABLE);
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(STATE_IS_NOT_AVAILABLE);
             }
 
             if (!ResultState.VALID.equals(tempState) && null == tempRequestResultDetail) {
-                LOGGER.warn(WARN.MISSING_RESULT_DETAIL.format(tempState));
+                LOGGER.warn(WARN.MISSING_RESULT_DETAIL, tempState);
                 throwUnsupportedOperationExceptionAndSaveThePreviousError(THE_RESULT_DETAIL_IS_MANDATORY);
             }
 
@@ -606,7 +621,7 @@ public class ResultObject<T> implements Serializable {
 
                 return new ResultObject<>(tempValidDefaultResult, tempState, tempRequestResultDetail, tempErrorCode);
             }
-            LOGGER.info(INFO.RESULT_CREATED.format(tempState));
+            LOGGER.info(INFO.RESULT_CREATED, tempState);
             return new ResultObject<>(tempResult, tempState, tempRequestResultDetail, tempErrorCode);
 
         }
