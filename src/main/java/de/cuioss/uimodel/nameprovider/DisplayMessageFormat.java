@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -225,7 +225,7 @@ public class DisplayMessageFormat implements Serializable {
         public DisplayMessageProvider build() {
             requireNonNull(tempMsgKey);
             if (tempArguments.isEmpty()) {
-                LOGGER.warn(WARN.EMPTY_MESSAGE_ARGS::format);
+                LOGGER.warn(WARN.EMPTY_MESSAGE_ARGS);
             }
             return new DisplayMessageProvider(new DisplayMessageFormat(tempMsgKey, tempArguments));
         }

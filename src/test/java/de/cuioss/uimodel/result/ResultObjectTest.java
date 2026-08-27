@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("ResultObject Tests")
 class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
 
-    private static final CuiLogger log = new CuiLogger(ResultObjectTest.class);
+    private static final CuiLogger LOGGER = new CuiLogger(ResultObjectTest.class);
 
     private static final ResultObject<String> SERVICE_NOT_AVAILABLE = new ResultObject<>("Test", ResultState.ERROR,
             new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test")), ExampleErrorCodes.SERVICE_NOT_AVAILABLE);
@@ -275,7 +275,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
             final var result = new ResultObject<>("Test", WARNING, new ResultDetail(new de.cuioss.uimodel.nameprovider.DisplayName("Test")));
 
             // Act
-            result.logDetail("Prefix", log);
+            result.logDetail("Prefix", LOGGER);
 
             // Assert
             LogAsserts.assertLogMessagePresentContaining(TestLogLevel.WARN, "Prefix");
@@ -289,7 +289,7 @@ class ResultObjectTest extends ValueObjectTest<ResultObject<?>> {
                     new ResultDetail(new LabeledKey("some.key"), new IllegalStateException("b00m")));
 
             // Act
-            result.logDetail("prefix: ", log);
+            result.logDetail("prefix: ", LOGGER);
 
             // Assert
             LogAsserts.assertLogMessagePresentContaining(TestLogLevel.WARN,

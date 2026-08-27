@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 CUI-OpenSource-Software (info@cuioss.de)
+ * Copyright © 2023-present CUI-OpenSource-Software (info@cuioss.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,11 +66,11 @@ public enum DynamicFieldType {
      * Suitable for checkboxes, toggles, and yes/no selections.
      */
     BOOLEAN(Boolean.class, "boolean") {
-        @Override
-        public DynamicField<Boolean> createDynamicField(final Serializable value, final boolean editable) {
-            return new BooleanEditableField((Boolean) value, editable);
-        }
-    },
+    @Override
+    public DynamicField<Boolean> createDynamicField(final Serializable value, final boolean editable) {
+        return new BooleanEditableField((Boolean) value, editable);
+    }
+},
 
     /** 
      * Represents a {@link DynamicField} for {@link String} values.

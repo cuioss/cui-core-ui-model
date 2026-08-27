@@ -10,6 +10,10 @@
     <artifactId>cui-core-ui-model</artifactId>
     <version>2.5.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <!-- Must be declared: <inceptionYear> is inherited, and the license plugin binds
+         the copyright ${year} to it. Without this, this project would report
+         cui-parent-pom's 2022 and restamp every header on each -Ppre-commit run. -->
+    <inceptionYear>2023</inceptionYear>
     <name>cui core UI-Model</name>
     <description>Defines types and structures simplifying the integration of
         server-side ui.
@@ -28,6 +32,7 @@
         <system>GitHub Issues</system>
     </issueManagement>
     <properties>
+        <maven.compiler.release>21</maven.compiler.release>
         <maven.jar.plugin.automatic.module.name>de.cuioss.uimodel</maven.jar.plugin.automatic.module.name>
     </properties>
     <dependencies>
@@ -64,4 +69,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
